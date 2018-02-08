@@ -1,0 +1,13 @@
+<!-- 右则内容区域 开始 -->
+{block name="style"}{/block}
+<div class="body-nav notselect">
+    <div class="pull-left"><span>{$title}</span></div>
+    <div class="pull-right margin-right-10">{block name="button"}{/block}</div>
+</div>
+<div class="body-content">
+    <div class="layui-card">
+        <div class="layui-card-body">{block name='content'}{/block}</div>
+    </div>
+</div>
+{block name='script'}{/block}
+<!-- 右则内容区域 结束 -->

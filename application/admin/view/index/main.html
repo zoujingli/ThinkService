@@ -1,0 +1,112 @@
+{extend name='admin@public/content'}
+
+{block name="content"}
+<div class="layui-row">
+    <div class="layui-col-md6" style="padding:0 5px">
+        <table class="layui-table" lay-even lay-skin="line">
+            <colgroup>
+                <col width="30%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th class="text-left" colspan="2">系统信息</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>ThinkAdmin 版本</td>
+                <td>{:sysconf('app_version')}</td>
+            </tr>
+            <tr>
+                <td>ThinkPHP 版本</td>
+                <td>{$think_ver}</td>
+            </tr>
+            <tr>
+                <td>服务器操作系统</td>
+                <td>{:php_uname('s')}</td>
+            </tr>
+            <tr>
+                <td>WEB运行环境</td>
+                <td>{:php_sapi_name()}</td>
+            </tr>
+            <tr>
+                <td>MySQL数据库版本</td>
+                <td>{$mysql_ver}</td>
+            </tr>
+            <tr>
+                <td>运行PHP版本</td>
+                <td>{$Think.PHP_VERSION}</td>
+            </tr>
+            <tr>
+                <td>上传大小限制</td>
+                <td>{:ini_get('upload_max_filesize')}</td>
+            </tr>
+            <tr>
+                <td>POST大小限制</td>
+                <td>{:ini_get('post_max_size')}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="layui-col-md6" style="padding:0 5px">
+        <table class="layui-table" lay-even lay-skin="line">
+            <colgroup>
+                <col width="30%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th class="text-left" colspan="2">产品团队</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>产品名称</td>
+                <td>ThinkAdmin 管理框架</td>
+            </tr>
+            <tr>
+                <td>产品研发团队</td>
+                <td>广州楚才信息科技有限公司</td>
+            </tr>
+            <tr>
+                <td>产品DEMO体验</td>
+                <td>
+                    <a target="_blank" href="http://demo.thinkadmin.top">http://demo.thinkadmin.top</a>
+                </td>
+            </tr>
+            <tr>
+                <td>官方QQ群</td>
+                <td>
+                    <a href="http://shang.qq.com/wpa/qunwpa?idkey=ae25cf789dafbef62e50a980ffc31242f150bc61a61164458216dd98c411832a">
+                        <img src="//pub.idqqimg.com/wpa/images/group.png" style="height:18px;width:auto" target="_blank">
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>BUG反馈</td>
+                <td>
+                    <a target="_blank" href="https://github.com/zoujingli/Think.Admin/issues">
+                        https://github.com/zoujingli/Think.Admin/issues
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>项目地址</td>
+                <td>
+                    <a target="_blank" href="https://github.com/zoujingli/Think.Admin">
+                        https://github.com/zoujingli/Think.Admin
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>公司官网</td>
+                <td><a target="_blank" href="http://www.cuci.cc">http://www.cuci.cc</a></td>
+            </tr>
+            <tr>
+                <td>公司地址</td>
+                <td>广州市天河区东圃一横路东泷商贸中心C座316</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}

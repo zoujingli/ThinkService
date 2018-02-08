@@ -1,0 +1,130 @@
+{extend name="admin@public/content"}
+
+{block name="button"}
+<!--{if auth("$classuri/del")}-->
+<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>删除公众号</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">APPID</label>
+        <div class="layui-input-inline">
+            <input name="authorizer_appid" value="{$Think.get.authorizer_appid|default=''}" placeholder="请输入APPID" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">公众号名称</label>
+        <div class="layui-input-inline">
+            <input name="nick_name" value="{$Think.get.nick_name|default=''}" placeholder="请输入公众号名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">注册公司</label>
+        <div class="layui-input-inline">
+            <input name="principal_name" value="{$Think.get.principal_name|default=''}" placeholder="请输入注册公司" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">授权时间</label>
+        <div class="layui-input-inline">
+            <input id="create_at" name="create_at" value="{$Think.get.create_at|default=''}" placeholder="请选择授权时间" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+
+</form>
+
+<script>
+    window.laydate.render({range: true, elem: '#create_at'});
+</script>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap' style="width:280px">公众号AppID / 公众号状态</th>
+            <th class='text-left nowrap'>公众号名称 / 注册公司</th>
+            <th class='text-left nowrap'>绑定状态</th>
+            <th class='text-left nowrap'>授权时间</th>
+            <th class='text-left nowrap'></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td'>
+                <input data-auto-none class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                <div class="inline-block text-top margin-right-5">
+                    <img style="width:40px;height:40px" data-tips-text="公众号头像" data-tips-image src="{$vo.head_img|default=''}">
+                </div>
+                <div class="inline-block">
+                    AppId：{$vo.authorizer_appid}
+                    <br>
+                    Status：{$vo.service_type_info == 2 ? '服务号' : '订阅号'} /
+                    {$vo.verify_type_info == -1 ? '未认证' : '<span class="color-green">已认证</span>'}
+                </div>
+            </td>
+            <td class='text-left nowrap'>
+                <div class="inline-block text-top margin-right-5">
+                    <img style="width:40px;height:40px" data-tips-text="公众号二维码" data-tips-image src="{$vo.qrcode_url|local_image}">
+                </div>
+                <div class="inline-block">
+                    {$vo.nick_name}<br>
+                    {$vo.principal_name}
+                </div>
+            </td>
+            <td class='text-left nowrap'>
+                {empty name='vo.status'}
+                <span class="color-desc">未绑定</span>
+                {else}
+                <span class="color-green">已绑定</span>
+                {/empty}
+            </td>
+            <td class="text-left nowrap">
+                {$vo.create_at|format_datetime|str_replace=' ','<br>',###|raw}
+            </td>
+            <td class='text-left nowrap'>
+
+                {if $vo.status eq 1 and auth("$classuri/forbid")}
+                <span class="text-explode">|</span>
+                <a data-update="{$vo.id}" data-field='status' data-value='0' data-action='{:url("$classuri/forbid")}' href="javascript:void(0)">禁用</a>
+                {elseif auth("$classuri/resume")}
+                <span class="text-explode">|</span>
+                <a data-update="{$vo.id}" data-field='status' data-value='1' data-action='{:url("$classuri/resume")}' href="javascript:void(0)">启用</a>
+                {/if}
+
+                {if auth("$classuri/del")}
+                <span class="text-explode">|</span>
+                <a data-update="{$vo.id}" data-field='delete' data-action='{:url("$classuri/del")}' href="javascript:void(0)">删除</a>
+                {/if}
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}
