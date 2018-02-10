@@ -20,6 +20,8 @@ use service\DataService;
 use service\WechatService;
 use think\Controller;
 use think\Db;
+use think\Exception;
+use WeChat\Oauth;
 
 /**
  * 微信推送事件处理
@@ -66,10 +68,61 @@ class Push extends Controller
         }
         # 接收取消授权服务事件 
         if ($data['InfoType'] === 'unauthorized' && !empty($data['AppId'])) {
-            $where = ['authorizer_appid' => $data['AppId']];
+            $where = ['authorizer_appid' => $data['AuthorizerAppid']];
             Db::name('WechatConfig')->where($where)->update(['status' => '0']);
         }
         return 'success';
+    }
+
+    /**
+     * 网页授权
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
+    public function oauth()
+    {
+        list($appid, $auth_mode, $redirect_code) = [
+            $this->request->get('state'),
+            $this->request->get('auth_mode'),
+            $this->request->get('redirect_code'),
+        ];
+        $service = WechatService::instance('service');
+        if (false === ($result = $service->getOauthAccessToken($appid)) || empty($result['openid'])) {
+            throw new Exception('网页授权失败, 无法进一步操作！');
+        }
+        session("{$appid}_openid", $result['openid'], 3600);
+        if (!empty($auth_mode)) {
+            $wechat = new Oauth($service->getConfig($result['appid']));
+            $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
+            if (empty($fans)) {
+                throw new Exception('网页授权信息获取失败, 无法进一步操作！');
+            }
+            session("{$appid}_fansinfo", $fans, 3600);
+        }
+        $this->redirect(decode($redirect_code));
+    }
+
+    /**
+     * 初始化进入授权
+     * @param string $appid 公众号授权
+     * @param string $self_url 授权成功后的回跳地址
+     * @param int $auth_mode 授权公众号模式
+     * @return array
+     * @throws Exception
+     * @throws \think\exception\PDOException
+     */
+    public function o2auth($appid, $self_url, $auth_mode = 0)
+    {
+        list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
+        if (!empty($openid) && (empty($auth_mode) || !empty($fansinfo))) {
+            return ['openid' => $openid, 'fansinfo' => $fansinfo];
+        }
+        $service = WechatService::instance('service');
+        $url = url('@wechat/api.push/oauth', '', true, true);
+        $mode = empty($auth_mode) ? 'snsapi_base' : 'snsapi_userinfo';
+        $params = ['auth_mode' => $auth_mode, 'redirect_code' => encode($self_url)];
+        $authurl = $service->getOauthRedirect($appid, $url . '?' . http_build_query($params), $mode);
+        $this->redirect($authurl);
     }
 
     /**

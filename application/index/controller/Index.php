@@ -55,4 +55,9 @@ class Index extends BasicAdmin
         dump($_GET);
     }
 
+    public function oauth()
+    {
+
+    }
+
 }
