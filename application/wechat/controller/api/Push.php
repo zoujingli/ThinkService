@@ -65,7 +65,7 @@ class Push extends Controller
             return "Ticket event handling failed.";
         }
         # 接收取消授权服务事件 
-        if ($data['InfoType'] === 'unauthorized') {
+        if ($data['InfoType'] === 'unauthorized' && !empty($data['AppId'])) {
             $where = ['authorizer_appid' => $data['AppId']];
             Db::name('WechatConfig')->where($where)->update(['status' => '0']);
         }
@@ -104,7 +104,7 @@ class Push extends Controller
     }
 
     /**
-     * 公众号授权绑定数据
+     * 公众号授权绑定数据处理
      * @param \WeOpen\Service $service
      * @param string $redirect 授权成功回跳地址
      * @return string

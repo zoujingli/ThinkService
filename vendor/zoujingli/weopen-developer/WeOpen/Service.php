@@ -287,6 +287,21 @@ class Service
     }
 
     /**
+     * 获取公众号SDK配置
+     * @param string $authorizer_appid 授权公众号的appid
+     * @return array
+     */
+    public function getConfig($authorizer_appid)
+    {
+        $config = $this->config->get();
+        $config['appid'] = $authorizer_appid;
+        $config['token'] = $this->config->get('component_token');
+        $config['appsecret'] = $this->config->get('component_appsecret');
+        $config['encodingaeskey'] = $this->config->get('component_encodingaeskey');
+        return $config;
+    }
+
+    /**
      * 以POST获取接口数据并转为数组
      * @param string $url 接口地址
      * @param array $data 请求数据

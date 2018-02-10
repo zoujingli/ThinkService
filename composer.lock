@@ -334,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zoujingli/WeOpenDeveloper.git",
-                "reference": "23b92ffb82b498b778b9c7d1e7ad050dacf3558c"
+                "reference": "625547f81b5997e8b2be242abe9d8b3dbf0cfe83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoujingli/WeOpenDeveloper/zipball/23b92ffb82b498b778b9c7d1e7ad050dacf3558c",
-                "reference": "23b92ffb82b498b778b9c7d1e7ad050dacf3558c",
+                "url": "https://api.github.com/repos/zoujingli/WeOpenDeveloper/zipball/625547f81b5997e8b2be242abe9d8b3dbf0cfe83",
+                "reference": "625547f81b5997e8b2be242abe9d8b3dbf0cfe83",
                 "shasum": ""
             },
             "require": {
@@ -369,10 +369,10 @@
             "homepage": "https://github.com/zoujingli/WeOpenDeveloper",
             "keywords": [
                 "WeChatOpen",
-                "WeChatOpenDevelopment",
+                "WeChatOpenDeveloper",
                 "wechat"
             ],
-            "time": "2018-02-07T10:06:13+00:00"
+            "time": "2018-02-10T01:56:31+00:00"
         }
     ],
     "packages-dev": [],
