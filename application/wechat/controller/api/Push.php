@@ -81,17 +81,18 @@ class Push extends Controller
      */
     public function oauth()
     {
-        list($appid, $auth_mode, $redirect_code) = [
+        list($appid, $authMode, $redirectCode) = [
             $this->request->get('state'),
             $this->request->get('auth_mode'),
             $this->request->get('redirect_code'),
         ];
         $service = WechatService::instance('service');
-        if (false === ($result = $service->getOauthAccessToken($appid)) || empty($result['openid'])) {
+        $result = $service->getOauthAccessToken($appid);
+        if (empty($result['openid'])) {
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
         session("{$appid}_openid", $result['openid'], 3600);
-        if (!empty($auth_mode)) {
+        if (!empty($authMode)) {
             $wechat = new Oauth($service->getConfig($result['appid']));
             $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
             if (empty($fans)) {
@@ -99,30 +100,7 @@ class Push extends Controller
             }
             session("{$appid}_fansinfo", $fans, 3600);
         }
-        $this->redirect(decode($redirect_code));
-    }
-
-    /**
-     * 初始化进入授权
-     * @param string $appid 公众号授权
-     * @param string $self_url 授权成功后的回跳地址
-     * @param int $auth_mode 授权公众号模式
-     * @return array
-     * @throws Exception
-     * @throws \think\exception\PDOException
-     */
-    public function o2auth($appid, $self_url, $auth_mode = 0)
-    {
-        list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
-        if (!empty($openid) && (empty($auth_mode) || !empty($fansinfo))) {
-            return ['openid' => $openid, 'fansinfo' => $fansinfo];
-        }
-        $service = WechatService::instance('service');
-        $url = url('@wechat/api.push/oauth', '', true, true);
-        $mode = empty($auth_mode) ? 'snsapi_base' : 'snsapi_userinfo';
-        $params = ['auth_mode' => $auth_mode, 'redirect_code' => encode($self_url)];
-        $authurl = $service->getOauthRedirect($appid, $url . '?' . http_build_query($params), $mode);
-        $this->redirect($authurl);
+        $this->redirect(decode($redirectCode));
     }
 
     /**
