@@ -81,11 +81,7 @@ class Push extends Controller
      */
     public function oauth()
     {
-        list($mode, $appid, $redirect) = [
-            $this->request->get('mode'),
-            $this->request->get('state'),
-            $this->request->get('redirect'),
-        ];
+        list($mode, $appid, $enurl) = [$this->request->get('mode'), $this->request->get('state'), $this->request->get('enurl')];
         $service = WechatService::instance('service');
         $result = $service->getOauthAccessToken($appid);
         if (empty($result['openid'])) {
@@ -100,7 +96,7 @@ class Push extends Controller
             }
             session("{$appid}_fansinfo", $fans);
         }
-        redirect(decode($redirect), [], 301)->send();
+        redirect(decode($enurl), [], 301)->send();
     }
 
     /**

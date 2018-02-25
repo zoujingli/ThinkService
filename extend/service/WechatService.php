@@ -89,7 +89,7 @@ class WechatService
         }
         $service = self::instance('service');
         $mode = empty($fullMode) ? 'snsapi_base' : 'snsapi_userinfo';
-        $params = ['mode' => $fullMode, 'redirect' => encode(request()->url(true))];
+        $params = ['mode' => $fullMode, 'enurl' => encode(request()->url(true))];
         $authUrl = url('@wechat/api.push/oauth', '', true, true) . '?' . http_build_query($params);
         redirect($service->getOauthRedirect($appid, $authUrl, $mode), [], 301)->send();
     }
