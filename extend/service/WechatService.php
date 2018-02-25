@@ -83,10 +83,9 @@ class WechatService
     public static function oauth($appid, $fullMode = 0)
     {
         list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
-        if (!empty($openid)) {
+        if (!empty($openid) && empty($fullMode)) {
             return ['openid' => $openid, 'fansinfo' => $fansinfo];
-        }
-        if (!empty($openid) && (empty($fullMode) || !empty($fansinfo))) {
+        } elseif (!empty($fullMode) && !empty($fansinfo)) {
             return ['openid' => $openid, 'fansinfo' => $fansinfo];
         }
         $service = self::instance('service');
