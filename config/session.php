@@ -20,6 +20,7 @@ return [
     'type'           => '',
     'prefix'         => 'ta',
     'auto_start'     => true,
+    'path'           => env('runtime_path') . 'sess' . DIRECTORY_SEPARATOR,
     'name'           => $session_name,
-    'var_session_id' => $session_name
+    'var_session_id' => $session_name,
 ];
