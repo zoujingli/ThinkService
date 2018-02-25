@@ -55,11 +55,15 @@ class Index extends BasicAdmin
         dump($_GET);
     }
 
+    /**
+     * 微信网页授权
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
     public function oauth()
     {
-        $openid = WechatService::oauth('wx60a43dd8161666d4');
+        $openid = WechatService::oauth('wx60a43dd8161666d4', 0);
         dump($openid);
-
     }
 
 }
