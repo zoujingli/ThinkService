@@ -334,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zoujingli/WeOpenDeveloper.git",
-                "reference": "fb96617d2f4b1129a8f3db35b067ab6d1bb06079"
+                "reference": "c6ff9438f26b4c36b926fcc91cae7b5850a78bc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/zoujingli/WeOpenDeveloper/fb96617d2f4b1129a8f3db35b067ab6d1bb06079.zip",
-                "reference": "fb96617d2f4b1129a8f3db35b067ab6d1bb06079",
+                "url": "https://files.phpcomposer.com/files/zoujingli/WeOpenDeveloper/c6ff9438f26b4c36b926fcc91cae7b5850a78bc7.zip",
+                "reference": "c6ff9438f26b4c36b926fcc91cae7b5850a78bc7",
                 "shasum": ""
             },
             "require": {
@@ -372,7 +372,7 @@
                 "WeChatOpenDeveloper",
                 "wechat"
             ],
-            "time": "2018-02-10T01:58:44+00:00"
+            "time": "2018-02-25T09:52:00+00:00"
         }
     ],
     "packages-dev": [],

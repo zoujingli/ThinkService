@@ -184,20 +184,24 @@ class Service
 
     /**
      * 使用授权码换取公众号或小程序的接口调用凭据和授权信息
+     * @param null $auth_code 授权码
      * @return bool|array
      * @throws InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
-    public function getQueryAuthorizerInfo()
+    public function getQueryAuthorizerInfo($auth_code = null)
     {
-        if (empty($_GET['auth_code'])) {
+        if (is_null($auth_code) && isset($_GET['auth_code'])) {
+            $auth_code = $_GET['auth_code'];
+        }
+        if (empty($auth_code)) {
             return false;
         }
         $component_access_token = $this->getComponentAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token={$component_access_token}";
         $data = [
             'component_appid'    => $this->config->get('component_appid'),
-            'authorization_code' => $_GET['auth_code'],
+            'authorization_code' => $auth_code,
         ];
         $result = $this->httpPostForJson($url, $data);
         if (empty($result['authorization_info'])) {
