@@ -92,6 +92,7 @@ class Push extends Controller
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
         session("{$appid}_openid", $result['openid'], 3600);
+        dump($result);
         dump($this->request->get());
         exit;
         if (!empty($authMode)) {
