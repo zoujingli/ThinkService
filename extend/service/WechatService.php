@@ -86,6 +86,8 @@ class WechatService
         if ((empty($fullMode) && !empty($openid)) || (!empty($fullMode) && !empty($fansinfo))) {
             return ['openid' => $openid, 'fansinfo' => $fansinfo];
         }
+        dump(request()->get());
+        dump([$openid, $fansinfo]);
         $service = self::instance('service');
         $mode = empty($fullMode) ? 'snsapi_base' : 'snsapi_userinfo';
         $params = ['auth_mode' => $fullMode, 'redirect_code' => encode(request()->url(true))];
