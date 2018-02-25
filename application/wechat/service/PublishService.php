@@ -47,6 +47,7 @@ class PublishService
         $wechat = WechatService::instance('Receive', $appid);
         /* 分别执行对应类型的操作 */
         $receive = $wechat->getReceive();
+        p($receive);
         switch (strtolower($wechat->getMsgType())) {
             case 'text':
                 if ($receive['Content'] === 'TESTCOMPONENT_MSG_TYPE_TEXT') {
