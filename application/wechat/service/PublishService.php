@@ -53,7 +53,7 @@ class PublishService
                     return $wechat->text('TESTCOMPONENT_MSG_TYPE_TEXT_callback')->reply([], true);
                 }
                 $key = ltrim($receive['Content'], "QUERY_AUTH_CODE:");
-                WechatService::instance('Service')->getAuthorizerInfo($key);
+                WechatService::instance('Service')->getQueryAuthorizerInfo($key);
                 return $wechat->text("{$key}_from_api")->reply([], true);
             case 'event':
                 $receive = $wechat->getReceive();
