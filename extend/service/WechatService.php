@@ -84,6 +84,7 @@ class WechatService
     {
         list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
         if ((empty($fullMode) && !empty($openid)) || (!empty($fullMode) && !empty($fansinfo))) {
+            empty($fansinfo) || self::setFansInfo($fansinfo);
             return ['openid' => $openid, 'fansinfo' => $fansinfo];
         }
         $service = self::instance('service');
@@ -235,8 +236,8 @@ class WechatService
         if (isset($user['tagid_list']) && is_array($user['tagid_list'])) {
             $user['tagid_list'] = join(',', $user['tagid_list']);
         }
-        foreach (['country', 'province', 'city', 'nickname', 'remark'] as $k) {
-            isset($user[$k]) && $user[$k] = ToolsService::emojiEncode($user[$k]);
+        foreach (['country', 'province', 'city', 'nickname', 'remark'] as $field) {
+            isset($user[$field]) && $user[$field] = ToolsService::emojiEncode($user[$field]);
         }
         return DataService::save('WechatFans', $user, 'openid');
     }
