@@ -95,7 +95,7 @@ class Push extends Controller
         session([]);
         p('set openid session. id ' . session_id() . ' name: ' . session_name());
         p($result['openid']);
-        session("{$appid}_openid", $result['openid'], 7000);
+        session("{$appid}_openid", $result['openid']);
         if (!empty($authMode)) {
             $wechat = new Oauth($service->getConfig($result['appid']));
             $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
@@ -104,7 +104,7 @@ class Push extends Controller
             }
             p('set fans session ' . session_id());
             p($fans);
-            session("{$appid}_fansinfo", $fans, 7000);
+            session("{$appid}_fansinfo", $fans);
         }
 //        redirect(decode($redirectCode))->send();
     }
