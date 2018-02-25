@@ -46,18 +46,18 @@ class PublishService
         /* 创建接口操作对象 */
         $wechat = WechatService::instance('Receive', $appid);
         /* 分别执行对应类型的操作 */
-        $receive = $wechat->getReceive();
-        p($receive);
         switch (strtolower($wechat->getMsgType())) {
             case 'text':
+                $receive = $wechat->getReceive();
                 if ($receive['Content'] === 'TESTCOMPONENT_MSG_TYPE_TEXT') {
                     return $wechat->text('TESTCOMPONENT_MSG_TYPE_TEXT_callback')->reply([], true);
                 }
                 $key = ltrim($receive['Content'], "QUERY_AUTH_CODE:");
                 WechatService::instance('Service')->getAuthorizerInfo($key);
-                return $wechat->text("{$key}_from_api")->reply(false, true);
+                return $wechat->text("{$key}_from_api")->reply([], true);
             case 'event':
-                return $wechat->text("{$receive['EventKey']}from_callback")->reply([], true);
+                $receive = $wechat->getReceive();
+                return $wechat->text("{$receive['Event']}from_callback")->reply([], true);
             default:
                 return 'success';
         }
