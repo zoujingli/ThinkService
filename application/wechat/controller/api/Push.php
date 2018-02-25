@@ -106,7 +106,7 @@ class Push extends Controller
             p($fans);
             session("{$appid}_fansinfo", $fans, 7000);
         }
-        redirect(decode($redirectCode))->send();
+//        redirect(decode($redirectCode))->send();
     }
 
     /**
