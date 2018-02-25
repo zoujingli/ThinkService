@@ -94,6 +94,7 @@ class Push extends Controller
         session([]);
         session("{$appid}_openid", $result['openid']);
         if (!empty($authMode)) {
+            p($result);
             $wechat = new Oauth($service->getConfig($result['appid']));
             $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
             if (empty($fans)) {
