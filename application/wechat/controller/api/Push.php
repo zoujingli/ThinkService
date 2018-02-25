@@ -92,6 +92,7 @@ class Push extends Controller
         if (empty($result['openid'])) {
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
+        session([]);
         p('set openid session. id ' . session_id() . ' name: ' . session_name());
         p($result['openid']);
         session("{$appid}_openid", $result['openid'], 7000);
