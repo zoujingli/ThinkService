@@ -270,7 +270,7 @@ class Service
     }
 
     /**
-     * 创建需要的接口实例
+     * 创建指定授权公众号接口实例
      * @param string $type 需要加载的接口实例名称
      * @param string $authorizer_appid 授权公众号的appid
      * @return \WeChat\Card|\WeChat\Custom|\WeChat\Media|\WeChat\Menu|\WeChat\Oauth|\WeChat\Pay|\WeChat\Product|\WeChat\Qrcode|\WeChat\Receive|\WeChat\Scan|\WeChat\Script|\WeChat\Shake|\WeChat\Tags|\WeChat\Template|\WeChat\User|\WeChat\Wifi
@@ -278,16 +278,11 @@ class Service
     public function instance($type, $authorizer_appid)
     {
         $className = 'WeChat\\' . ucfirst(strtolower($type));
-        $config = $this->config->get();
-        $config['appid'] = $authorizer_appid;
-        $config['token'] = $this->config->get('component_token');
-        $config['appsecret'] = $this->config->get('component_appsecret');
-        $config['encodingaeskey'] = $this->config->get('component_encodingaeskey');
-        return new $className($config);
+        return new $className($this->getConfig($authorizer_appid));
     }
 
     /**
-     * 获取公众号SDK配置
+     * 获取授权公众号配置参数
      * @param string $authorizer_appid 授权公众号的appid
      * @return array
      */

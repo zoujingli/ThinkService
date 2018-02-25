@@ -10,7 +10,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-installer/zipball/1be326e68f63de4e95977ed50f46ae75f017556d",
+            "url": "https://files.phpcomposer.com/files/top-think/think-installer/1be326e68f63de4e95977ed50f46ae75f017556d.zip",
             "reference": "1be326e68f63de4e95977ed50f46ae75f017556d",
             "shasum": ""
         },
@@ -53,7 +53,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/zoujingli/ip2region/zipball/5d981fbf3b574bad7fe9652e7aecba0920f54325",
+            "url": "https://files.phpcomposer.com/files/zoujingli/ip2region/5d981fbf3b574bad7fe9652e7aecba0920f54325.zip",
             "reference": "5d981fbf3b574bad7fe9652e7aecba0920f54325",
             "shasum": ""
         },
@@ -89,7 +89,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/zoujingli/WeChatDeveloper/zipball/f716e8e3ccfd88697e18e27d09a73aa60230c5ba",
+            "url": "https://files.phpcomposer.com/files/zoujingli/WeChatDeveloper/f716e8e3ccfd88697e18e27d09a73aa60230c5ba.zip",
             "reference": "f716e8e3ccfd88697e18e27d09a73aa60230c5ba",
             "shasum": ""
         },
@@ -127,12 +127,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/zoujingli/WeOpenDeveloper.git",
-            "reference": "625547f81b5997e8b2be242abe9d8b3dbf0cfe83"
+            "reference": "fb96617d2f4b1129a8f3db35b067ab6d1bb06079"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/zoujingli/WeOpenDeveloper/zipball/625547f81b5997e8b2be242abe9d8b3dbf0cfe83",
-            "reference": "625547f81b5997e8b2be242abe9d8b3dbf0cfe83",
+            "url": "https://files.phpcomposer.com/files/zoujingli/WeOpenDeveloper/fb96617d2f4b1129a8f3db35b067ab6d1bb06079.zip",
+            "reference": "fb96617d2f4b1129a8f3db35b067ab6d1bb06079",
             "shasum": ""
         },
         "require": {
@@ -141,7 +141,7 @@
             "php": ">=5.4",
             "zoujingli/wechat-developer": "^1.0.0"
         },
-        "time": "2018-02-10T01:56:31+00:00",
+        "time": "2018-02-10T01:58:44+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -179,7 +179,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/options-resolver/zipball/f3109a6aedd20e35c3a33190e932c2b063b7b50e",
+            "url": "https://files.phpcomposer.com/files/symfony/options-resolver/f3109a6aedd20e35c3a33190e932c2b063b7b50e.zip",
             "reference": "f3109a6aedd20e35c3a33190e932c2b063b7b50e",
             "shasum": ""
         },
@@ -235,7 +235,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/endroid/qr-code/zipball/c9644bec2a9cc9318e98d1437de3c628dcd1ef93",
+            "url": "https://files.phpcomposer.com/files/endroid/qr-code/c9644bec2a9cc9318e98d1437de3c628dcd1ef93.zip",
             "reference": "c9644bec2a9cc9318e98d1437de3c628dcd1ef93",
             "shasum": ""
         },
@@ -298,7 +298,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/f81c4282cdf401be44fbe1a28b3e3df425e3017f",
+            "url": "https://files.phpcomposer.com/files/top-think/framework/f81c4282cdf401be44fbe1a28b3e3df425e3017f.zip",
             "reference": "f81c4282cdf401be44fbe1a28b3e3df425e3017f",
             "shasum": ""
         },
@@ -351,7 +351,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aliyun/aliyun-oss-php-sdk/zipball/e69f57916678458642ac9d2fd341ae78a56996c8",
+            "url": "https://files.phpcomposer.com/files/aliyun/aliyun-oss-php-sdk/e69f57916678458642ac9d2fd341ae78a56996c8.zip",
             "reference": "e69f57916678458642ac9d2fd341ae78a56996c8",
             "shasum": ""
         },
