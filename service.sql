@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : ctolog.com
 Source Server Version : 50559
 Source Host           : ctolog.com:3306
-Source Database       : master
+Source Database       : service
 
 Target Server Type    : MYSQL
 Target Server Version : 50559
 File Encoding         : 65001
 
-Date: 2018-02-07 17:44:36
+Date: 2018-02-25 18:10:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -103,8 +103,8 @@ CREATE TABLE `system_config` (
 -- ----------------------------
 -- Records of system_config
 -- ----------------------------
-INSERT INTO `system_config` VALUES ('1', 'app_name', 'ThinkAdmin');
-INSERT INTO `system_config` VALUES ('2', 'site_name', 'ThinkAdmin');
+INSERT INTO `system_config` VALUES ('1', 'app_name', 'ThinkService');
+INSERT INTO `system_config` VALUES ('2', 'site_name', 'ThinkService');
 INSERT INTO `system_config` VALUES ('3', 'app_version', '3.0 dev');
 INSERT INTO `system_config` VALUES ('4', 'site_copy', '&copy;版权所有 2014-2018 楚才科技');
 INSERT INTO `system_config` VALUES ('5', 'browser_icon', 'http://demo.thinkadmin.top/static/upload/f47b8fe06e38ae99/08e8398da45583b9.png');
@@ -139,7 +139,7 @@ CREATE TABLE `system_log` (
   `content` text NOT NULL COMMENT '操作内容描述',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 COMMENT='系统操作日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8 COMMENT='系统操作日志表';
 
 -- ----------------------------
 -- Records of system_log
@@ -236,6 +236,20 @@ INSERT INTO `system_log` VALUES ('149', '113.67.73.132', 'wechat/config/index', 
 INSERT INTO `system_log` VALUES ('150', '113.67.73.132', 'wechat/config/index', 'admin', '微信管理', '修改微信接口服务参数成功', '2018-02-07 16:24:01');
 INSERT INTO `system_log` VALUES ('151', '219.135.148.18', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-07 16:34:40');
 INSERT INTO `system_log` VALUES ('152', '219.135.148.18', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-07 16:35:15');
+INSERT INTO `system_log` VALUES ('154', '58.62.28.128', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-07 17:50:16');
+INSERT INTO `system_log` VALUES ('155', '116.30.221.41', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-07 17:54:09');
+INSERT INTO `system_log` VALUES ('156', '116.21.14.244', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-08 14:13:40');
+INSERT INTO `system_log` VALUES ('157', '58.56.76.90', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-08 15:56:15');
+INSERT INTO `system_log` VALUES ('158', '58.56.76.90', 'wechat/config/index', 'admin', '微信管理', '修改微信接口服务参数成功', '2018-02-08 15:57:42');
+INSERT INTO `system_log` VALUES ('159', '116.21.15.254', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-10 09:45:39');
+INSERT INTO `system_log` VALUES ('160', '116.21.15.254', 'admin/config/index', 'admin', '系统管理', '系统参数配置成功', '2018-02-10 10:05:36');
+INSERT INTO `system_log` VALUES ('161', '116.21.15.254', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-10 15:56:49');
+INSERT INTO `system_log` VALUES ('162', '116.21.15.254', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-10 16:21:53');
+INSERT INTO `system_log` VALUES ('163', '116.21.15.254', 'wechat/config/index', 'admin', '微信管理', '修改微信接口服务参数成功', '2018-02-10 16:31:48');
+INSERT INTO `system_log` VALUES ('164', '116.21.12.149', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-10 17:02:31');
+INSERT INTO `system_log` VALUES ('165', '223.104.21.54', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-20 10:47:27');
+INSERT INTO `system_log` VALUES ('166', '116.21.13.54', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-25 16:32:56');
+INSERT INTO `system_log` VALUES ('167', '116.21.13.54', 'admin/login/index', 'admin', '系统管理', '用户登录系统成功', '2018-02-25 17:33:32');
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -256,7 +270,7 @@ CREATE TABLE `system_menu` (
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `index_system_menu_node` (`node`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Records of system_menu
@@ -268,14 +282,14 @@ INSERT INTO `system_menu` VALUES ('4', '11', '访问授权', '', 'fa fa-group', 
 INSERT INTO `system_menu` VALUES ('5', '11', '用户管理', '', 'fa fa-user', 'admin/user/index', '', '_self', '10', '1', '0', '2018-01-23 12:15:12');
 INSERT INTO `system_menu` VALUES ('6', '11', '访问节点', '', 'fa fa-fort-awesome', 'admin/node/index', '', '_self', '30', '1', '0', '2018-01-23 12:36:54');
 INSERT INTO `system_menu` VALUES ('7', '0', '首页', '', 'fa fa-fort-awesome', 'admin/index/main', '', '_self', '1000', '1', '0', '2018-01-23 13:42:30');
-INSERT INTO `system_menu` VALUES ('8', '1', '系统日志', '', 'fa fa-code', '/admin/log/index', '', '_self', '0', '1', '0', '2018-01-24 13:52:58');
+INSERT INTO `system_menu` VALUES ('8', '16', '系统日志', '', 'fa fa-code', '/admin/log/index', '', '_self', '0', '1', '0', '2018-01-24 13:52:58');
 INSERT INTO `system_menu` VALUES ('9', '10', '文件存储', '', 'fa fa-stop-circle', 'admin/config/file', '', '_self', '30', '1', '0', '2018-01-25 10:54:28');
 INSERT INTO `system_menu` VALUES ('10', '1', '系统管理', '', 'fa fa-scribd', '#', '', '_self', '100', '1', '0', '2018-01-25 18:14:28');
-INSERT INTO `system_menu` VALUES ('11', '12', '访问权限', '', 'fa fa-anchor', '#', '', '_self', '100', '1', '0', '2018-01-25 18:15:08');
-INSERT INTO `system_menu` VALUES ('12', '0', '权限', '', 'fa fa-mixcloud', '#', '', '_self', '4000', '1', '0', '2018-02-02 12:58:54');
+INSERT INTO `system_menu` VALUES ('11', '1', '访问权限', '', 'fa fa-anchor', '#', '', '_self', '100', '1', '0', '2018-01-25 18:15:08');
 INSERT INTO `system_menu` VALUES ('13', '0', '微信', '', 'fa fa-wechat', '#', '', '_self', '2000', '1', '0', '2018-02-06 11:54:30');
 INSERT INTO `system_menu` VALUES ('14', '13', '开放平台配置', '', 'fa fa-cogs', 'wechat/config/index', '', '_self', '0', '1', '0', '2018-02-06 11:54:58');
 INSERT INTO `system_menu` VALUES ('15', '13', '公众号管理', '', 'fa fa-wechat', 'wechat/index/index', '', '_self', '0', '1', '0', '2018-02-07 17:10:31');
+INSERT INTO `system_menu` VALUES ('16', '1', '日志管理', '', 'fa fa-hashtag', '#', '', '_self', '0', '1', '0', '2018-02-10 16:31:15');
 
 -- ----------------------------
 -- Table structure for system_node
@@ -386,7 +400,7 @@ CREATE TABLE `system_user` (
 -- ----------------------------
 -- Records of system_user
 -- ----------------------------
-INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '22222222', '', '', '', '22288', '2018-02-07 17:12:17', '1', '1', '0', null, '2015-11-13 15:14:22');
+INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '22222222', '', '', '', '22299', '2018-02-25 17:33:32', '1', '1', '0', null, '2015-11-13 15:14:22');
 
 -- ----------------------------
 -- Table structure for wechat_config
@@ -416,9 +430,66 @@ CREATE TABLE `wechat_config` (
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_wechat_config_authorizer_appid` (`authorizer_appid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='公众号授权配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='公众号授权配置表';
 
 -- ----------------------------
 -- Records of wechat_config
 -- ----------------------------
-INSERT INTO `wechat_config` VALUES ('8', 'wx60a43dd8161666d4', '6_CvvZcNJoph5dHiBGi9jkD6tdFen5YSpY7KGiFYj-Uyx7GBjs0rpC18e7uidvkNgJ8XGMcu8DkD2_iwBB1n1fxkqWYRZcx7qCS6l4z9Tiz1kPOzu9dG1YmZEoMoBxWHJMqYeppNGL6NGpD31ARDNeAGDVHR', 'refreshtoken@@@Hb-gOdy3Iyvhl49yb2ZEUdU5fzd2KpeGFf6oKAkogvk', '1,15,4,7,2,3,11,6,5,8,13,9,10,12,22,23,24,26,33', '思过崖思过', 'http://wx.qlogo.cn/mmopen/rTIiaezarIgohelicxHXDiaaWAj8s6RaWz3lY3KpK2zyKt9k4HozRnSe8OZJ00mkhXSHYzLg3e1gmfbic9sBHukHarY2aIoMlgSj/0', '1518001419', '2', '2', '0', '0', 'gh_e1083c8e9ef6', 'CUCIONE', 'http://mmbiz.qpic.cn/mmbiz_jpg/nMCGwywCQYKPj7Zf9yib2VgNJPw3Q269Du8WvUbKUONMicCey7p3cHQm2OYjViccZJq6lzzwvicZsBWXNZ0ZRibE2VQ/0', '{\"open_pay\":1,\"open_shake\":1,\"open_scan\":0,\"open_card\":0,\"open_store\":1}', '广州楚才信息科技有限公司', '1', '1', null, '2018-02-07 17:02:19');
+INSERT INTO `wechat_config` VALUES ('9', 'wx60a43dd8161666d4', '6_42V0sR7ww1IikQphoStZg7l532H71QjW1kVRj4AlBRYW8A9--IlPNfibXsLKM_2L5wPy_AiWBVEli-8KMcXzC9WGL6bdHRzzxtpBJPApWsnpHItdluX91JtLdvkLGDtApg_GaPar2GEVwdL6SQEiAJDFDR', 'refreshtoken@@@MdPfaNbTfO-T_53l-N-qsR_kVKBg-ejDUXBKYMQvhCY', '1,15,4,7,2,3,11,6,5,8,13,9,10,12,22,23,24,26,33', '思过崖思过', 'http://wx.qlogo.cn/mmopen/rTIiaezarIgohelicxHXDiaaWAj8s6RaWz3lY3KpK2zyKt9k4HozRnSe8OZJ00mkhXSHYzLg3e1gmfbic9sBHukHarY2aIoMlgSj/0', '1518234397', '2', '2', '0', '0', 'gh_e1083c8e9ef6', 'CUCIONE', 'http://mmbiz.qpic.cn/mmbiz_jpg/nMCGwywCQYKPj7Zf9yib2VgNJPw3Q269Du8WvUbKUONMicCey7p3cHQm2OYjViccZJq6lzzwvicZsBWXNZ0ZRibE2VQ/0', '{\"open_pay\":1,\"open_shake\":1,\"open_scan\":0,\"open_card\":0,\"open_store\":1}', '广州楚才信息科技有限公司', '1', '1', null, '2018-02-10 09:48:57');
+
+-- ----------------------------
+-- Table structure for wechat_fans
+-- ----------------------------
+DROP TABLE IF EXISTS `wechat_fans`;
+CREATE TABLE `wechat_fans` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '粉丝表ID',
+  `appid` char(50) DEFAULT NULL COMMENT '公众号Appid',
+  `unionid` char(100) DEFAULT NULL COMMENT 'unionid',
+  `openid` char(100) NOT NULL DEFAULT '' COMMENT '用户的标识,对当前公众号唯一',
+  `spread_openid` char(100) DEFAULT NULL COMMENT '推荐人OPENID',
+  `tagid_list` varchar(100) DEFAULT '' COMMENT '标签id',
+  `is_back` tinyint(1) unsigned DEFAULT '0' COMMENT '是否为黑名单用户',
+  `subscribe` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '用户是否订阅该公众号,0：未关注,1：已关注',
+  `spread_at` datetime DEFAULT NULL,
+  `nickname` varchar(20) DEFAULT NULL COMMENT '用户的昵称',
+  `sex` tinyint(1) unsigned DEFAULT NULL COMMENT '用户的性别,值为1时是男性,值为2时是女性,值为0时是未知',
+  `country` varchar(50) DEFAULT NULL COMMENT '用户所在国家',
+  `province` varchar(50) DEFAULT NULL COMMENT '用户所在省份',
+  `city` varchar(50) DEFAULT NULL COMMENT '用户所在城市',
+  `language` varchar(50) DEFAULT NULL COMMENT '用户的语言,简体中文为zh_CN',
+  `headimgurl` varchar(500) DEFAULT NULL COMMENT '用户头像',
+  `subscribe_time` bigint(20) unsigned DEFAULT NULL COMMENT '用户关注时间',
+  `subscribe_at` datetime DEFAULT NULL COMMENT '关注时间',
+  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
+  `expires_in` bigint(20) unsigned DEFAULT '0' COMMENT '有效时间',
+  `refresh_token` varchar(200) DEFAULT NULL COMMENT '刷新token',
+  `access_token` varchar(200) DEFAULT NULL COMMENT '访问token',
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `index_wechat_fans_spread_openid` (`spread_openid`) USING BTREE,
+  KEY `index_wechat_fans_openid` (`openid`) USING BTREE,
+  KEY `index_wechat_fans_unionid` (`unionid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='微信粉丝';
+
+-- ----------------------------
+-- Records of wechat_fans
+-- ----------------------------
+INSERT INTO `wechat_fans` VALUES ('1', '', 'oGsrks8MgmWGcHiTXw8-MVOud_jk', 'o38gps3vNdCqaggFfrBRCRikwlWY', null, '', '0', '0', null, 'Anyon', '1', '中国', '广东', '广州', 'zh_CN', 'http://thirdwx.qlogo.cn/mmopen/vi_32/hiaKqW4pJbhvTrcRFvo8GicYqYvphb0DU51dia9gGltfibdkhCUibmmpkE4lRjzrHF1LWOPyboGDvdFnMiaBf0N3PMKA/132', null, null, null, '0', null, null, '2018-02-25 17:11:05');
+
+-- ----------------------------
+-- Table structure for wechat_fans_tags
+-- ----------------------------
+DROP TABLE IF EXISTS `wechat_fans_tags`;
+CREATE TABLE `wechat_fans_tags` (
+  `id` bigint(20) unsigned NOT NULL COMMENT '标签ID',
+  `appid` char(50) DEFAULT NULL COMMENT '公众号APPID',
+  `name` varchar(35) DEFAULT NULL COMMENT '标签名称',
+  `count` int(11) unsigned DEFAULT NULL COMMENT '总数',
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+  KEY `index_wechat_fans_tags_id` (`id`) USING BTREE,
+  KEY `index_wechat_fans_tags_appid` (`appid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信会员标签';
+
+-- ----------------------------
+-- Records of wechat_fans_tags
+-- ----------------------------
