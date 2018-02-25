@@ -15,8 +15,6 @@
 namespace app\wechat\service;
 
 use service\WechatService;
-use think\Log;
-use Wechat\WechatReceive;
 
 /**
  * 第三方平台测试上线
@@ -37,34 +35,28 @@ class PublishService
      * 事件初始化
      * @param string $appid
      * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws \WeChat\Exceptions\InvalidDecryptException
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
      * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public static function handler($appid)
     {
         /* 创建接口操作对象 */
         $wechat = WechatService::instance('Receive', $appid);
-        if ($wechat->valid() === false) {
-            Log::error(($err = "微信被动接口验证失败, {$wechat->errMsg}[{$wechat->errCode}]"));
-            return $err;
-        }
         /* 分别执行对应类型的操作 */
-        switch ($wechat->getRev()->getRevType()) {
-            case WechatReceive::MSGTYPE_TEXT:
-                $content = $wechat->getRevContent();
-                if ($content === 'TESTCOMPONENT_MSG_TYPE_TEXT') {
-                    return $wechat->text('TESTCOMPONENT_MSG_TYPE_TEXT_callback')->reply(false, true);
+        $receive = $wechat->getReceive();
+        switch (strtolower($wechat->getMsgType())) {
+            case 'text':
+                if ($receive['Content'] === 'TESTCOMPONENT_MSG_TYPE_TEXT') {
+                    return $wechat->text('TESTCOMPONENT_MSG_TYPE_TEXT_callback')->reply([], true);
                 }
-                $key = ltrim($content, "QUERY_AUTH_CODE:");
-                WechatService::instance('Service')->getAuthorizationInfo($key);
+                $key = ltrim($receive['Content'], "QUERY_AUTH_CODE:");
+                WechatService::instance('Service')->getAuthorizerInfo($key);
                 return $wechat->text("{$key}_from_api")->reply(false, true);
-            case WechatReceive::MSGTYPE_EVENT:
-                $event = $wechat->getRevEvent();
-                return $wechat->text("{$event['event']}from_callback")->reply(false, true);
-            case WechatReceive::MSGTYPE_IMAGE:
-            case WechatReceive::MSGTYPE_LOCATION:
+            case 'event':
+                return $wechat->text("{$receive['EventKey']}from_callback")->reply([], true);
             default:
                 return 'success';
         }
