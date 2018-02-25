@@ -82,14 +82,13 @@ class WechatService
      */
     public static function oauth($appid, $fullMode = 0)
     {
-        session([]);
         list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
         if ((empty($fullMode) && !empty($openid)) || (!empty($fullMode) && !empty($fansinfo))) {
             return ['openid' => $openid, 'fansinfo' => $fansinfo];
         }
         $service = self::instance('service');
         $mode = empty($fullMode) ? 'snsapi_base' : 'snsapi_userinfo';
-        $params = ['auth_mode' => $fullMode, 'redirect_code' => encode(request()->url(true))];
+        $params = ['mode' => $fullMode, 'redirect' => encode(request()->url(true))];
         $authUrl = url('@wechat/api.push/oauth', '', true, true) . '?' . http_build_query($params);
         redirect($service->getOauthRedirect($appid, $authUrl, $mode), [], 301)->send();
     }

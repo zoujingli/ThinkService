@@ -81,19 +81,18 @@ class Push extends Controller
      */
     public function oauth()
     {
-        list($appid, $authMode, $redirectCode) = [
+        list($mode, $appid, $redirect) = [
+            $this->request->get('mode'),
             $this->request->get('state'),
-            $this->request->get('auth_mode'),
-            $this->request->get('redirect_code'),
+            $this->request->get('redirect'),
         ];
         $service = WechatService::instance('service');
         $result = $service->getOauthAccessToken($appid);
         if (empty($result['openid'])) {
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
-        session([]);
         session("{$appid}_openid", $result['openid']);
-        if (!empty($authMode)) {
+        if (!empty($mode)) {
             $wechat = new Oauth($service->getConfig($appid));
             $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
             if (empty($fans)) {
@@ -101,7 +100,7 @@ class Push extends Controller
             }
             session("{$appid}_fansinfo", $fans);
         }
-        redirect(decode($redirectCode), [], 301)->send();
+        redirect(decode($redirect), [], 301)->send();
     }
 
     /**
