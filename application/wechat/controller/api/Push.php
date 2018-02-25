@@ -91,7 +91,7 @@ class Push extends Controller
         if (empty($result['openid'])) {
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
-        session("{$appid}_openid", $result['openid'], 3600);
+        session("{$appid}_openid", $result['openid'], 7000);
         if (!empty($authMode)) {
             $wechat = new Oauth($service->getConfig($result['appid']));
             $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
