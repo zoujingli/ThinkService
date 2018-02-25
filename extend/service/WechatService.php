@@ -82,6 +82,7 @@ class WechatService
      */
     public static function oauth($appid, $fullMode = 0)
     {
+        session([]);
         list($openid, $fansinfo) = [session("{$appid}_openid"), session("{$appid}_fansinfo")];
         if ((empty($fullMode) && !empty($openid)) || (!empty($fullMode) && !empty($fansinfo))) {
             return ['openid' => $openid, 'fansinfo' => $fansinfo];
