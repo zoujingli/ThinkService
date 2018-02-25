@@ -98,7 +98,7 @@ class Push extends Controller
             if (empty($fans)) {
                 throw new Exception('网页授权信息获取失败, 无法进一步操作！');
             }
-            session("{$appid}_fansinfo", $fans, 3600);
+            session("{$appid}_fansinfo", $fans, 7000);
         }
         redirect(decode($redirectCode))->send();
     }
