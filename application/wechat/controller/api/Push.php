@@ -91,7 +91,7 @@ class Push extends Controller
         if (empty($result['openid'])) {
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
-        p('set openid session');
+        p('set openid session ' . session_id());
         p($result['openid']);
         session("{$appid}_openid", $result['openid'], 7000);
         if (!empty($authMode)) {
@@ -100,7 +100,7 @@ class Push extends Controller
             if (empty($fans)) {
                 throw new Exception('网页授权信息获取失败, 无法进一步操作！');
             }
-            p('set fans session');
+            p('set fans session ' . session_id());
             p($fans);
             session("{$appid}_fansinfo", $fans, 7000);
         }
