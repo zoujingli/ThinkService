@@ -62,7 +62,7 @@ class Index extends BasicAdmin
      */
     public function oauth()
     {
-        $openid = WechatService::oauth('wx60a43dd8161666d4', 0);
+        $openid = WechatService::oauth('wx60a43dd8161666d4', 1);
         dump($openid);
     }
 

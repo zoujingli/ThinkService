@@ -21,7 +21,6 @@ use service\WechatService;
 use think\Controller;
 use think\Db;
 use think\Exception;
-use think\facade\Session;
 use WeChat\Oauth;
 
 /**
@@ -93,8 +92,6 @@ class Push extends Controller
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
         session([]);
-        p('set openid session. id ' . session_id() . ' name: ' . session_name());
-        p($result['openid']);
         session("{$appid}_openid", $result['openid']);
         if (!empty($authMode)) {
             $wechat = new Oauth($service->getConfig($result['appid']));
@@ -102,8 +99,6 @@ class Push extends Controller
             if (empty($fans)) {
                 throw new Exception('网页授权信息获取失败, 无法进一步操作！');
             }
-            p('set fans session ' . session_id());
-            p($fans);
             session("{$appid}_fansinfo", $fans);
         }
         redirect(decode($redirectCode), [], 301)->send();
