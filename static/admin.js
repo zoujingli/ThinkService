@@ -24,6 +24,7 @@ if (typeof layui !== 'undefined') {
         var $ = jQuery = layui.$;
     }
 }
+
 $(function () {
 
     // 当前页面Bogy对象

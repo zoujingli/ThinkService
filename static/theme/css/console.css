@@ -64,7 +64,7 @@ a{color:#06C;cursor:pointer}a:hover{color:#039}input::-ms-clear{display:none}but
 .hr-line-solid{border-bottom:1px solid #e7eaec;background-color:rgba(0,0,0,0);border-style:solid!important;margin-top:15px;margin-bottom:15px}
 
 .pagination-trigger{position:absolute;line-height:31px;margin:20px 0}
-.pagination-trigger select{height:20px;text-align:center;border:1px solid #ccc;border-radius:0;font-size:12px}
+.pagination-trigger select{height:20px;text-align:center;border:1px solid #ccc;border-radius:0;font-size:14px}
 .label-required:after{content:'*';color:red;position:absolute;margin-left:4px;font-weight:bold;line-height:1.8em;top:6px}
 
 /** checkbox 优化 */
@@ -89,20 +89,20 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .framework-topbar a{text-decoration:none}.framework-topbar a:focus{outline:none}
 .framework-topbar .topbar-head{z-index:3;height:50px;position:relative;width:220px;box-shadow:0 1px 3px 0 rgba(0,0,0,.1);}
 .framework-topbar .topbar-head .topbar-logo{color:#fff;display:block;font-size:18px;line-height:50px;text-align:center;width:100%}
-.framework-topbar .topbar-btn{background:none;color:#fff;font-size:13px;height:50px;line-height:50px;z-index:2;display:block;padding:0 20px}
+.framework-topbar .topbar-btn{background:none;color:#fff;font-size:14px;height:50px;line-height:50px;z-index:2;display:block;padding:0 20px}
 .framework-topbar .topbar-btn:hover,.framework-topbar .topbar-btn.active{background:#36a3ff}
 .framework-topbar .dropdown-backdrop{display:none!important}
 .framework-topbar .dropdown .dropdown-menu{margin:0;padding:0;width:100%;min-width:0;border:none;border-radius:0;z-index:2;}
-.framework-topbar .dropdown .dropdown-menu .topbar-btn{height:auto;padding:0;font-size:12px;color:#333;border-top:1px solid #eaedf1}
+.framework-topbar .dropdown .dropdown-menu .topbar-btn{height:auto;padding:0;font-size:14px;color:#333;border-top:1px solid #eaedf1}
 .framework-topbar .dropdown .dropdown-menu .topbar-btn a{padding:0;line-height:45px;text-align:center;}
 .framework-topbar .dropdown.open .toggle-icon{transform:rotate(180deg);-o-transform:rotate(180deg);-ms-transform:rotate(180deg);-moz-transform:rotate(180deg);-webkit-transform:rotate(180deg)}
 .framework-topbar .dropdown.open .topbar-btn{color:#333;background:#fff}
 
 /* 左则菜单 */
-.framework-leftbar{top:50px;bottom:0;width:220px;position:fixed;overflow:auto;overflow-x:hidden;background:#393d49;box-shadow: 1px 0 3px 0 rgba(0,0,0,.08);z-index:3}
+.framework-leftbar{top:50px;bottom:0;width:220px;position:fixed;overflow:auto;overflow-x:hidden;background:#393d49;box-shadow:1px 0 3px 0 rgba(0,0,0,.08);z-index:3;font-size:12px}
 .framework-leftbar .leftbar-container .leftbar-top{font-size:10px;color:#ccc;text-align:center;letter-spacing:2px}
-.framework-leftbar .leftbar-container a{line-height:40px;display:block;background:#42485b;color:#fff;padding:0 15px;border-bottom:1px solid rgba(0,0,0,.1);}
-.framework-leftbar .leftbar-container a:hover{text-decoration:none;background:#00c1de}
+.framework-leftbar .leftbar-container a{line-height:40px;display:block;background:#42485b;color:#fff;padding:0 15px;border-bottom:1px solid rgba(0,0,0,.05);}
+.framework-leftbar .leftbar-container a:hover{text-decoration:none;background:#414d5c}
 .framework-leftbar .leftbar-container div div{display:none}
 .framework-leftbar .leftbar-container div.open > a > i{transform:rotate(180deg);-o-transform:rotate(180deg);-ms-transform:rotate(180deg);-moz-transform:rotate(180deg);-webkit-transform:rotate(180deg)}
 .framework-leftbar .leftbar-container div.open div{display:block}
@@ -113,7 +113,7 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 /* 右则内容 */
 .framework-body{right:0;bottom:0;top:50px;left:220px;position:fixed;overflow-y:scroll;z-index:1}
 .framework-body .body-nav{height:50px;line-height:50px;background:#fff;padding-left:15px;box-shadow:0 1px 3px 0 rgba(0,0,0,.08);z-index:2;position:relative}
-.framework-body .body-nav span{color:#333;padding:3px 0px;}
+.framework-body .body-nav span{color:#333;padding:3px 0;}
 .framework-body .body-nav span:after{content:'/';padding-left:3px;padding-right:3px;}
 .framework-body .body-nav span:last-child:after{content:''}
 .framework-body .body-content{padding:0;z-index:1;position:relative}
