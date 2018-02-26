@@ -82,7 +82,7 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 /* 后台框架 */
 .framework{height:100%;position:relative}
 .framework.mini .framework-body{left:0}
-.framework.mini .framework-leftbar{display: none}
+.framework.mini .framework-leftbar{display:none}
 
 /** 顶部菜单 */
 .framework-topbar{clear:both;height:50px;z-index:2;background:#2494f2}
@@ -118,7 +118,7 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .framework-body .body-nav span:last-child:after{content:''}
 .framework-body .body-content{padding:0;z-index:1;position:relative}
 .framework-body .body-content>.layui-card{box-shadow:none}
-.framework-body .body-content .form-search{background: #fff;padding-top:15px}
+.framework-body .body-content .form-search{background:#fff;padding-top:15px}
 .framework-body .body-content .form-search .layui-form-label{width:auto!important;border-radius:0;padding:0 6px;height:30px;line-height:28px}
 .framework-body .body-content .form-search .layui-input-inline{width:160px}
 .framework-body .body-content .form-search .layui-input-inline input{border-radius:0;padding:0 5px;height:30px;line-height:28px;}
