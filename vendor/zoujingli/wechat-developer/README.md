@@ -22,7 +22,7 @@ PHP开发技术交流（QQ群 513350915）
 
 > 针对 WeChatDeveloper 也有一准备了帮助资料可供参考。
 >* 开发文档地址：http://www.kancloud.cn/zoujingli/wechat-developer
->* ThinkService：https://github.com/zoujingli/ThinkService
+>* Think.Admin：https://github.com/zoujingli/Think.Admin
 
 
 Repositorie

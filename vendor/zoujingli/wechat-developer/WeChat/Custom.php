@@ -15,6 +15,7 @@
 namespace WeChat;
 
 use WeChat\Contracts\BasicWeChat;
+use WeChat\Contracts\Tools;
 
 /**
  * 客服消息处理
@@ -75,6 +76,21 @@ class Custom extends BasicWeChat
     }
 
     /**
+     * 邀请绑定客服帐号
+     * @param string $kf_account 完整客服帐号，格式为：帐号前缀@公众号微信号
+     * @param string $invite_wx 接收绑定邀请的客服微信号
+     * @return array
+     * @throws Exceptions\InvalidResponseException
+     * @throws Exceptions\LocalCacheException
+     */
+    public function inviteworker($kf_account, $invite_wx)
+    {
+        $url = 'https://api.weixin.qq.com/customservice/kfaccount/inviteworker?access_token=ACCESS_TOKEN';
+        $this->registerApi($url, __FUNCTION__, func_get_args());
+        return $this->callPostApi($url, ['kf_account' => $kf_account, 'invite_wx' => $invite_wx]);
+    }
+
+    /**
      * 获取所有客服账号
      * @return array
      * @throws Exceptions\InvalidResponseException
@@ -85,6 +101,21 @@ class Custom extends BasicWeChat
         $url = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
         return $this->httpGetForJson($url);
+    }
+
+    /**
+     * 设置客服帐号的头像
+     * @param string $kf_account 客户账号
+     * @param string $image 头像文件位置
+     * @return array
+     * @throws Exceptions\InvalidResponseException
+     * @throws Exceptions\LocalCacheException
+     */
+    public function uploadHeadimg($kf_account, $image)
+    {
+        $url = "http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account={$kf_account}";
+        $this->registerApi($url, __FUNCTION__, func_get_args());
+        return $this->httpPostForJson($url, ['media' => Tools::createCurlFile($image)]);
     }
 
     /**

@@ -329,16 +329,16 @@
         },
         {
             "name": "zoujingli/wechat-developer",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zoujingli/WeChatDeveloper.git",
-                "reference": "f716e8e3ccfd88697e18e27d09a73aa60230c5ba"
+                "reference": "75b19a76a499bd05d4818f6657fc267b6f0bc208"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/zoujingli/WeChatDeveloper/f716e8e3ccfd88697e18e27d09a73aa60230c5ba.zip",
-                "reference": "f716e8e3ccfd88697e18e27d09a73aa60230c5ba",
+                "url": "https://files.phpcomposer.com/files/zoujingli/WeChatDeveloper/75b19a76a499bd05d4818f6657fc267b6f0bc208.zip",
+                "reference": "75b19a76a499bd05d4818f6657fc267b6f0bc208",
                 "shasum": ""
             },
             "require": {
@@ -356,16 +356,21 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Anyon",
+                    "email": "zoujingli@qq.com",
+                    "homepage": "http://ctolog.com"
+                }
+            ],
             "description": "WeChat platform and WeChat payment development tools",
             "homepage": "https://github.com/zoujingli/WeChatDeveloper",
             "keywords": [
                 "WeChatDeveloper",
-                "Wxpay",
-                "developer",
                 "wechat",
-                "wxsdk"
+                "wechatpay"
             ],
-            "time": "2018-02-05T11:04:18+00:00"
+            "time": "2018-02-26T13:52:57+00:00"
         },
         {
             "name": "zoujingli/weopen-developer",
