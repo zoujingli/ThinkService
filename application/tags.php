@@ -35,10 +35,13 @@ return [
             throw new HttpResponseException(json(['code' => 0, 'msg' => '抱歉，您没有访问该模块的权限！']));
         }
         // 模板常量声明
-        list($appRoot, $uriSelf) = [$request->root(), $request->url()];
+        $appRoot = $request->root();
         $uriRoot = rtrim(preg_match('/\.php$/', $appRoot) ? dirname($appRoot) : $appRoot, '/');
-        $view = app('view')->init(config('template.'));
-        $view->assign('classuri', "{$module}/{$controller}");
-        $view->config('tpl_replace_string', ['__APP__' => $appRoot, '__SELF__' => $uriSelf, '__STATIC__' => "{$uriRoot}/static"]);
+        app('view')->init(config('template.'))->config('tpl_replace_string', [
+            '__APP__'    => $appRoot,
+            '__ROOT__'   => $uriRoot,
+            '__SELF__'   => $request->url(),
+            '__STATIC__' => $uriRoot . "/static",
+        ])->assign('classuri', "{$module}/{$controller}");
     },
 ];

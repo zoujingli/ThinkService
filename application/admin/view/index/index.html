@@ -14,6 +14,7 @@
     </a>
     <!--{/foreach}-->
     <div class="pull-right">
+        <!--{if session('user.id')}-->
         <div class="dropdown">
             <a href="#" class="dropdown-toggle topbar-btn text-center transition" data-toggle="dropdown">
                 <span class="glyphicon glyphicon-user font-s12"></span>
@@ -28,6 +29,13 @@
                 </li>
             </ul>
         </div>
+        <!--{else}-->
+        <div class="topbar-info-item">
+            <a data-href="{:url('@admin/login')}" data-toggle="dropdown" class=" topbar-btn text-center">
+                <span class='glyphicon glyphicon-user'></span> 立即登录 </span>
+            </a>
+        </div>
+        <!--{/if}-->
     </div>
     <a class="topbar-btn pull-right transition" data-tips-text="刷新" data-reload="true" style="width:50px"><span class="glyphicon glyphicon-refresh font-s12"></span></a>
 </div>
