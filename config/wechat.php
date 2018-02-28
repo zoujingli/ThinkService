@@ -12,7 +12,6 @@
 // | github开源项目：https://github.com/zoujingli/ThinkService
 // +----------------------------------------------------------------------
 
-
 return [
     'token'          => 'test',
     'appid'          => 'wx60a43dd8161666d4',
