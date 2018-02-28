@@ -1,7 +1,13 @@
 {extend name="admin@public/content"}
 
-{block name="content"}
+{block name="button"}
+<!--{if auth("wechat/index/index")}-->
+{php}$redirect = url('@wechat/api.push/auth/redirect/' . encode(url('wechat/index/index', '', true, true)));{/php}
+<button data-href='{$redirect}' class='layui-btn layui-btn-sm'>绑定公众号</button>
+<!--{/if}-->
+{/block}
 
+{block name="content"}
 <form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal padding-30'>
 
     <div class="form-group">
@@ -69,7 +75,7 @@
             <p class="help-block">白名单IP地址列表中必需将此IP配置进去，若未配置则无法对接。</p>
         </div>
     </div>
-    
+
     <div class="hr-line-dashed"></div>
 
     <div class="col-sm-6 col-sm-offset-2">
