@@ -46,12 +46,13 @@ class Test
     public function qrc($appid)
     {
         $url = url('@wechat/api.test/weboauth/appid/' . $appid, '', true, true);
+        $font = env('VENDOR_PATH') . 'topthink/think-captcha/assets/zhttfs/1.ttf';
         $qrCode = new QrCode();
         $qrCode->setText($url)
             ->setSize(300)
             ->setPadding(15)
-            ->setLabelFontPath(env('VENDOR_PATH') . 'topthink/think-captcha/assets/zhttfs/1.ttf')
-            ->setLabelFontSize(20)
+            ->setLabelFontSize(12)
+            ->setLabelFontPath($font)
             ->setLabel('微信网页授权测试二维码')
             ->setImageType(QrCode::IMAGE_TYPE_PNG);
         header('Content-Type: ' . $qrCode->getContentType());
