@@ -1,7 +1,7 @@
 <?php
 
 // +----------------------------------------------------------------------
-// | Think.Service
+// | ThinkService
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2017 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/Think.Service
+// | github开源项目：https://github.com/zoujingli/ThinkService
 // +----------------------------------------------------------------------
 
 namespace app\wechat\controller\api;
@@ -36,10 +36,14 @@ class Push extends Controller
      * 微信API推送事件处理
      * @param string $appid 授权公众号Appid
      * @return string
+     * @throws Exception
+     * @throws \WeChat\Exceptions\InvalidDecryptException
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
-     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function notify($appid)
     {
