@@ -2,7 +2,12 @@
 
 {block name="button"}
 <!--{if auth("wechat/index/index")}-->
-{php}$redirect = url('@wechat/api.push/auth/redirect/' . encode(url('wechat/index/index', '', true, true)));{/php}
+{php}
+# 绑定成功回跳地址
+$url = url('@admin','',true,true).'#'.url('wechat/index/index');
+# 跳转到公众号授权页面
+$redirect = url('@wechat/api.push/auth/redirect/' . encode($url));
+{/php}
 <button data-href='{$redirect}' class='layui-btn layui-btn-sm'>绑定公众号</button>
 <!--{/if}-->
 {/block}
