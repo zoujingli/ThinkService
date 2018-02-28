@@ -21,7 +21,8 @@
     "topthink/framework": "5.1.*",
     "zoujingli/ip2region": "dev-master",
     "aliyuncs/oss-sdk-php": "^2.2",
-    "zoujingli/weopen-developer": "dev-master"
+    "zoujingli/weopen-developer": "dev-master",
+    "topthink/think-captcha": "^2.0"
   },
   "autoload": {
     "psr-4": {

@@ -63,6 +63,7 @@
             </th>
             <th class='text-left nowrap' style="width:280px">公众号AppID / 公众号状态</th>
             <th class='text-left nowrap'>公众号名称 / 注册公司</th>
+            <th class='text-center nowrap'>网页授权测试</th>
             <th class='text-left nowrap'>绑定状态</th>
             <th class='text-left nowrap'>授权时间</th>
             <th class='text-left nowrap'></th>
@@ -93,6 +94,9 @@
                     {$vo.nick_name}<br>
                     {$vo.principal_name}
                 </div>
+            </td>
+            <td class="text-center">
+                <img style="width:40px;height:40px" data-tips-text="网页授权测试" data-tips-image src="{:url('@wechat/api.test/qrc/appid/'.$vo.authorizer_appid)}">
             </td>
             <td class='text-left nowrap'>
                 {empty name='vo.status'}
