@@ -33,6 +33,7 @@ class Test
     public function weboauth($appid)
     {
         $fans = WechatService::oauth($appid, 1);
+        echo '<pre style="width:100%">';
         var_export($fans);
     }
 
