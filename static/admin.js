@@ -111,20 +111,13 @@ $(function () {
 
     /*! 表单自动化组件 */
     $.form = new function () {
+        var self = this;
+        // 默认异常提示消息
         this.errMsg = '{status}服务器繁忙，请稍候再试！';
         // 内容区域动态加载后初始化
         this.reInit = function ($container) {
             $.validate.listen.call(this), JPlaceHolder.init();
             $container.find('[required]').parent().prevAll('label').addClass('label-required');
-        };
-        // 以hash打开网页
-        this.href = function (url, obj) {
-            if (url !== '#') {
-                window.location.href = '#' + $.menu.parseUri(url, obj);
-            } else if (obj && obj.getAttribute('data-menu-node')) {
-                var node = obj.getAttribute('data-menu-node');
-                $('[data-menu-node^="' + node + '-"][data-open!="#"]:first').trigger('click');
-            }
         };
         // 在内容区显示视图
         this.show = function (html) {
@@ -133,6 +126,15 @@ $(function () {
 
             function reinit() {
                 $.form.reInit($container);
+            }
+        };
+        // 以hash打开网页
+        this.href = function (url, obj) {
+            if (url !== '#') {
+                window.location.href = '#' + $.menu.parseUri(url, obj);
+            } else if (obj && obj.getAttribute('data-menu-node')) {
+                var node = obj.getAttribute('data-menu-node');
+                $('[data-menu-node^="' + node + '-"][data-open!="#"]:first').trigger('click');
             }
         };
         // 刷新当前页面
@@ -178,13 +180,7 @@ $(function () {
                 if (typeof (res) === 'object') {
                     return $.msg.auto(res);
                 }
-                var $container = $('.framework-body').html(res);
-                reinit.call(this), setTimeout(reinit, 500), setTimeout(reinit, 1000);
-                return (typeof callback === 'function') && callback.call(this);
-
-                function reinit() {
-                    $.form.reInit($container);
-                }
+                self.show(res);
             }, loading, tips);
         };
         // 打开一个iframe窗口
