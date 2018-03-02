@@ -12,7 +12,7 @@
 // | github开源项目：https://github.com/zoujingli/ThinkService
 // +--------------------------------------------------------------------*/
 
-html{overflow:auto}body{width:100%;font-size:12px;font-family:'微软雅黑','Microsoft YaHei','Helvetica Neue','Luxi Sans','DejaVu Sans','Hiragino Sans GB',serif}
+html{overflow:auto}body{width:100%;font-size:13px;font-family:'微软雅黑','Microsoft YaHei','Helvetica Neue','Luxi Sans','DejaVu Sans','Hiragino Sans GB',serif}
 a{color:#06C;cursor:pointer}a:hover{color:#039}input::-ms-clear{display:none}button{border-radius:0!important}
 .text-left{text-align:left!important}.text-right{text-align:right!important}.text-center{text-align:center!important}.text-top{vertical-align:top!important}
 .color-desc{color:#999!important}.color-text{color:#333!important}.color-blue{color:#2494f2!important}.color-red{color:#ec494e!important}.color-green{color:#090!important}
@@ -49,8 +49,8 @@ a{color:#06C;cursor:pointer}a:hover{color:#039}input::-ms-clear{display:none}but
 
 /** Layui样式调整 */
 .layui-form-label{padding:9px 15px 9px 0;width:95px}
-.layui-table th,.layui-table td{font-size:12px;padding:6px}
 .layui-input,.layui-select,.layui-textarea{line-height:38px}
+.layui-table th,.layui-table td{font-size:13px}
 .layui-table td .text-explode:first-child{opacity:0;display:none}
 .layui-table td .text-explode{color:#ccc!important;font-weight:normal!important;margin:0px 4px!important}
 .layui-table .list-table-image{width:22px;cursor:pointer}
@@ -85,7 +85,7 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .framework.mini .framework-leftbar{display:none}
 
 /** 顶部菜单 */
-.framework-topbar{clear:both;height:50px;z-index:2;background:#2494f2}
+.framework-topbar{font-size:14px;clear:both;height:50px;z-index:2;background:#2494f2}
 .framework-topbar a{text-decoration:none}.framework-topbar a:focus{outline:none}
 .framework-topbar .topbar-head{z-index:3;height:50px;position:relative;width:220px;box-shadow:0 1px 3px 0 rgba(0,0,0,.1);}
 .framework-topbar .topbar-head .topbar-logo{color:#fff;display:block;font-size:18px;line-height:50px;text-align:center;width:100%}
@@ -99,7 +99,7 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .framework-topbar .dropdown.open .topbar-btn{color:#333;background:#fff}
 
 /* 左则菜单 */
-.framework-leftbar{top:50px;bottom:0;width:220px;position:fixed;overflow:auto;overflow-x:hidden;background:#393d49;box-shadow:1px 0 3px 0 rgba(0,0,0,.08);z-index:3;font-size:12px}
+.framework-leftbar{font-size:13px;top:50px;bottom:0;width:220px;position:fixed;overflow:auto;overflow-x:hidden;background:#393d49;box-shadow:1px 0 3px 0 rgba(0,0,0,.08);z-index:3}
 .framework-leftbar .leftbar-container .leftbar-top{font-size:10px;color:#ccc;text-align:center;letter-spacing:2px}
 .framework-leftbar .leftbar-container a{line-height:40px;display:block;background:#42485b;color:#fff;padding:0 15px;border-bottom:1px solid rgba(0,0,0,.05);}
 .framework-leftbar .leftbar-container a:hover{text-decoration:none;background:#414d5c}
@@ -122,6 +122,6 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .framework-body .body-content .form-search .layui-form-label{width:auto!important;border-radius:0;padding:0 6px;height:30px;line-height:28px}
 .framework-body .body-content .form-search .layui-input-inline{width:160px}
 .framework-body .body-content .form-search .layui-input-inline input{border-radius:0;padding:0 5px;height:30px;line-height:28px;}
-.framework-body .body-content .form-search button{height:30px;line-height:28px;font-size:12px;padding:0 10px}
+.framework-body .body-content .form-search button{height:30px;line-height:28px;font-size:13px;padding:0 10px}
 .framework-body .body-content .layui-form-select{border-radius:0}
 .framework-body .body-content .layui-form-select dl{top:29px;padding:0}

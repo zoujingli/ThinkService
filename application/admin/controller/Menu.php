@@ -46,7 +46,7 @@ class Menu extends BasicAdmin
      */
     public function index()
     {
-        $this->title = '菜单管理';
+        $this->title = '后台菜单管理';
         $db = Db::name($this->table)->order('sort asc,id asc');
         return parent::_list($db, false);
     }

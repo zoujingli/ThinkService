@@ -38,7 +38,7 @@ class Config extends BasicAdmin
      * 当前页面标题
      * @var string
      */
-    public $title = '网站参数配置';
+    public $title = '系统参数配置';
 
     /**
      * 显示系统常规配置
