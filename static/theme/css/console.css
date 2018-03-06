@@ -22,7 +22,7 @@ a{color:#06C;cursor:pointer}a:hover{color:#039}input::-ms-clear{display:none}but
 .notselect{user-select:none;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none}
 
 [data-tips-image]{cursor:zoom-in}
-:-webkit-autofill{-webkit-box-shadow:0 0 0px 1000px white inset;-webkit-text-fill-color:#333;}
+:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px white inset;-webkit-text-fill-color:#333;}
 ::-webkit-input-placeholder{color:#aaa}::selection{background-color:#ec494e;color:#fff}::-moz-selection{background-color:#ec494e;color:#fff}
 ::-webkit-scrollbar{width:3px;height:3px}::-webkit-scrollbar-track{background:#ccc;}::-webkit-scrollbar-thumb{background-color:#666}
 
@@ -120,7 +120,7 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .framework-body .body-content>.layui-card{box-shadow:none}
 .framework-body .body-content .form-search{background:#fff;padding-top:15px}
 .framework-body .body-content .form-search .layui-form-label{width:auto!important;border-radius:0;padding:0 6px;height:30px;line-height:28px}
-.framework-body .body-content .form-search .layui-input-inline{width:160px}
+.framework-body .body-content .form-search .layui-input-inline{width:170px}
 .framework-body .body-content .form-search .layui-input-inline input{border-radius:0;padding:0 5px;height:30px;line-height:28px;}
 .framework-body .body-content .form-search button{height:30px;line-height:28px;font-size:13px;padding:0 10px}
 .framework-body .body-content .layui-form-select{border-radius:0}
