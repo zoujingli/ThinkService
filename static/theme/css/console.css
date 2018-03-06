@@ -99,9 +99,9 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .framework-topbar .dropdown.open .topbar-btn{color:#333;background:#fff}
 
 /* 左则菜单 */
-.framework-leftbar{font-size:13px;top:50px;bottom:0;width:220px;position:fixed;overflow:auto;overflow-x:hidden;background:#393d49;box-shadow:1px 0 3px 0 rgba(0,0,0,.08);z-index:3}
+.framework-leftbar{font-size:13px;top:50px;bottom:0;width:220px;position:fixed;overflow:auto;overflow-x:hidden;background:#293038;box-shadow:1px 0 3px 0 rgba(0,0,0,.08);z-index:3}
 .framework-leftbar .leftbar-container .leftbar-top{font-size:10px;color:#ccc;text-align:center;letter-spacing:2px}
-.framework-leftbar .leftbar-container a{line-height:40px;display:block;background:#42485b;color:#fff;padding:0 15px;border-bottom:1px solid rgba(0,0,0,.05);}
+.framework-leftbar .leftbar-container a{line-height:40px;display:block;background:#22282e;color:#fff;padding:0 15px;border-bottom:1px solid rgba(0,0,0,.05);}
 .framework-leftbar .leftbar-container a:hover{text-decoration:none;background:#414d5c}
 .framework-leftbar .leftbar-container div div{display:none}
 .framework-leftbar .leftbar-container div.open > a > i{transform:rotate(180deg);-o-transform:rotate(180deg);-ms-transform:rotate(180deg);-moz-transform:rotate(180deg);-webkit-transform:rotate(180deg)}

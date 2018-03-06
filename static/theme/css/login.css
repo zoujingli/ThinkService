@@ -41,9 +41,9 @@ html,body{height:100%;width:100%;overflow:hidden!important;overflow-y:hidden!imp
 .login-container .content ul{margin-left:285px;margin-right:60px}
 .login-container .content ul li{margin-bottom:25px;position:relative}
 .login-container .content ul li input{position:relative;padding-left:40px;z-index:1;width:100%;height:38px;line-height:38px;border:1px solid #e6e6e6;background-color:#fff;border-radius:2px}
-.login-container .content ul li div{position:absolute;background:url(../img/icon.png) #fff no-repeat;background-size:20px;width:34px;height:38px;z-index:2;border:1px solid #e6e6e6;border-right:none;border-radius:2px}
-.login-container .content ul li.username div{background-position:8px 8px}
-.login-container .content ul li.password div{background-position:8px -20px}
+.login-container .content ul li i{position:absolute;background:url(../img/icon.png) #fff no-repeat;background-size:20px;width:34px;height:38px;z-index:2;border:1px solid #e6e6e6;border-right:none;border-radius:2px}
+.login-container .content ul li.username i{background-position:8px 8px}
+.login-container .content ul li.password i{background-position:8px -20px}
 .login-container .content a{color:#666;position:absolute;display:block;}
 .login-container .content a:hover{color:#333}
 .login-container .content a.forget{right:0}
