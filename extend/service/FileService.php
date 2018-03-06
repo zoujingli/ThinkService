@@ -242,6 +242,7 @@ class FileService
      * @return string|null
      * @throws \think\Exception
      * @throws \think\exception\PDOException
+     * @throws OssException
      */
     public static function readFile($filename, $storage = null)
     {
