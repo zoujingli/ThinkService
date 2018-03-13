@@ -1,13 +1,9 @@
-{extend name='extra@admin/content'}
+{extend name='admin@public/content'}
 
 {block name="button"}
-<div class="nowrap pull-right margin-top-10">
-    {if auth("$classuri/del")}
-    <button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>
-        <i class='fa fa-remove'></i> 删除微信
-    </button>
-    {/if}
-</div>
+<!--{if auth("$classuri/del")}-->
+<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>删除微信</button>
+<!--{/if}-->
 {/block}
 
 {block name="content"}
@@ -56,7 +52,7 @@
 
 <form onsubmit="return false;" data-auto="true" method="post">
     <input type="hidden" value="resort" name="action">
-    <table class="table table-hover">
+    <table class="layui-table">
         <thead>
         <tr>
             <th class='list-table-check-td'>
@@ -127,6 +123,6 @@
         {/foreach}
         </tbody>
     </table>
-    {if isset($page)}<p>{$page}</p>{/if}
+    {if isset($page)}<p>{$page|raw}</p>{/if}
 </form>
 {/block}

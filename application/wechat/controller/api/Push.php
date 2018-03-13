@@ -21,7 +21,6 @@ use service\WechatService;
 use think\Controller;
 use think\Db;
 use think\Exception;
-use think\Log;
 use WeChat\Oauth;
 
 /**

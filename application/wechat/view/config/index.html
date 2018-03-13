@@ -1,4 +1,4 @@
-{extend name="extra@admin/content"}
+{extend name="admin@public/content"}
 
 {block name="content"}
 <form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal padding-top-20'>
@@ -64,7 +64,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label"> 客户端系统Soap接口URL</label>
         <div class='col-sm-8'>
-            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/soap/PARAM','',true,true)}">
+            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/soap/param/PARAM','',true,true)}">
             <p class="help-block">客户端系统 Soap 接口 URL，PARAM 由调用参数组成（AppName-AppId-AppKey）。</p>
         </div>
     </div>
@@ -72,7 +72,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label"> 客户端系统Yar接口URL</label>
         <div class='col-sm-8'>
-            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/yar/PARAM','',true,true)}">
+            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/yar/param/PARAM','',true,true)}">
             <p class="help-block">客户端系统 Yar 接口 URL，PARAM 由调用参数组成（AppName-AppId-AppKey）。</p>
         </div>
     </div>

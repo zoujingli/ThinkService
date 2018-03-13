@@ -1,7 +1,7 @@
 <?php
 
 // +----------------------------------------------------------------------
-// | ThinkService
+// | ThinkAdmin
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2017 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/ThinkService
+// | github开源项目：https://github.com/zoujingli/ThinkAdmin
 // +----------------------------------------------------------------------
 
 namespace service;
@@ -120,12 +120,13 @@ class ToolsService
         foreach (self::arr2tree($list, $id, $pid) as $attr) {
             $attr[$path] = "{$ppath}-{$attr[$id]}";
             $attr['sub'] = isset($attr['sub']) ? $attr['sub'] : [];
-            $attr['spl'] = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;├&nbsp;&nbsp;", substr_count($ppath, '-'));
+            $attr['spt'] = substr_count($ppath, '-');
+            $attr['spl'] = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;├&nbsp;", $attr['spt']);
             $sub = $attr['sub'];
             unset($attr['sub']);
             $tree[] = $attr;
             if (!empty($sub)) {
-                $tree = array_merge($tree, (array)self::arr2table($sub, $id, $pid, $path, $attr[$path]));
+                $tree = array_merge($tree, self::arr2table($sub, $id, $pid, $path, $attr[$path]));
             }
         }
         return $tree;

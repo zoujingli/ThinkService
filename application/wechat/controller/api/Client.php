@@ -18,7 +18,7 @@ use service\WechatService;
 use think\Controller;
 use think\Db;
 use think\Exception;
-use think\Log;
+use think\facade\Log;
 
 /**
  * 获取微信SDK实例对象
@@ -56,6 +56,7 @@ class Client extends Controller
     /**
      * 启动Yar接口服务
      * @param string $param AppName-AppId-AppKey
+     * @return string
      */
     public function yar($param)
     {
@@ -64,13 +65,15 @@ class Client extends Controller
             $service = new \Yar_Server($instance);
             $service->handle();
         } catch (\Exception $e) {
-            Log::error('YarServieError: ' . __METHOD__ . '  ###' . $e->getMessage());
+            Log::error($errmsg = 'YarServieError: ' . __METHOD__ . '  ###' . $e->getMessage());
+            return $errmsg;
         }
     }
 
     /**
      * 启动SOAP接口服务
      * @param string $param AppName-AppId-AppKey
+     * @return string
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\Exception
@@ -83,7 +86,8 @@ class Client extends Controller
             $service->setObject(empty($instance) ? $this : $instance);
             $service->handle();
         } catch (\SoapFault $e) {
-            Log::error('SoapServieError: ' . __METHOD__ . '  ###' . $e->getMessage());
+            Log::error($errmsg = 'SoapServieError: ' . __METHOD__ . '  ###' . $e->getMessage());
+            return $errmsg;
         }
     }
 
