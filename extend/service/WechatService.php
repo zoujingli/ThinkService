@@ -66,14 +66,10 @@ class WechatService
 
     /**
      * 获取公众号配置
-     * @param null $appid
      * @return array
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     * @throws \think\Exception
+     * @throws Exception
      */
-    public static function getConfig($appid = null)
+    public static function getConfig()
     {
         # 读取开放平台配置
         $config = [
@@ -83,13 +79,6 @@ class WechatService
             'component_appsecret'      => sysconf('component_appsecret'),
             'component_encodingaeskey' => sysconf('component_encodingaeskey'),
         ];
-        # 读取支付参数并合并参数
-        if (!empty($appid)) {
-            $field = 'mch_id,partnerkey,ssl_cer,ssl_key';
-            $where = ['appid' => ($config['appid'] = $appid)];
-            $options = (array)Db::name('WechatConfigPay')->field($field)->where($where)->find();
-            $config = array_merge($config, $options);
-        }
         return $config;
     }
 
