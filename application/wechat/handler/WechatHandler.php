@@ -47,7 +47,7 @@ class WechatHandler extends BasicHandler
         }
         $service = WechatService::instance('service');
         $mode = empty($fullMode) ? 'snsapi_base' : 'snsapi_userinfo';
-        $url = url('@wechat/api.push/oauth', '', true, 'wm.cuci.cc');
+        $url = url('@wechat/api.push/oauth', '', true, true);
         $params = ['mode' => $fullMode, 'sessid' => $sessid, 'enurl' => encode($self_url)];
         $authurl = $service->getOauthRedirect($this->appid, $url . '?' . http_build_query($params), $mode);
         return ['openid' => $openid, 'fans' => $fans, 'url' => $authurl];
