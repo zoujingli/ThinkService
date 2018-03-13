@@ -51,8 +51,11 @@
 <!-- 表单搜索 结束 -->
 
 <form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
     <input type="hidden" value="resort" name="action">
-    <table class="layui-table">
+    <table class="layui-table" lay-skin="line">
         <thead>
         <tr>
             <th class='list-table-check-td'>
@@ -101,7 +104,7 @@
                 状态：{if $vo.status eq 0}<span>已禁用</span>{elseif $vo.status eq 1}<span class="color-green">使用中</span>{/if}
             </td>
             <td class="text-left nowrap">
-                {$vo.create_at|format_datetime|str_replace=' ','<br>',###}
+                {$vo.create_at|format_datetime|str_replace=' ','<br>',###|raw}
             </td>
             <td class='text-left nowrap'>
 
@@ -124,5 +127,6 @@
         </tbody>
     </table>
     {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
 </form>
 {/block}
