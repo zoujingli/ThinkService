@@ -77,7 +77,7 @@ class WechatService
     {
         # 读取开放平台配置
         $config = [
-            'cache_path'               => RUNTIME_PATH . 'wechat',
+            'cache_path'               => env('RUNTIME_PATH') . 'wechat',
             'component_appid'          => sysconf('component_appid'),
             'component_token'          => sysconf('component_token'),
             'component_appsecret'      => sysconf('component_appsecret'),
