@@ -32,17 +32,15 @@ class WechatService
      * @param string $type
      * @param string $appid 授权公众号APPID
      * @return \WeChat\Oauth|\WeChat\Pay|\WeChat\User|\WeOpen\Service|\WeChat\Receive|\WeChat\Script
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     * @throws \think\Exception
+     * @throws Exception
      */
     public static function instance($type, $appid = '')
     {
-        $config = self::getConfig($appid);
+        // 获取第三方平台配置
+        $config = self::getConfig();
         // 注册授权公众号 AccessToken 处理
         $config['GetAccessTokenCallback'] = function ($authorizer_appid) use ($config) {
-            $where = ['authorizer_appid' => $authorizer_appid];
+            $where = ['authorizer_appid' => $authorizer_appid, 'stauts' => '1'];
             if (!($refresh_token = Db::name('WechatConfig')->where($where)->value('authorizer_refresh_token'))) {
                 throw new Exception('The WeChat information is not configured.', '404');
             }
