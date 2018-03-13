@@ -1,11 +1,5 @@
 {extend name='admin@public/content'}
 
-{block name="button"}
-<!--{if auth("$classuri/del")}-->
-<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>删除微信</button>
-<!--{/if}-->
-{/block}
-
 {block name="content"}
 
 <!-- 表单搜索 开始 -->
@@ -58,21 +52,15 @@
     <table class="layui-table" lay-skin="line">
         <thead>
         <tr>
-            <th class='list-table-check-td'>
-                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
-            </th>
-            <th class='text-left nowrap' style="width:390px">微信AppID / 接口调用次数 / 接口服务密钥</th>
-            <th class='text-left nowrap' style="width:120px">微信名称 / 注册公司 / 状态</th>
-            <th class='text-left nowrap'>授权绑定</th>
+            <th class='text-left nowrap' style="width:390px">接口信息</th>
+            <th class='text-left nowrap' style="width:120px">服务状态</th>
+            <th class='text-left nowrap'>授权绑定时间</th>
             <th class='text-left nowrap'></th>
         </tr>
         </thead>
         <tbody>
         {foreach $list as $key=>$vo}
         <tr>
-            <td class='list-table-check-td'>
-                <input data-auto-none class="list-check-box" value='{$vo.id}' type='checkbox'>
-            </td>
             <td class='text-left nowrap'>
                 <div class="inline-block text-top margin-right-5">
                     <img style="width:60px;height:60px" data-tips-text="微信头像" data-tips-image src="{$vo.head_img|default=''}">
