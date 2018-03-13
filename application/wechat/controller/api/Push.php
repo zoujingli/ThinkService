@@ -21,6 +21,7 @@ use service\WechatService;
 use think\Controller;
 use think\Db;
 use think\Exception;
+use think\Log;
 use WeChat\Oauth;
 
 /**
@@ -34,7 +35,7 @@ class Push extends Controller
 
     /**
      * 微信API推送事件处理
-     * @param string $appid 授权公众号Appid
+     * @param string $appid
      * @return string
      * @throws Exception
      * @throws \WeChat\Exceptions\InvalidDecryptException
@@ -43,7 +44,6 @@ class Push extends Controller
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
-     * @throws \think\exception\PDOException
      */
     public function notify($appid)
     {
@@ -70,7 +70,7 @@ class Push extends Controller
         if (!($data = $server->getComonentTicket())) {
             return "Ticket event handling failed.";
         }
-        # 接收取消授权服务事件 
+        # 接收取消授权服务事件
         if ($data['InfoType'] === 'unauthorized' && !empty($data['AuthorizerAppid'])) {
             $where = ['authorizer_appid' => $data['AuthorizerAppid']];
             Db::name('WechatConfig')->where($where)->update(['status' => '0']);
@@ -80,25 +80,32 @@ class Push extends Controller
 
     /**
      * 网页授权
-     * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function oauth()
     {
-        list($mode, $appid, $enurl) = [$this->request->get('mode'), $this->request->get('state'), $this->request->get('enurl')];
+        list($mode, $appid, $enurl, $sessid) = [
+            $this->request->get('mode'),
+            $this->request->get('state'),
+            $this->request->get('enurl'),
+            $this->request->get('sessid'),
+        ];
         $service = WechatService::instance('service');
         $result = $service->getOauthAccessToken($appid);
         if (empty($result['openid'])) {
             throw new Exception('网页授权失败, 无法进一步操作！');
         }
-        session("{$appid}_openid", $result['openid']);
+        cache("{$appid}_{$sessid}_openid", $result['openid']);
         if (!empty($mode)) {
             $wechat = new Oauth($service->getConfig($appid));
             $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
             if (empty($fans)) {
                 throw new Exception('网页授权信息获取失败, 无法进一步操作！');
             }
-            session("{$appid}_fansinfo", $fans);
+            cache("{$appid}_{$sessid}_fans", $fans);
         }
         redirect(decode($enurl), [], 301)->send();
     }
@@ -107,10 +114,12 @@ class Push extends Controller
      * 跳转到微信服务授权页面
      * @param string $redirect
      * @return string
+     * @throws Exception
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
-     * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function auth($redirect = '')
     {
@@ -124,7 +133,7 @@ class Push extends Controller
             return $this->applyAuth($service, $fromRedirect);
         }
         # 生成微信授权链接，使用刷新跳转到授权网页
-        $url = url("@wechat/api.push/auth/redirect/{$redirect}", false, true, true);
+        $url = url("@wechat/api.push/auth/{$redirect}", false, true, true);
         if (($redirect = $service->getAuthRedirect($url))) {
             ob_clean();
             header("Refresh:0;url={$redirect}");
@@ -169,10 +178,14 @@ class Push extends Controller
         // 微信认证: -1 代表未认证, 0 代表微信认证
         $info['verify_type'] = intval($info['verify_type_info']) !== 0 ? -1 : 0;
         unset($info['signature']);
+        // 微信接口APPKEY处理与更新
+        $conf = Db::name('WechatConfig')->where('authorizer_appid', $result['authorizer_appid'])->find();
+        $info['appkey'] = empty($conf['appkey']) ? md5(uniqid('', true)) : $conf['appkey'];
         DataService::save('WechatConfig', $info, 'authorizer_appid');
         // 带上appid与appkey跳转到应用
         $split = stripos($redirect, '?') > 0 ? '&' : '?';
-        $realurl = preg_replace(['/appid=\w+/i', '/(\?\&)$/i'], '', $redirect);
-        return redirect("{$realurl}{$split}appid={$info['authorizer_appid']}");
+        $realurl = preg_replace(['/appid=\w+/i', '/appkey=\w+/i', '/(\?\&)$/i'], ['', '', ''], $redirect);
+        return redirect("{$realurl}{$split}appid={$info['authorizer_appid']}&appkey={$info['appkey']}");
     }
+
 }

@@ -39,11 +39,7 @@ class ReceiveService
      */
     public static function handler($appid)
     {
-        $wechat = WechatService::instance('Receive', $appid);
-        if ($wechat->valid() === false) {
-            Log::error(($err = "微信被动接口验证失败, {$wechat->errMsg}[{$wechat->errCode}]"));
-            return $err;
-        }
+        $service = WechatService::instance('Receive', $appid);
         // 验证微信配置信息
         $config = Db::name('WechatConfig')->where(['authorizer_appid' => $appid])->find();
         if (empty($config) || empty($config['appuri'])) {
@@ -51,9 +47,9 @@ class ReceiveService
             return $err;
         }
         try {
-            list($data, $openid) = [$wechat->getRev()->getRevData(), $wechat->getRev()->getRevFrom()];
+            list($data, $openid) = [$service->getReceive(), $service->getOpenid()];
             (isset($data['EventKey']) && is_object($data['EventKey'])) && $data['EventKey'] = (array)$data['EventKey'];
-            HttpService::post($config['appuri'], ['appid' => $appid, 'event' => serialize($data), 'openid' => $openid], ['timeout' => 1]);
+            HttpService::post($config['appuri'], ['appid' => $appid, 'receive' => serialize($data), 'openid' => $openid], ['timeout' => 1]);
         } catch (\Exception $e) {
             Log::error("微信{$appid}接口调用异常，" . $e->getMessage());
         }

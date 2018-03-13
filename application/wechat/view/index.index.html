@@ -1,9 +1,13 @@
-{extend name="admin@public/content"}
+{extend name='extra@admin/content'}
 
 {block name="button"}
-<!--{if auth("$classuri/del")}-->
-<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>删除公众号</button>
-<!--{/if}-->
+<div class="nowrap pull-right margin-top-10">
+    {if auth("$classuri/del")}
+    <button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>
+        <i class='fa fa-remove'></i> 删除微信
+    </button>
+    {/if}
+</div>
 {/block}
 
 {block name="content"}
@@ -19,9 +23,9 @@
     </div>
 
     <div class="layui-form-item layui-inline">
-        <label class="layui-form-label">公众号名称</label>
+        <label class="layui-form-label">微信名称</label>
         <div class="layui-input-inline">
-            <input name="nick_name" value="{$Think.get.nick_name|default=''}" placeholder="请输入公众号名称" class="layui-input">
+            <input name="nick_name" value="{$Think.get.nick_name|default=''}" placeholder="请输入微信名称" class="layui-input">
         </div>
     </div>
 
@@ -51,22 +55,19 @@
 <!-- 表单搜索 结束 -->
 
 <form onsubmit="return false;" data-auto="true" method="post">
-    <!--{empty name='list'}-->
-    <p class="help-block text-center well">没 有 记 录 哦！</p>
-    <!--{else}-->
     <input type="hidden" value="resort" name="action">
-    <table class="layui-table" lay-skin="line">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th class='list-table-check-td'>
                 <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
             </th>
-            <th class='text-center nowrap' style="width:80px">授权测试</th>
-            <th class='text-left nowrap' style="width:280px">公众号AppID / 公众号状态</th>
-            <th class='text-left nowrap'>公众号名称 / 注册公司</th>
-            <th class='text-left nowrap'>绑定状态</th>
+            <th class='text-left nowrap' style="width:390px">微信AppID / 接口调用次数 / 接口服务密钥</th>
+            <th class='text-left nowrap' style="width:150px">微信类型 / 认证状态</th>
+            <th class='text-left nowrap' style="width:120px">微信名称 / 注册公司</th>
+            <th class='text-left nowrap'>接口信息</th>
             <th class='text-left nowrap'>授权时间</th>
-            <th class='text-left nowrap'></th>
+            <th class='text-left nowrap'>操作</th>
         </tr>
         </thead>
         <tbody>
@@ -75,38 +76,36 @@
             <td class='list-table-check-td'>
                 <input data-auto-none class="list-check-box" value='{$vo.id}' type='checkbox'>
             </td>
-            <td class="text-center">
-                <img style="width:40px;height:40px" data-tips-text="网页授权测试" data-tips-image src="{:url('@wechat/api.test/qrc/appid/'.$vo.authorizer_appid)}">
-            </td>
             <td class='text-left nowrap'>
                 <div class="inline-block text-top margin-right-5">
-                    <img style="width:40px;height:40px" data-tips-text="公众号头像" data-tips-image src="{$vo.head_img|default=''}">
+                    <img style="width:34px;height:34px" data-tips-text="微信头像" data-tips-image src="{$vo.head_img|default=''}">
                 </div>
                 <div class="inline-block">
-                    AppId：{$vo.authorizer_appid}
+                    微信AppID：{$vo.authorizer_appid}&nbsp;&nbsp;&nbsp;&nbsp;调用次数：{$vo.total}
                     <br>
-                    Status：{$vo.service_type_info == 2 ? '服务号' : '订阅号'} /
-                    {$vo.verify_type_info == -1 ? '未认证' : '<span class="color-green">已认证</span>'}
+                    接口服务密钥：{$vo.appkey}
                 </div>
             </td>
             <td class='text-left nowrap'>
+                {$vo.service_type_info == 2 ? '服务号' : '订阅号'} /
+                {$vo.verify_type_info == -1 ? '未认证' : '<span class="color-green">已认证</span>'}
+            </td>
+            <td class='text-left nowrap'>
                 <div class="inline-block text-top margin-right-5">
-                    <img style="width:40px;height:40px" data-tips-text="公众号二维码" data-tips-image src="{$vo.qrcode_url|local_image}">
+                    <img style="width:34px;height:34px" data-tips-text="微信二维码" data-tips-image src="{$vo.qrcode_url|local_image}">
                 </div>
                 <div class="inline-block">
                     {$vo.nick_name}<br>
                     {$vo.principal_name}
                 </div>
             </td>
+
             <td class='text-left nowrap'>
-                {empty name='vo.status'}
-                <span class="color-desc">未绑定</span>
-                {else}
-                <span class="color-green">已绑定</span>
-                {/empty}
+                接口：{$vo.appuri}<br>
+                状态：{if $vo.status eq 0}<span>已禁用</span>{elseif $vo.status eq 1}<span class="color-green">使用中</span>{/if}
             </td>
             <td class="text-left nowrap">
-                {$vo.create_at|format_datetime|str_replace=' ','<br>',###|raw}
+                {$vo.create_at|format_datetime|str_replace=' ','<br>',###}
             </td>
             <td class='text-left nowrap'>
 
@@ -128,7 +127,6 @@
         {/foreach}
         </tbody>
     </table>
-    {if isset($page)}<p>{$page|raw}</p>{/if}
-    <!--{/empty}-->
+    {if isset($page)}<p>{$page}</p>{/if}
 </form>
 {/block}
