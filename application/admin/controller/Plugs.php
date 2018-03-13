@@ -51,22 +51,23 @@ class Plugs extends BasicAdmin
      * @return \think\response\Json
      * @throws \think\Exception
      * @throws \think\exception\PDOException
+     * @throws \OSS\Core\OssException
      */
     public function upload()
     {
         $file = $this->request->file('file');
-        $ext = strtolower(pathinfo($file->getInfo('name'), 4));
-        $md5 = str_split($this->request->post('md5'), 16);
-        $filename = join('/', $md5) . ".{$ext}";
-        if (!in_array($ext, explode(',', strtolower(sysconf('storage_local_exts'))))) {
+        if (!$file->checkExt(strtolower(sysconf('storage_local_exts')))) {
             return json(['code' => 'ERROR', 'msg' => '文件上传类型受限']);
         }
+        $ext = strtolower(pathinfo($file->getInfo('name'), 4));
+        $names = str_split($this->request->post('md5'), 16);
+        $filename = "{$names[0]}/{$names[1]}.{$ext}";
         // 文件上传Token验证
         if ($this->request->post('token') !== md5($filename . session_id())) {
             return json(['code' => 'ERROR', 'msg' => '文件上传验证失败']);
         }
         // 文件上传处理
-        if (($info = $file->move('static' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $md5[0], $md5[1], true))) {
+        if (($info = $file->move("static/upload/{$names[0]}", "{$names[1]}.{$ext}", true))) {
             if (($site_url = FileService::getFileUrl($filename, 'local'))) {
                 return json(['data' => ['site_url' => $site_url], 'code' => 'SUCCESS', 'msg' => '文件上传成功']);
             }
@@ -76,11 +77,14 @@ class Plugs extends BasicAdmin
 
     /**
      * 文件状态检查
+     * @throws \OSS\Core\OssException
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function upstate()
     {
         $post = $this->request->post();
-        $filename = join('/', str_split($post['md5'], 16)) . '.' . pathinfo($post['filename'], 4);
+        $filename = join('/', str_split($post['md5'], 16)) . '.' . strtolower(pathinfo($post['filename'], 4));
         // 检查文件是否已上传
         if (($site_url = FileService::getFileUrl($filename))) {
             $this->result(['site_url' => $site_url], 'IS_FOUND');
@@ -88,13 +92,13 @@ class Plugs extends BasicAdmin
         // 需要上传文件，生成上传配置参数
         $config = ['uptype' => $post['uptype'], 'file_url' => $filename];
         switch (strtolower($post['uptype'])) {
-            case 'qiniu':
-                $config['server'] = FileService::getUploadQiniuUrl(true);
-                $config['token'] = $this->_getQiniuToken($filename);
-                break;
             case 'local':
                 $config['server'] = FileService::getUploadLocalUrl();
                 $config['token'] = md5($filename . session_id());
+                break;
+            case 'qiniu':
+                $config['server'] = FileService::getUploadQiniuUrl(true);
+                $config['token'] = $this->_getQiniuToken($filename);
                 break;
             case 'oss':
                 $time = time() + 3600;
@@ -102,8 +106,8 @@ class Plugs extends BasicAdmin
                     'expiration' => date('Y-m-d', $time) . 'T' . date('H:i:s', $time) . '.000Z',
                     'conditions' => [['content-length-range', 0, 1048576000]],
                 ];
-                $config['policy'] = base64_encode(json_encode($policyText));
                 $config['server'] = FileService::getUploadOssUrl();
+                $config['policy'] = base64_encode(json_encode($policyText));
                 $config['site_url'] = FileService::getBaseUriOss() . $filename;
                 $config['signature'] = base64_encode(hash_hmac('sha1', $config['policy'], sysconf('storage_oss_secret'), true));
                 $config['OSSAccessKeyId'] = sysconf('storage_oss_keyid');
@@ -120,10 +124,10 @@ class Plugs extends BasicAdmin
      */
     protected function _getQiniuToken($key)
     {
+        $baseUrl = FileService::getBaseUriQiniu();
         $bucket = sysconf('storage_qiniu_bucket');
         $accessKey = sysconf('storage_qiniu_access_key');
         $secretKey = sysconf('storage_qiniu_secret_key');
-        $baseUrl = FileService::getBaseUriQiniu();
         $params = [
             "scope"      => "{$bucket}:{$key}", "deadline" => 3600 + time(),
             "returnBody" => "{\"data\":{\"site_url\":\"{$baseUrl}/$(key)\",\"file_url\":\"$(key)\"}, \"code\": \"SUCCESS\"}",

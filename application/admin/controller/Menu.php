@@ -124,8 +124,11 @@ class Menu extends BasicAdmin
                     unset($nodes[$key]);
                 }
             }
-            $this->assign('nodes', array_column($nodes, 'node'));
-            $this->assign('menus', $menus);
+            // 设置上级菜单
+            if (!isset($vo['pid']) && $this->request->get('pid', '0')) {
+                $vo['pid'] = $this->request->get('pid', '0');
+            }
+            $this->assign(['nodes' => array_column($nodes, 'node'), 'menus' => $menus]);
         }
     }
 

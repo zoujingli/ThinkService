@@ -54,6 +54,9 @@ class LogService
             'content'  => $content,
         ];
         return self::db()->insert($data) !== false;
+
+
+
     }
 
 }

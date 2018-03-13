@@ -39,6 +39,8 @@ require.config({
         'bootstrap': ['plugs/bootstrap/js/bootstrap.min'],
         'bootstrap.typeahead': ['plugs/bootstrap/js/bootstrap3-typeahead.min'],
         'bootstrap.multiselect': ['plugs/bootstrap-multiselect/bootstrap-multiselect'],
+        // distpicker
+        'distpicker': ['plugs/distpicker/distpicker'],
     },
     shim: {
         // open-source
@@ -48,6 +50,7 @@ require.config({
         // bootstrap
         'bootstrap.typeahead': {deps: ['bootstrap']},
         'bootstrap.multiselect': {deps: ['bootstrap', 'css!' + baseRoot + 'plugs/bootstrap-multiselect/bootstrap-multiselect.css']},
+        'distpicker': {deps: [baseRoot + 'plugs/distpicker/distpicker.data.js']},
     },
     deps: ['json', 'bootstrap'],
     // 开启debug模式，不缓存资源

@@ -20,9 +20,9 @@ return [
     // 数据库名
     'database'        => 'service',
     // 用户名
-    'username'        => 'service',
+    'username'        => 'root',
     // 密码
-    'password'        => 'service',
+    'password'        => 'Test12345',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

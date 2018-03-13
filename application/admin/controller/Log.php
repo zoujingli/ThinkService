@@ -86,8 +86,9 @@ class Log extends BasicAdmin
     public function sms()
     {
         // 日志数据库对象
-        list($this->title, $get) = ['短信发送日志', $this->request->get()];
-        $db = Db::name('MemberSmsHistory')->order('id desc');
+        $this->title = '短信发送日志';
+        $get = $this->request->get();
+        $db = Db::name('MemberSmsHistory');
         foreach (['phone', 'content', 'result'] as $key) {
             (isset($get[$key]) && $get[$key] !== '') && $db->whereLike($key, "%{$get[$key]}%");
         }
@@ -95,7 +96,7 @@ class Log extends BasicAdmin
             list($start, $end) = explode(' - ', $get['date']);
             $db->whereBetween('create_at', ["{$start} 00:00:00", "{$end} 23:59:59"]);
         }
-        return parent::_list($db);
+        return parent::_list($db->order('id desc'));
     }
 
     /**

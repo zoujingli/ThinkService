@@ -86,17 +86,17 @@ class Auth extends BasicAdmin
 
     /**
      * 保存授权节点
-     * @param int $auth_id
+     * @param string $auth
      * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
-    protected function _apply_save($auth_id)
+    protected function _apply_save($auth)
     {
         list($data, $post) = [[], $this->request->post()];
         foreach (isset($post['nodes']) ? $post['nodes'] : [] as $node) {
-            $data[] = ['auth' => $auth_id, 'node' => $node];
+            $data[] = ['auth' => $auth, 'node' => $node];
         }
-        Db::name('SystemAuthNode')->where(['auth' => $auth_id])->delete();
+        Db::name('SystemAuthNode')->where(['auth' => $auth])->delete();
         Db::name('SystemAuthNode')->insertAll($data);
         $this->success('节点授权更新成功！', '');
     }

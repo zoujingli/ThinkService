@@ -56,54 +56,55 @@ $(function () {
     $.msg = new function () {
         var self = this;
         this.shade = [0.02, '#000'];
+        this.dialogIndexs = [];
         // 关闭消息框
-        this.close = function () {
-            return layer.close(this.index);
+        this.close = function (index) {
+            return layer.close(index);
         };
         // 弹出警告消息框
         this.alert = function (msg, callback) {
-            return this.index = layer.alert(msg, {end: callback, scrollbar: false});
+            var index = layer.alert(msg, {end: callback, scrollbar: false});
+            return this.dialogIndexs.push(index), index;
         };
         // 确认对话框
         this.confirm = function (msg, ok, no) {
-            return this.index = layer.confirm(msg, {btn: ['确认', '取消']}, function () {
+            var index = layer.confirm(msg, {title: '操作确认', btn: ['确认', '取消']}, function () {
                 typeof ok === 'function' && ok.call(this);
-                self.close();
             }, function () {
                 typeof no === 'function' && no.call(this);
-                self.close();
+                self.close(index);
             });
+            return index;
         };
         // 显示成功类型的消息
         this.success = function (msg, time, callback) {
-            return this.index = layer.msg(msg, {icon: 1, shade: this.shade, scrollbar: false, end: callback, time: (time || 2) * 1000, shadeClose: true});
+            var index = layer.msg(msg, {icon: 1, shade: this.shade, scrollbar: false, end: callback, time: (time || 2) * 1000, shadeClose: true});
+            return this.dialogIndexs.push(index), index;
         };
         // 显示失败类型的消息
         this.error = function (msg, time, callback) {
-            return this.index = layer.msg(msg, {icon: 2, shade: this.shade, scrollbar: false, time: (time || 3) * 1000, end: callback, shadeClose: true});
+            var index = layer.msg(msg, {icon: 2, shade: this.shade, scrollbar: false, time: (time || 3) * 1000, end: callback, shadeClose: true});
+            return this.dialogIndexs.push(index), index;
         };
         // 状态消息提示
         this.tips = function (msg, time, callback) {
-            return this.index = layer.msg(msg, {time: (time || 3) * 1000, shade: this.shade, end: callback, shadeClose: true});
+            var index = layer.msg(msg, {time: (time || 3) * 1000, shade: this.shade, end: callback, shadeClose: true});
+            return this.dialogIndexs.push(index), index;
         };
         // 显示正在加载中的提示
         this.loading = function (msg, callback) {
-            return this.index = msg ? layer.msg(msg, {icon: 16, scrollbar: false, shade: this.shade, time: 0, end: callback}) : layer.load(2, {time: 0, scrollbar: false, shade: this.shade, end: callback});
+            var index = msg ? layer.msg(msg, {icon: 16, scrollbar: false, shade: this.shade, time: 0, end: callback}) : layer.load(2, {time: 0, scrollbar: false, shade: this.shade, end: callback});
+            return this.dialogIndexs.push(index), index;
         };
-        this.successNeedCloseLayerIndex = [];
         // 自动处理显示Think返回的Json数据
         this.auto = function (data, time) {
-            if (parseInt(data.code) === 1) {
-                return self.success(data.msg, time, function () {
-                    !!data.url ? (window.location.href = data.url) : $.form.reload();
-                    self.close();
-                    for (var i in self.successNeedCloseLayerIndex) {
-                        layer.close(self.successNeedCloseLayerIndex[i]);
-                    }
-                    self.successNeedCloseLayerIndex = [];
-                });
-            }
-            return self.error(data.msg, 3, function () {
+            return (parseInt(data.code) === 1) ? self.success(data.msg, time, function () {
+                !!data.url ? (window.location.href = data.url) : $.form.reload();
+                for (var i in self.dialogIndexs) {
+                    layer.close(self.dialogIndexs[i]);
+                }
+                self.dialogIndexs = [];
+            }) : self.error(data.msg, 3, function () {
                 !!data.url && (window.location.href = data.url);
             });
         };
@@ -197,19 +198,65 @@ $(function () {
                     type: 1, btn: false, area: "800px", content: res, title: title || '', success: function (dom, index) {
                         $(dom).find('[data-close]').off('click').on('click', function () {
                             if ($(this).attr('data-confirm')) {
-                                return $.msg.confirm($(this).attr('data-confirm'), function () {
-                                    layer.close(index);
+                                var confirmIndex = $.msg.confirm($(this).attr('data-confirm'), function () {
+                                    layer.close(confirmIndex), layer.close(index);
                                 });
+                                return false;
                             }
                             layer.close(index);
                         });
                         $.form.reInit($(dom));
                     }
                 });
-                $.msg.successNeedCloseLayerIndex.push(layerIndex);
+                $.msg.dialogIndexs.push(layerIndex);
                 return (typeof callback === 'function') && callback.call(this);
             }, loading, tips);
         };
+    };
+
+    // 上传单个图片
+    $.fn.uploadOneImage = function () {
+        var name = $(this).attr('name') || 'image';
+        var type = $(this).data('type') || 'png,jpg';
+        var $tpl = $('<a data-file="one" data-field="' + name + '" data-type="' + type + '" class="uploadimage"></a>');
+        $(this).hide().attr('name', name).after($tpl).on('change', function () {
+            $tpl.get(0).style = this.value ? 'background-image:url(' + this.value + ')' : '';
+        }).trigger('change');
+    };
+
+    // 上传多个图片
+    $.fn.uploadMultipleImage = function () {
+        var type = $(this).data('type') || 'png,jpg';
+        var name = $(this).attr('name') || 'umt-image';
+        var $tpl = $('<a data-file="mut" data-field="' + name + '" data-type="' + type + '" class="uploadimage"></a>');
+        $(this).hide().attr('name', name).after($tpl).on('change', function () {
+            var input = this, values = [], srcs = this.value.split('|');
+            $(this).prevAll('.uploadimage').map(function () {
+                values.push($(this).attr('data-tips-image'));
+            }), $(this).prevAll('.uploadimage').remove(), values.reverse();
+            for (var i in srcs) {
+                srcs[i] && values.push(srcs[i]);
+            }
+            this.value = values.join('|');
+            for (var i in values) {
+                var tpl = '<div class="uploadimage uploadimagemtl"><a class="layui-icon">&#x1006;</a></div>';
+                var $tpl = $(tpl).attr('data-tips-image', values[i]).css('backgroundImage', 'url(' + values[i] + ')');
+                $tpl.data('input', input).data('srcs', values).data('index', i);
+                $tpl.on('click', 'a', function (e) {
+                    e.stopPropagation();
+                    var $cur = $(this).parent();
+                    var dialogIndex = $.msg.confirm('确定要移除这张图片吗？', function () {
+                        var data = $cur.data('srcs'), tmp = [];
+                        for (var i in data) {
+                            i !== $cur.data('index') && tmp.push(data[i]);
+                        }
+                        $cur.data('input').value = tmp.join('|');
+                        $cur.remove(), $.msg.close(dialogIndex);
+                    });
+                })
+                $(this).before($tpl);
+            }
+        }).trigger('change');
     };
 
     // 注册对象到JqFn

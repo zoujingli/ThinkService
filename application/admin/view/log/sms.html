@@ -3,7 +3,7 @@
 {block name="content"}
 
 <!-- 表单搜索 开始 -->
-<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
     <div class="layui-form-item layui-inline">
         <label class="layui-form-label">手机号码</label>
         <div class="layui-input-inline">
@@ -41,7 +41,7 @@
 
 <form onsubmit="return false;" data-auto="true" method="post">
     <input type="hidden" value="resort" name="action"/>
-    <table class="layui-table" lay-skin="line" lay-size="sm">
+    <table class="layui-table" lay-skin="line">
         <thead>
         <tr>
             <th class='list-table-check-td'>

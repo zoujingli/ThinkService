@@ -9,7 +9,7 @@
 {block name="content"}
 
 <!-- 表单搜索 开始 -->
-<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
 
     <div class="layui-form-item layui-inline">
         <label class="layui-form-label">操作账号</label>
@@ -60,12 +60,12 @@
 <!-- 表单搜索 结束 -->
 
 <form onsubmit="return false;" data-auto="true" method="post">
-    <input type="hidden" value="resort" name="action"/>
+    <input type="hidden" value="resort" name="action">
     <table class="layui-table" lay-skin="line">
         <thead>
         <tr>
             <th class='list-table-check-td'>
-                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'/>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
             </th>
             <th class='text-left nowrap'>操作账号</th>
             <th class='text-left nowrap'>权限节点</th>
@@ -79,7 +79,7 @@
         <!--{foreach $list as $key=>$vo}-->
         <tr>
             <td class='list-table-check-td'>
-                <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
             </td>
             <td class='text-left nowrap'>{$vo.username}</td>
             <td class='text-left nowrap'>{$vo.node}</td>
