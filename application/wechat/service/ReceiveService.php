@@ -17,7 +17,7 @@ namespace app\wechat\service;
 use service\HttpService;
 use service\WechatService;
 use think\Db;
-use think\Log;
+use think\facade\Log;
 
 /**
  * 微信推送消息处理
