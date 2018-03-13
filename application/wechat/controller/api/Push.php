@@ -171,7 +171,6 @@ class Push extends Controller
         $info['business_info'] = json_encode($info['business_info'], JSON_UNESCAPED_UNICODE);
         $info['status'] = '1';
         $info['expires_in'] = time() + 7000;
-        $info['create_by'] = session('user.id');
         // 微信类型:  0 代表订阅号, 2 代表服务号
         $info['service_type'] = intval($info['service_type_info']) === 2 ? 2 : 0;
         // 微信认证: -1 代表未认证, 0 代表微信认证
