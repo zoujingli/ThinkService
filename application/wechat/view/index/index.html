@@ -76,8 +76,8 @@
                     <img onerror="this.src='__STATIC__/theme/img/404_icon.png'" style="width:60px;height:60px" data-tips-text="微信二维码" data-tips-image src="{$vo.qrcode_url|local_image}">
                 </div>
                 <div class="inline-block">
-                    昵称：{$vo.nick_name}<br>
-                    公司：{$vo.principal_name}<br>
+                    昵称：{$vo.nick_name|default='<span class="color-desc">未获取到公众号昵称</span>'|raw}<br>
+                    公司：{$vo.principal_name|default='<span class="color-desc">未获取到公司名字</span>'|raw}<br>
                     状态：{$vo.service_type_info == 2 ? '服务号' : '订阅号'} /
                     {$vo.verify_type_info == -1 ? '未认证' : '<span class="color-green">已认证</span>'} /
                     {if $vo.status eq 0}<span>已禁用</span>{elseif $vo.status eq 1}<span class="color-green">使用中</span>{/if}
