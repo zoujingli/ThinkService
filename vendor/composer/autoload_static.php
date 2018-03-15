@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit161743c72ef6b9129f5ea7655cc6b896
+class ComposerStaticInit9e18fd8a2d07dcdc42e5cef678d039de
 {
     public static $files = array (
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
@@ -206,8 +206,11 @@ class ComposerStaticInit161743c72ef6b9129f5ea7655cc6b896
         'app\\index\\controller\\Index' => __DIR__ . '/../..' . '/application/index/controller/Index.php',
         'app\\wechat\\controller\\Config' => __DIR__ . '/../..' . '/application/wechat/controller/Config.php',
         'app\\wechat\\controller\\Index' => __DIR__ . '/../..' . '/application/wechat/controller/Index.php',
+        'app\\wechat\\controller\\api\\Client' => __DIR__ . '/../..' . '/application/wechat/controller/api/Client.php',
         'app\\wechat\\controller\\api\\Push' => __DIR__ . '/../..' . '/application/wechat/controller/api/Push.php',
-        'app\\wechat\\controller\\api\\Test' => __DIR__ . '/../..' . '/application/wechat/controller/api/Test.php',
+        'app\\wechat\\handler\\BasicHandler' => __DIR__ . '/../..' . '/application/wechat/handler/BasicHandler.php',
+        'app\\wechat\\handler\\ConfigHandler' => __DIR__ . '/../..' . '/application/wechat/handler/ConfigHandler.php',
+        'app\\wechat\\handler\\WechatHandler' => __DIR__ . '/../..' . '/application/wechat/handler/WechatHandler.php',
         'app\\wechat\\service\\PublishService' => __DIR__ . '/../..' . '/application/wechat/service/PublishService.php',
         'app\\wechat\\service\\ReceiveService' => __DIR__ . '/../..' . '/application/wechat/service/ReceiveService.php',
         'think\\captcha\\Captcha' => __DIR__ . '/..' . '/topthink/think-captcha/src/Captcha.php',
@@ -221,9 +224,9 @@ class ComposerStaticInit161743c72ef6b9129f5ea7655cc6b896
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit161743c72ef6b9129f5ea7655cc6b896::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit161743c72ef6b9129f5ea7655cc6b896::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit161743c72ef6b9129f5ea7655cc6b896::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9e18fd8a2d07dcdc42e5cef678d039de::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9e18fd8a2d07dcdc42e5cef678d039de::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit9e18fd8a2d07dcdc42e5cef678d039de::$classMap;
 
         }, null, ClassLoader::class);
     }
