@@ -56,7 +56,7 @@ class BasicHandler
     /**
      * 检查微信配置服务初始化状态
      * @return bool
-     * @throws Exception
+     * @throws \think\Exception
      */
     public function checkInit()
     {

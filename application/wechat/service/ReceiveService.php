@@ -43,8 +43,8 @@ class ReceiveService
         // 验证微信配置信息
         $config = Db::name('WechatConfig')->where(['authorizer_appid' => $appid])->find();
         if (empty($config) || empty($config['appuri'])) {
-            Log::error(($err = "微信{$appid}授权配置验证无效"));
-            return $err;
+            Log::error(($message = "微信{$appid}授权配置验证无效"));
+            return $message;
         }
         try {
             list($data, $openid) = [$service->getReceive(), $service->getOpenid()];

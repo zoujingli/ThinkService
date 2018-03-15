@@ -32,9 +32,6 @@ class WechatHandler extends BasicHandler
      * @param string $self_url 当前会话URL地址(需包含域名的完整URL地址)
      * @param int $fullMode 网页授权模式(0静默模式,1高级授权)
      * @return array|bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      * @throws \think\Exception
      */
     public function oauth($sessid, $self_url, $fullMode = 0)
@@ -79,9 +76,6 @@ class WechatHandler extends BasicHandler
      * @param null|string $name 参数名称
      * @return array|string
      * @throws \think\Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function config($name = null)
     {
@@ -95,9 +89,6 @@ class WechatHandler extends BasicHandler
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      * @throws \think\Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function jsSign($url)
     {
