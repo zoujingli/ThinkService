@@ -40,7 +40,7 @@ class WechatService
         $config = self::getConfig();
         // 注册授权公众号 AccessToken 处理
         $config['GetAccessTokenCallback'] = function ($authorizer_appid) use ($config) {
-            $where = ['authorizer_appid' => $authorizer_appid, 'stauts' => '1'];
+            $where = ['authorizer_appid' => $authorizer_appid];
             if (!($refresh_token = Db::name('WechatConfig')->where($where)->value('authorizer_refresh_token'))) {
                 throw new Exception('The WeChat information is not configured.', '404');
             }
