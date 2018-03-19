@@ -80,9 +80,6 @@ class Push extends Controller
     /**
      * 网页授权
      * @throws Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function oauth()
     {
@@ -116,9 +113,7 @@ class Push extends Controller
      * @throws Exception
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function auth($redirect = '')
     {
