@@ -78,9 +78,9 @@ class DataService
         $db = is_string($dbQuery) ? Db::name($dbQuery) : $dbQuery;
         $where[] = [$key, 'eq', isset($data[$key]) ? $data[$key] : ''];
         if (Db::name($db->getTable())->where($where)->count() > 0) {
-            return Db::name($db->getTable())->where($where)->update($data) !== false;
+            return Db::name($db->getTable())->strict(false)->where($where)->update($data) !== false;
         }
-        return Db::name($db->getTable())->insert($data) !== false;
+        return Db::name($db->getTable())->strict(false)->insert($data) !== false;
     }
 
     /**

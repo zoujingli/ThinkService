@@ -43,7 +43,7 @@ class PublishService
     public static function handler($appid)
     {
         /* 创建接口操作对象 */
-        $wechat = WechatService::instance('Receive', $appid);
+        $wechat = WechatService::receive($appid);
         /* 分别执行对应类型的操作 */
         switch (strtolower($wechat->getMsgType())) {
             case 'text':

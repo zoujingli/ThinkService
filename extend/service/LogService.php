@@ -49,14 +49,11 @@ class LogService
         $data = [
             'ip'       => $request->ip(),
             'node'     => $node,
-            'username' => session('user.username') . '',
             'action'   => $action,
             'content'  => $content,
+            'username' => session('user.username') . '',
         ];
         return self::db()->insert($data) !== false;
-
-
-
     }
 
 }

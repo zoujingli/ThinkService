@@ -36,7 +36,7 @@ class Push extends Controller
      * 微信API推送事件处理
      * @param string $appid
      * @return string
-     * @throws Exception
+     * @throws \think\Exception
      * @throws \WeChat\Exceptions\InvalidDecryptException
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -58,28 +58,30 @@ class Push extends Controller
      * 一、处理服务推送Ticket
      * 二、处理取消公众号授权
      * @return string
+     * @throws \think\Exception
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
-     * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
     public function ticket()
     {
-        $server = WechatService::instance('Service');
+        $server = WechatService::service();
         if (!($data = $server->getComonentTicket())) {
             return "Ticket event handling failed.";
         }
         # 接收取消授权服务事件
         if ($data['InfoType'] === 'unauthorized' && !empty($data['AuthorizerAppid'])) {
             $where = ['authorizer_appid' => $data['AuthorizerAppid']];
-            Db::name('WechatConfig')->where($where)->update(['status' => '0']);
+            Db::name('WechatConfig')->where($where)->update(['is_deleted' => '1']);
         }
         return 'success';
     }
 
     /**
      * 网页授权
-     * @throws Exception
+     * @throws \think\Exception
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function oauth()
     {
@@ -89,7 +91,7 @@ class Push extends Controller
             $this->request->get('enurl'),
             $this->request->get('sessid'),
         ];
-        $service = WechatService::instance('service');
+        $service = WechatService::service();
         $result = $service->getOauthAccessToken($appid);
         if (empty($result['openid'])) {
             throw new Exception('网页授权失败, 无法进一步操作！');
@@ -110,7 +112,7 @@ class Push extends Controller
      * 跳转到微信服务授权页面
      * @param string $redirect
      * @return string
-     * @throws Exception
+     * @throws \think\Exception
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      * @throws \think\exception\PDOException
@@ -122,12 +124,12 @@ class Push extends Controller
             return '请传入回跳Redirect参数 ( 请使用ENCODE加密 )';
         }
         # 预授权码不为空，则表示可以进行授权处理
-        $service = WechatService::instance('Service');
+        $service = WechatService::service();
         if (($auth_code = $this->request->get('auth_code'))) {
             return $this->applyAuth($service, $fromRedirect);
         }
         # 生成微信授权链接，使用刷新跳转到授权网页
-        $url = url("@wechat/api.push/auth/redirect/{$redirect}", false, true, true);
+        $url = url("@wechat/api.push/auth/{$redirect}", false, true, true);
         if (($redirect = $service->getAuthRedirect($url))) {
             ob_clean();
             header("Refresh:0;url={$redirect}");
@@ -165,12 +167,13 @@ class Push extends Controller
         $info['service_type_info'] = join(',', $info['service_type_info']);
         $info['business_info'] = json_encode($info['business_info'], JSON_UNESCAPED_UNICODE);
         $info['status'] = '1';
+        $info['is_deleted'] = '0';
         $info['expires_in'] = time() + 7000;
+        $info['create_at'] = date('Y-m-d H:i:s');
         // 微信类型:  0 代表订阅号, 2 代表服务号
         $info['service_type'] = intval($info['service_type_info']) === 2 ? 2 : 0;
         // 微信认证: -1 代表未认证, 0 代表微信认证
         $info['verify_type'] = intval($info['verify_type_info']) !== 0 ? -1 : 0;
-        unset($info['signature']);
         // 微信接口APPKEY处理与更新
         $conf = Db::name('WechatConfig')->where('authorizer_appid', $result['authorizer_appid'])->find();
         $info['appkey'] = empty($conf['appkey']) ? md5(uniqid('', true)) : $conf['appkey'];

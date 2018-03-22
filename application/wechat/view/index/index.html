@@ -3,7 +3,7 @@
 {block name="content"}
 
 <!-- 表单搜索 开始 -->
-<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
 
     <div class="layui-form-item layui-inline">
         <label class="layui-form-label">APPID</label>

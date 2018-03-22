@@ -36,7 +36,7 @@ class Index extends BasicAdmin
 
     /**
      * 微信基础参数配置
-     * @return array|string
+     * @return string
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -45,7 +45,8 @@ class Index extends BasicAdmin
     public function index()
     {
         $this->title = '微信授权管理';
-        list($get, $db) = [$this->request->get(), Db::name($this->table)];
+        $get = $this->request->get();
+        $db = Db::name($this->table)->where(['is_deleted' => '0']);
         foreach (['authorizer_appid', 'nick_name', 'principal_name'] as $key) {
             (isset($get[$key]) && $get[$key] !== '') && $db->whereLike($key, "%{$get[$key]}%");
         }

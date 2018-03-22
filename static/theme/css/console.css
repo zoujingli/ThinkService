@@ -12,7 +12,7 @@
 // | github开源项目：https://github.com/zoujingli/ThinkService
 // +--------------------------------------------------------------------*/
 
-html{overflow:auto}body{width:100%;font-size:13px;font-family:'微软雅黑','Microsoft YaHei','Helvetica Neue','Luxi Sans','DejaVu Sans','Hiragino Sans GB',serif}
+html{overflow:auto}body{width:100%;font-size:12px;font-family:'微软雅黑','Microsoft YaHei','Helvetica Neue','Luxi Sans','DejaVu Sans','Hiragino Sans GB',serif}
 a{color:#06C;cursor:pointer}a:hover{color:#039}input::-ms-clear{display:none}button{border-radius:0!important}
 .text-left{text-align:left!important}.text-right{text-align:right!important}.text-center{text-align:center!important}.text-top{vertical-align:top!important}
 .color-desc{color:#999!important}.color-text{color:#333!important}.color-blue{color:#2494f2!important}.color-red{color:#ec494e!important}.color-green{color:#090!important}
@@ -44,6 +44,7 @@ a{color:#06C;cursor:pointer}a:hover{color:#039}input::-ms-clear{display:none}but
 
 /** 页面加载进度 */
 .pace-inactive{display:none}
+.modal-form-box{padding:30px 60px 15px 0}
 .pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}
 .pace .pace-progress{background:#22df80;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}
 .uploadimage{display:inline-block;width:80px;height:80px;background: url('../img/image.png') no-repeat center center;background-size:cover;cursor:pointer}
@@ -68,14 +69,14 @@ legend{width:auto!important;border-bottom:none!important}
 .layui-form-label{padding:9px 15px 9px 0;width:95px}
 .layui-input,.layui-select{line-height:38px}
 .layui-table.notevent tbody tr:hover {background-color: inherit;}
-.layui-table th,.layui-table td{font-size:13px}
+.layui-table th,.layui-table td{font-size:12px}
 .layui-table td .text-explode:first-child{opacity:0;display:none}
 .layui-table td .text-explode{color:#ccc!important;font-weight:normal!important;margin:0px 4px!important}
 .layui-table .list-table-image{width:22px;cursor:pointer}
 .layui-table .list-table-sort-td{width:60px!important;text-align:center!important}
 .layui-table .list-table-sort-td button{width:50px}
 .layui-table .list-table-sort-td input{width:50px;text-align:center;line-height:14px;padding:2px;border:1px solid #e6e6e6}
-.layui-table .list-table-check-td{width:30px!important;text-align:center;padding:0}
+.layui-table .list-table-check-td{width:30px!important;text-align:center}
 .layui-table .list-table-check-td input{margin:0;vertical-align:middle}
 
 /** checkbox 优化 */
@@ -106,8 +107,6 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 .mobile-footer .sub-menu ul li{padding:0;display:block;width:100%;float:none;z-index:11}
 .mobile-footer .sub-menu ul li a{border:1px solid #fff}
 .mobile-footer .sub-menu ul li a.bottom-border{border-bottom:1px solid #e7e7eb}
-.mobile-footer .sub-menu ul li:nth-last-child(2) a{border-bottom-color:#fff;}
-.mobile-footer .sub-menu ul li:last-child a{border-top-color:#e7e7eb}
 .mobile-footer .arrow{position:absolute;left:50%;margin-left:-6px}
 .mobile-footer .arrow_in,.mobile-footer .arrow_out{z-index:10;width:0;height:0;display:inline-block;border-width:6px;border-style:dashed;border-color:transparent;border-bottom-width:0;border-top-style:solid}
 .mobile-footer .arrow_in{bottom:-5px;border-top-color:#fafafa}.mobile-footer .arrow_out{bottom:-6px;border-top-color:#d0d0d0}
@@ -154,7 +153,7 @@ input[type=checkbox]:focus,input[type=radio]:focus{outline:none}
 
 /* 右则内容搜索样式 */
 .framework-body .form-search{background:#fff;padding-top:15px}
-.framework-body .form-search .layui-btn{height:32px;line-height:30px;font-size:13px;padding:0 10px}
+.framework-body .form-search .layui-btn{height:32px;line-height:30px;font-size:12px;padding:0 10px}
 .framework-body .form-search .layui-form-label{width:auto!important;border-radius:0;padding:0 6px;height:32px;line-height:30px}
 .framework-body .form-search .layui-input-inline{width:170px}
 .framework-body .form-search .layui-input-inline input,

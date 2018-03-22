@@ -17,7 +17,7 @@ namespace app\wechat\handler;
 use think\Exception;
 
 /**
- * 客户端SAOP基础接口
+ * 客户端SOAP基础接口
  * Class BasicHandler
  * @package app\wechat\handler
  * @author Anyon <zoujingli@qq.com>

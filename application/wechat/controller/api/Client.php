@@ -94,7 +94,7 @@ class Client extends Controller
 
     /**
      * 创建接口服务
-     * @param $token
+     * @param string $token
      * @return \WeChat\Oauth|\WeChat\Pay|\WeChat\Receive|\WeChat\Script|\WeChat\User|\WeOpen\Service
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException

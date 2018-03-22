@@ -72,6 +72,7 @@ class FileService
      * @param string $filename
      * @param string|null $storage
      * @return bool|string
+     * @throws OssException
      * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
@@ -204,10 +205,8 @@ class FileService
      */
     public static function getFileName($local_url, $ext = '', $pre = '')
     {
-        if (empty($ext)) {
-            $ext = strtolower(pathinfo($local_url, 4));
-        }
-        return $pre . join('/', str_split(md5($local_url), 16)) . '.' . $ext;
+        empty($ext) && $ext = strtolower(pathinfo($local_url, 4));
+        return $pre . join('/', str_split(md5($local_url), 16)) . '.' . ($ext ? $ext : 'tmp');
     }
 
     /**
@@ -215,6 +214,7 @@ class FileService
      * @param string $filename
      * @param string|null $storage
      * @return bool
+     * @throws OssException
      * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
@@ -290,13 +290,13 @@ class FileService
     {
         try {
             $realfile = env('root_path') . 'static/upload/' . $filename;
-            !file_exists(dirname($realfile)) && mkdir(dirname($realfile), '0755', true);
+            !file_exists(dirname($realfile)) && mkdir(dirname($realfile), 0755, true);
             if (file_put_contents($realfile, $content)) {
                 $url = pathinfo(request()->baseFile(true), PATHINFO_DIRNAME) . '/static/upload/' . $filename;
                 return ['file' => $realfile, 'hash' => md5_file($realfile), 'key' => "static/upload/{$filename}", 'url' => $url];
             }
         } catch (Exception $err) {
-            Log::error('本地文件存储失败, ' . var_export($err, true));
+            Log::error('本地文件存储失败, ' . $err->getMessage());
         }
         return null;
     }
@@ -316,7 +316,7 @@ class FileService
         $uploadMgr = new UploadManager();
         list($result, $err) = $uploadMgr->put($token, $filename, $content);
         if ($err !== null) {
-            Log::error('七牛云文件上传失败, ' . var_export($err, true));
+            Log::error('七牛云文件上传失败, ' . $err->getMessage());
             return null;
         }
         $result['file'] = $filename;
@@ -348,7 +348,7 @@ class FileService
             }
             return ['file' => $filename, 'hash' => $result['content-md5'], 'key' => $filename, 'url' => $site_url];
         } catch (OssException $err) {
-            Log::error('阿里云OSS文件上传失败, ' . var_export($err, true));
+            Log::error('阿里云OSS文件上传失败, ' . $err->getMessage());
         }
         return null;
     }
@@ -357,7 +357,7 @@ class FileService
      * 下载文件到本地
      * @param string $url 文件URL地址
      * @param bool $isForce 是否强制重新下载文件
-     * @return array|null;
+     * @return array
      */
     public static function download($url, $isForce = false)
     {
@@ -369,9 +369,9 @@ class FileService
             }
             return self::local($filename, file_get_contents($url));
         } catch (\Exception $e) {
-            Log::error("FileService 文件下载失败 [ {$url} ] . {$e->getMessage()}");
+            Log::error("FileService 文件下载失败 [ {$url} ] " . $e->getMessage());
         }
-        return null;
+        return ['url' => $url];
     }
 
 }

@@ -80,7 +80,7 @@ class NodeService
         if (!in_array($currentNode, self::getAuthNode())) {
             return true;
         }
-        return in_array($currentNode, (array) session('user.nodes'));
+        return in_array($currentNode, (array)session('user.nodes'));
     }
 
     /**
@@ -91,7 +91,7 @@ class NodeService
     public static function get($nodes = [])
     {
         $alias = Db::name('SystemNode')->column('node,is_menu,is_auth,is_login,title');
-        $ignore = ['index', 'wechat/api', 'wechat/review', 'admin/plugs', 'admin/login', 'admin/index'];
+        $ignore = ['index', 'wechat/review', 'admin/plugs', 'admin/login', 'admin/index'];
         foreach (self::getNodeTree(env('app_path')) as $thr) {
             foreach ($ignore as $str) {
                 if (stripos($thr, $str) === 0) {
@@ -128,7 +128,7 @@ class NodeService
                 continue;
             }
             foreach (get_class_methods($className) as $funcName) {
-                if (strpos($funcName, '_') !== 0) {
+                if (strpos($funcName, '_') !== 0 && $funcName !== 'initialize') {
                     $nodes[] = strtolower("{$matches[1]}/{$matches[2]}/{$funcName}");
                 }
             }

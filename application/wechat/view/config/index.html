@@ -1,7 +1,7 @@
 {extend name="admin@public/content"}
 
 {block name="content"}
-<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal padding-top-20'>
+<form onsubmit="return false;" action="{:request()->url()}" data-auto="true" method="post" class='form-horizontal padding-top-20'>
 
     <div class="form-group">
         <label class="col-sm-2 control-label">授权发起页域名</label>
@@ -54,7 +54,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">微信消息与事件接收URL</label>
         <div class='col-sm-8'>
-            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.push/notify/appid/\$APPID\$','',true,true)}">
+            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.push/notify/\$APPID\$','',true,true)}">
             <p class="help-block">通过该 URL 接收微信消息和事件推送，该参数按规则填写，实际接收消息时 $APPID$ 将被替换为微信 AppId。</p>
         </div>
     </div>
@@ -64,7 +64,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label"> 客户端系统Soap接口URL</label>
         <div class='col-sm-8'>
-            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/soap/param/PARAM','',true,true)}">
+            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/soap/PARAM','',true,true)}">
             <p class="help-block">客户端系统 Soap 接口 URL，PARAM 由调用参数组成（AppName-AppId-AppKey）。</p>
         </div>
     </div>
@@ -72,7 +72,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label"> 客户端系统Yar接口URL</label>
         <div class='col-sm-8'>
-            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/yar/param/PARAM','',true,true)}">
+            <input disabled="disabled" class="layui-input layui-bg-gray" value="{:url('@wechat/api.client/yar/PARAM','',true,true)}">
             <p class="help-block">客户端系统 Yar 接口 URL，PARAM 由调用参数组成（AppName-AppId-AppKey）。</p>
         </div>
     </div>

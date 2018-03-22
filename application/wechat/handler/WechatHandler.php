@@ -68,7 +68,7 @@ class WechatHandler extends BasicHandler
      */
     public function rmFile($filename)
     {
-        return unlink(ROOT_PATH . 'static/upload/' . basename($filename)) ? 1 : 0;
+        return unlink(env('ROOT_PATH') . 'static/upload/' . basename($filename)) ? 1 : 0;
     }
 
     /**
@@ -93,7 +93,7 @@ class WechatHandler extends BasicHandler
     public function jsSign($url)
     {
         $this->checkInit();
-        $script = WechatService::instance('script', $this->appid);
+        $script = WechatService::script('script', $this->appid);
         $result = $script->getJsSign($url);
         return $result;
     }
