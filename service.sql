@@ -306,18 +306,7 @@ CREATE TABLE `system_user` (
 -- ----------------------------
 -- Records of system_user
 -- ----------------------------
-INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '22222222', '', '18993368867', '', '23180', '2018-03-22 17:38:42', '1', '2,4', '0', null, '2015-11-13 15:14:22');
-INSERT INTO `system_user` VALUES ('10001', 'abcd', '', null, '188@qq.com', '18888888888', 'sdfsaf11', '0', null, '0', null, '1', null, '2018-03-14 10:44:44');
-INSERT INTO `system_user` VALUES ('10002', 'simon', '', null, '', '', '', '0', null, '1', null, '1', null, '2018-03-16 14:58:13');
-INSERT INTO `system_user` VALUES ('10003', 'sunwongkong', '', null, '', '', '', '0', null, '1', null, '1', null, '2018-03-18 19:23:06');
-INSERT INTO `system_user` VALUES ('10004', 'admin1', 'e10adc3949ba59abbe56e057f20f883e', null, '', '', '', '1', '2018-03-19 14:00:47', '1', '3', '1', null, '2018-03-19 13:59:13');
-INSERT INTO `system_user` VALUES ('10005', 'hhhh', '', null, '53598269@QQ.com', '15801293831', 'test111', '0', null, '1', '2', '1', null, '2018-03-19 16:23:01');
-INSERT INTO `system_user` VALUES ('10006', 'WEWE', '', null, '', '18610287663', '', '0', null, '1', '2,4', '0', null, '2018-03-20 12:08:47');
-INSERT INTO `system_user` VALUES ('10007', 'jack', '', null, 'jack@163.com', '18061613111', '123123', '0', null, '1', '2', '1', null, '2018-03-20 16:21:16');
-INSERT INTO `system_user` VALUES ('10008', 'admin8', '', null, '1275934337@qq.com', '15310446577', 'dddd', '0', null, '1', '2', '1', null, '2018-03-21 10:05:09');
-INSERT INTO `system_user` VALUES ('10009', 'qqqqq', '', null, '', '', '', '0', null, '1', null, '1', null, '2018-03-21 13:11:48');
-INSERT INTO `system_user` VALUES ('10010', '1234', '', null, '', '', '', '0', null, '1', '5', '1', null, '2018-03-21 17:17:11');
-
+INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '23180', '2018-03-22 17:38:42', '1', '2,4', '0', null, '2015-11-13 15:14:22');
 -- ----------------------------
 -- Table structure for wechat_fans
 -- ----------------------------
