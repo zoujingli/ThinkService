@@ -135,7 +135,7 @@ class Client extends Controller
             $this->message = '缺少必要的参数AppId或AppKey';
             return false;
         }
-        $map = ['authorizer_appid' => $this->appid, 'status' => '1'];
+        $map = ['authorizer_appid' => $this->appid, 'status' => '1', 'is_deleted' => '0'];
         $this->config = Db::name('WechatConfig')->where($map)->find();
         if (empty($this->config)) {
             $this->message = '无效的微信绑定对象';
