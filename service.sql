@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50559
 File Encoding         : 65001
 
-Date: 2018-03-13 19:23:39
+Date: 2018-03-22 17:40:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -257,7 +257,7 @@ CREATE TABLE `system_user` (
 -- ----------------------------
 -- Records of system_user
 -- ----------------------------
-INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '22222222', '', '', '', '22306', '2018-03-13 19:11:46', '1', '1', '0', null, '2015-11-13 15:14:22');
+INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '0', '2018-03-22 17:02:43', '1', '', '0', null, '2015-11-13 15:14:22');
 
 -- ----------------------------
 -- Table structure for wechat_config
@@ -282,73 +282,33 @@ CREATE TABLE `wechat_config` (
   `business_info` varchar(255) DEFAULT NULL,
   `principal_name` varchar(255) DEFAULT NULL COMMENT '公司名称',
   `idc` tinyint(1) unsigned DEFAULT NULL,
-  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态(1正常授权,0取消授权)',
   `total` bigint(20) unsigned DEFAULT '0' COMMENT '统计调用次数',
   `appkey` char(32) DEFAULT NULL COMMENT '接口KEY',
   `appuri` varchar(255) DEFAULT NULL COMMENT '响应接口APP',
+  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态(1正常授权,0取消授权)',
+  `is_deleted` tinyint(1) unsigned DEFAULT '0' COMMENT '删除状态(0未删除,1已删除)',
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_wechat_config_authorizer_appid` (`authorizer_appid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='公众号授权参数';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='公众号授权参数';
 
 -- ----------------------------
--- Records of wechat_config
+-- Table structure for wechat_config_pay
 -- ----------------------------
-INSERT INTO `wechat_config` VALUES ('1', 'wx60a43dd8161666d4', '7_My9K6rdS9lZlQRZNT6_4lddG1KNWSFQJ5Es7iZb5JIEgbx6kf3mwJKmepw_0nvy9RJj-3gJhm6FA98XM4nny0Xojq9EXYtiaVa7Lsvf9eTRqLUxXoFiDKWt99XkCzrrCTOFvJHaWZIDX_IhFNJJgAMDUQQ', 'refreshtoken@@@LqYZOmAH-vBev3tiiTRwBBzz7KwxVLu6Ta62PLmcFGc', '1,15,4,7,2,3,11,6,5,8,13,9,10,12,22,23,26', '思过崖思过', 'http://wx.qlogo.cn/mmopen/M9DHRlKhrAFmu0ljGmbwZ78ZHlUuPp8LsRgojFl1VU7Z0SEPniczLI3U5DwhBoyauGhpfUzAeDA40rugUEfyicIx7AGCoIYOXy/0', '1520396768', '2', '2', '0', '0', 'gh_e1083c8e9ef6', 'CUCIONE', 'http://mmbiz.qpic.cn/mmbiz_jpg/nMCGwywCQYKPj7Zf9yib2VgNJPw3Q269Du8WvUbKUONMicCey7p3cHQm2OYjViccZJq6lzzwvicZsBWXNZ0ZRibE2VQ/0', '{\"open_pay\":1,\"open_shake\":1,\"open_scan\":0,\"open_card\":0,\"open_store\":1}', '广州楚才信息科技有限公司', '1', '1', '2147', '67b0056909f8ac5f42add03323d1faa0', 'http://thinkagent.data.cuci.cc/wechat/api.push.html', '2017-12-20 13:34:52');
-INSERT INTO `wechat_config` VALUES ('2', 'wx9f8095b66bc88bfb', '7_p_RmDcGDoNpAUN3qHRj3aG4GXauxxhm4sNguetuQNzpqCYXQBuPnMB7zGBOKyGhVvZN0R4OBGtt1vATXr6hKgkXYCVi54PmMna2HVgFaAWa6-r2EVRsEwO6bsjZwTY5pT9zoSWR3WtSLDzWbBKNaALDXGJ', 'refreshtoken@@@YrWo6eHsXX__IymCIQy7x8uT3fseYqvkodLoQn6rEu8', '1,15,4,7,2,3,11,6,5,8,13,9,10,12,22,23,24,26', '微商岁月', 'http://wx.qlogo.cn/mmopen/M9DHRlKhrAFmu0ljGmbwZ41I1Orsw19xKsMIJvTHic7g1tboVMHJ0Beo14o4LexNPGldXiauVb65GntXnE9e4zet02uAPobyTic/0', '1517219435', '2', '2', '0', '0', 'gh_a02cca438218', 'sancewenhua', 'http://mmbiz.qpic.cn/mmbiz_jpg/HYFianMIDA6jtibYibCxh0x8hMjWGBuBddII4NpZ7icW87bFOhofooLDnDeY85icDujrRaKicAfmvwT81dv4ZA1p8JHQ/0', '{\"open_pay\":1,\"open_shake\":0,\"open_scan\":0,\"open_card\":0,\"open_store\":0}', '义乌市三策文化传播有限公司', '1', '1', '2782', '45b328708494c468ca546288165c0352', 'http://wuma-client.data.cuci.cc/wechat/api.html', '2018-01-29 15:52:55');
-
--- ----------------------------
--- Table structure for wechat_fans
--- ----------------------------
-DROP TABLE IF EXISTS `wechat_fans`;
-CREATE TABLE `wechat_fans` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '粉丝表ID',
-  `appid` char(50) DEFAULT NULL COMMENT '公众号Appid',
-  `unionid` char(100) DEFAULT NULL COMMENT 'unionid',
-  `openid` char(100) NOT NULL DEFAULT '' COMMENT '用户的标识,对当前公众号唯一',
-  `spread_openid` char(100) DEFAULT NULL COMMENT '推荐人OPENID',
-  `tagid_list` varchar(100) DEFAULT '' COMMENT '标签id',
-  `is_black` tinyint(1) unsigned DEFAULT '0' COMMENT '是否为黑名单用户',
-  `subscribe` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '用户是否订阅该公众号,0：未关注,1：已关注',
-  `spread_at` datetime DEFAULT NULL,
-  `nickname` varchar(20) DEFAULT NULL COMMENT '用户的昵称',
-  `sex` tinyint(1) unsigned DEFAULT NULL COMMENT '用户的性别,值为1时是男性,值为2时是女性,值为0时是未知',
-  `country` varchar(50) DEFAULT NULL COMMENT '用户所在国家',
-  `province` varchar(50) DEFAULT NULL COMMENT '用户所在省份',
-  `city` varchar(50) DEFAULT NULL COMMENT '用户所在城市',
-  `language` varchar(50) DEFAULT NULL COMMENT '用户的语言,简体中文为zh_CN',
-  `headimgurl` varchar(500) DEFAULT NULL COMMENT '用户头像',
-  `subscribe_time` bigint(20) unsigned DEFAULT NULL COMMENT '用户关注时间',
-  `subscribe_at` datetime DEFAULT NULL COMMENT '关注时间',
-  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
-  `expires_in` bigint(20) unsigned DEFAULT '0' COMMENT '有效时间',
-  `refresh_token` varchar(200) DEFAULT NULL COMMENT '刷新token',
-  `access_token` varchar(200) DEFAULT NULL COMMENT '访问token',
-  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  KEY `index_wechat_fans_spread_openid` (`spread_openid`) USING BTREE,
-  KEY `index_wechat_fans_openid` (`openid`) USING BTREE,
-  KEY `index_wechat_fans_unionid` (`unionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信粉丝';
-
--- ----------------------------
--- Records of wechat_fans
--- ----------------------------
-
--- ----------------------------
--- Table structure for wechat_fans_tags
--- ----------------------------
-DROP TABLE IF EXISTS `wechat_fans_tags`;
-CREATE TABLE `wechat_fans_tags` (
-  `id` bigint(20) unsigned NOT NULL COMMENT '标签ID',
+DROP TABLE IF EXISTS `wechat_config_pay`;
+CREATE TABLE `wechat_config_pay` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `appid` char(50) DEFAULT NULL COMMENT '公众号APPID',
-  `name` varchar(35) DEFAULT NULL COMMENT '标签名称',
-  `count` int(11) unsigned DEFAULT NULL COMMENT '总数',
-  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
-  KEY `index_wechat_fans_tags_id` (`id`) USING BTREE,
-  KEY `index_wechat_fans_tags_appid` (`appid`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信会员标签';
+  `mch_id` varchar(100) DEFAULT NULL COMMENT '商户身份标识',
+  `partnerkey` varchar(100) DEFAULT NULL COMMENT '商户权限密钥',
+  `ssl_cer` varchar(500) DEFAULT NULL COMMENT '商户证书CER',
+  `ssl_key` varchar(500) DEFAULT NULL COMMENT '商户证书KEY',
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_wechat_config_pay_appid` (`appid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
--- Records of wechat_fans_tags
+-- Records of wechat_config_pay
 -- ----------------------------
