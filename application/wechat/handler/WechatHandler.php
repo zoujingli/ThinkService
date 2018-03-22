@@ -75,11 +75,10 @@ class WechatHandler extends BasicHandler
      * 获取公众号的配置参数
      * @param null|string $name 参数名称
      * @return array|string
-     * @throws \think\Exception
      */
     public function config($name = null)
     {
-        return WechatService::instance('script', $this->appid)->config->get($name);
+        return WechatService::script($this->appid)->config->get($name);
     }
 
     /**
@@ -93,7 +92,7 @@ class WechatHandler extends BasicHandler
     public function jsSign($url)
     {
         $this->checkInit();
-        $script = WechatService::script('script', $this->appid);
+        $script = WechatService::script($this->appid);
         $result = $script->getJsSign($url);
         return $result;
     }
