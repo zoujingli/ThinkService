@@ -329,16 +329,16 @@
         },
         {
             "name": "zoujingli/wechat-developer",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zoujingli/WeChatDeveloper.git",
-                "reference": "3414f6e6219f0110fe38edeeec8ae4a240ff8fd5"
+                "reference": "f9cad0f2221bec529c8908175e93d2891377d6d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/zoujingli/WeChatDeveloper/3414f6e6219f0110fe38edeeec8ae4a240ff8fd5.zip",
-                "reference": "3414f6e6219f0110fe38edeeec8ae4a240ff8fd5",
+                "url": "https://files.phpcomposer.com/files/zoujingli/WeChatDeveloper/f9cad0f2221bec529c8908175e93d2891377d6d3.zip",
+                "reference": "f9cad0f2221bec529c8908175e93d2891377d6d3",
                 "shasum": ""
             },
             "require": {
@@ -370,7 +370,7 @@
                 "wechat",
                 "wechatpay"
             ],
-            "time": "2018-03-07T09:42:18+00:00"
+            "time": "2018-03-26T02:31:05+00:00"
         },
         {
             "name": "zoujingli/weopen-developer",
