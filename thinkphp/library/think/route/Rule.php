@@ -98,6 +98,16 @@ abstract class Rule
     }
 
     /**
+     * 获取Parent对象
+     * @access public
+     * @return $this|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
      * 获取变量规则定义
      * @access public
      * @param  string  $name 变量名
@@ -635,9 +645,7 @@ abstract class Rule
     {
         // 添加中间件
         if (!empty($option['middleware'])) {
-            foreach ($option['middleware'] as $middleware) {
-                Container::get('middleware')->add($middleware);
-            }
+            Container::get('middleware')->import($option['middleware']);
         }
 
         // 绑定模型数据
@@ -856,7 +864,7 @@ abstract class Rule
         $request->route($var);
 
         // 路由到模块/控制器/操作
-        return (new ModuleDispatch([$module, $controller, $action]))->convert(false);
+        return new ModuleDispatch([$module, $controller, $action], [], false);
     }
 
     /**
@@ -977,12 +985,21 @@ abstract class Rule
         }
 
         // 是否区分 / 地址访问
-        if (!empty($option['remove_slash']) && '/' != $rule) {
-            $rule = rtrim($rule, '/');
+        if ('/' != $rule) {
+            if (!empty($option['remove_slash'])) {
+                $rule = rtrim($rule, '/');
+            } elseif (substr($rule, -1) == '/') {
+                $rule     = rtrim($rule, '/');
+                $hasSlash = true;
+            }
         }
 
         $regex = str_replace($match, $replace, $rule);
         $regex = str_replace([')?/', ')/', ')?-', ')-', '\\\\/'], [')\/', ')\/', ')\-', ')\-', '\/'], $regex);
+
+        if (isset($hasSlash)) {
+            $regex .= '\/';
+        }
 
         return $regex . ($completeMatch ? '$' : '');
     }

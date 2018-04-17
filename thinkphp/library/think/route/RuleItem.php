@@ -140,6 +140,20 @@ class RuleItem extends Rule
     }
 
     /**
+     * 设置别名
+     * @access public
+     * @param  string     $name
+     * @return $this
+     */
+    public function name($name)
+    {
+        $this->name = $name;
+        $this->setRuleName(true);
+
+        return $this;
+    }
+
+    /**
      * 设置路由标识 用于URL反解生成
      * @access protected
      * @param  bool     $first   是否插入开头
@@ -295,7 +309,7 @@ class RuleItem extends Rule
             $regex = $this->buildRuleRegex($rule, $matches[0], $pattern, $option, $completeMatch);
 
             try {
-                if (!preg_match('/^' . $regex . ($completeMatch ? '$' : '') . '/', $url, $match)) {
+                if (!preg_match('/^' . $regex . ($completeMatch ? '$' : '') . '/u', $url, $match)) {
                     return false;
                 }
             } catch (\Exception $e) {

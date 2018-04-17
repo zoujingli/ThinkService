@@ -80,17 +80,17 @@
     },
     {
         "name": "zoujingli/wechat-developer",
-        "version": "v1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/zoujingli/WeChatDeveloper.git",
-            "reference": "9ba300d0b171fd83e9b958d4f25ed4b0b3d16469"
+            "reference": "e05fe6bb24438d15259a6af4915bd0638dc3914a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/zoujingli/WeChatDeveloper/9ba300d0b171fd83e9b958d4f25ed4b0b3d16469.zip",
-            "reference": "9ba300d0b171fd83e9b958d4f25ed4b0b3d16469",
+            "url": "https://files.phpcomposer.com/files/zoujingli/WeChatDeveloper/e05fe6bb24438d15259a6af4915bd0638dc3914a.zip",
+            "reference": "e05fe6bb24438d15259a6af4915bd0638dc3914a",
             "shasum": ""
         },
         "require": {
@@ -98,7 +98,7 @@
             "ext-openssl": "*",
             "php": ">=5.4"
         },
-        "time": "2018-03-26T06:32:30+00:00",
+        "time": "2018-04-09T11:07:00+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -175,17 +175,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.1.7",
-        "version_normalized": "5.1.7.0",
+        "version": "v5.1.10",
+        "version_normalized": "5.1.10.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "81a93819dbbd66774405daf9c27a9219232dba9a"
+            "reference": "66b546f7cac130712d1e08fe2620105228f4bd8a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/top-think/framework/81a93819dbbd66774405daf9c27a9219232dba9a.zip",
-            "reference": "81a93819dbbd66774405daf9c27a9219232dba9a",
+            "url": "https://files.phpcomposer.com/files/top-think/framework/66b546f7cac130712d1e08fe2620105228f4bd8a.zip",
+            "reference": "66b546f7cac130712d1e08fe2620105228f4bd8a",
             "shasum": ""
         },
         "require": {
@@ -201,7 +201,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2018-03-29T04:16:43+00:00",
+        "time": "2018-04-16T05:33:00+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -269,8 +269,8 @@
     },
     {
         "name": "symfony/options-resolver",
-        "version": "v3.4.6",
-        "version_normalized": "3.4.6.0",
+        "version": "v3.4.8",
+        "version_normalized": "3.4.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/options-resolver.git",

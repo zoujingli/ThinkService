@@ -52,19 +52,31 @@ class Loader
      */
     private static $composerPath;
 
+    // 获取应用根目录
+    public static function getRootPath()
+    {
+        if ('cli' == PHP_SAPI) {
+            $scriptName = realpath($_SERVER['argv'][0]);
+        } else {
+            $scriptName = $_SERVER['SCRIPT_FILENAME'];
+        }
+
+        $path = realpath(dirname($scriptName));
+
+        if (!is_file($path . DIRECTORY_SEPARATOR . 'think')) {
+            $path = dirname($path);
+        }
+
+        return $path . DIRECTORY_SEPARATOR;
+    }
+
     // 注册自动加载机制
     public static function register($autoload = '')
     {
         // 注册系统自动加载
         spl_autoload_register($autoload ?: 'think\\Loader::autoload', true, true);
 
-        $path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
-
-        if ('cli-server' == PHP_SAPI || !is_file('./think')) {
-            $rootPath = dirname($path) . DIRECTORY_SEPARATOR;
-        } else {
-            $rootPath = $path . DIRECTORY_SEPARATOR;
-        }
+        $rootPath = self::getRootPath();
 
         self::$composerPath = $rootPath . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR;
 
@@ -336,6 +348,10 @@ class Loader
         if (is_file(self::$composerPath . 'autoload_files.php')) {
             $includeFiles = require self::$composerPath . 'autoload_files.php';
             foreach ($includeFiles as $fileIdentifier => $file) {
+                if (isset($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
+                    continue;
+                }
+
                 if (empty(self::$autoloadFiles[$fileIdentifier])) {
                     __require_file($file);
                     self::$autoloadFiles[$fileIdentifier] = true;

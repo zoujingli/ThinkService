@@ -232,7 +232,7 @@ class RuleGroup extends Rule
      */
     public function lazy($lazy = true)
     {
-        if (!$lazy && !is_object($this->rule)) {
+        if (!$lazy) {
             $this->parseGroupRule($this->rule);
             $this->rule = null;
         }
@@ -316,7 +316,7 @@ class RuleGroup extends Rule
         }
 
         try {
-            if (!empty($regex) && preg_match('/^(?:' . implode('|', $regex) . ')/', $url, $match)) {
+            if (!empty($regex) && preg_match('/^(?:' . implode('|', $regex) . ')/u', $url, $match)) {
                 $var = [];
                 foreach ($match as $key => $val) {
                     if (is_string($key) && '' !== $val) {

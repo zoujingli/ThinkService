@@ -323,10 +323,12 @@ class Request
         $server['PATH_INFO']      = '';
         $server['REQUEST_METHOD'] = strtoupper($method);
         $info                     = parse_url($uri);
+
         if (isset($info['host'])) {
             $server['SERVER_NAME'] = $info['host'];
             $server['HTTP_HOST']   = $info['host'];
         }
+
         if (isset($info['scheme'])) {
             if ('https' === $info['scheme']) {
                 $server['HTTPS']       = 'on';
@@ -336,27 +338,34 @@ class Request
                 $server['SERVER_PORT'] = 80;
             }
         }
+
         if (isset($info['port'])) {
             $server['SERVER_PORT'] = $info['port'];
             $server['HTTP_HOST']   = $server['HTTP_HOST'] . ':' . $info['port'];
         }
+
         if (isset($info['user'])) {
             $server['PHP_AUTH_USER'] = $info['user'];
         }
+
         if (isset($info['pass'])) {
             $server['PHP_AUTH_PW'] = $info['pass'];
         }
+
         if (!isset($info['path'])) {
             $info['path'] = '/';
         }
-        $options                      = [];
+
+        $options     = [];
+        $queryString = '';
+
         $options[strtolower($method)] = $params;
-        $queryString                  = '';
+
         if (isset($info['query'])) {
             parse_str(html_entity_decode($info['query']), $query);
             if (!empty($params)) {
                 $params      = array_replace($query, $params);
-                $queryString = http_build_query($query, '', '&');
+                $queryString = http_build_query($params, '', '&');
             } else {
                 $params      = $query;
                 $queryString = $info['query'];
@@ -364,6 +373,7 @@ class Request
         } elseif (!empty($params)) {
             $queryString = http_build_query($params, '', '&');
         }
+
         if ($queryString) {
             parse_str($queryString, $get);
             $options['get'] = isset($options['get']) ? array_merge($get, $options['get']) : $get;
@@ -1557,7 +1567,11 @@ class Request
             return $ip[$type];
         }
 
-        if ($adv) {
+        $httpAgentIp = $this->config->get('http_agent_ip');
+
+        if ($httpAgentIp && isset($_SERVER[$httpAgentIp])) {
+            $ip = $_SERVER[$httpAgentIp];
+        } elseif ($adv) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                 $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
                 $pos = array_search('unknown', $arr);
@@ -1574,9 +1588,18 @@ class Request
             $ip = $_SERVER['REMOTE_ADDR'];
         }
 
+        // IP地址类型
+        $ip_mode = (strpos($ip, ':') === false) ? 'ipv4' : 'ipv6';
+
         // IP地址合法验证
-        $long = sprintf("%u", ip2long($ip));
-        $ip   = $long ? [$ip, $long] : ['0.0.0.0', 0];
+        if (filter_var($ip, FILTER_VALIDATE_IP) !== $ip) {
+            $ip = ($ip_mode === 'ipv4') ? '0.0.0.0' : '::';
+        }
+
+        // 如果是ipv4地址，则直接使用ip2long返回int类型ip；如果是ipv6地址，暂时不支持，直接返回0
+        $long_ip = ($ip_mode === 'ipv4') ? sprintf("%u", ip2long($ip)) : 0;
+
+        $ip = [$ip, $long_ip];
 
         return $ip[$type];
     }
