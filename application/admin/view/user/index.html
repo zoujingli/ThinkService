@@ -2,10 +2,11 @@
 
 {block name="button"}
 <!--{if auth("$classuri/add")}-->
-<button data-modal='{:url("$classuri/add")}' data-title="添加用户" class='layui-btn layui-btn-sm'>添加用户</button>
+<button data-modal='{:url("$classuri/add")}' data-title="添加用户" class='layui-btn layui-btn-sm layui-btn-primary'>添加用户</button>
 <!--{/if}-->
+
 <!--{if auth("$classuri/del")}-->
-<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>删除用户</button>
+<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-primary'>删除用户</button>
 <!--{/if}-->
 {/block}
 
@@ -45,7 +46,7 @@
     <div class="layui-form-item layui-inline">
         <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
     </div>
-    
+
 </form>
 <script>
     window.laydate.render({range: true, elem: '#range-date'});
@@ -100,17 +101,17 @@
 
                 {if auth("$classuri/edit")}
                 <span class="text-explode">|</span>
-                <a data-modal='{:url("$classuri/edit")}?id={$vo.id}'>编辑</a>
+                <a data-title="编辑用户" data-modal='{:url("$classuri/edit")}?id={$vo.id}'>编辑</a>
                 {/if}
 
                 {if auth("$classuri/auth")}
                 <span class="text-explode">|</span>
-                <a data-modal='{:url("$classuri/auth")}?id={$vo.id}'>授权</a>
+                <a data-title="用户授权" data-modal='{:url("$classuri/auth")}?id={$vo.id}'>授权</a>
                 {/if}
 
                 {if auth("$classuri/pass")}
                 <span class="text-explode">|</span>
-                <a data-modal='{:url("$classuri/pass")}?id={$vo.id}'>密码</a>
+                <a data-title="设置密码" data-modal='{:url("$classuri/pass")}?id={$vo.id}'>密码</a>
                 {/if}
 
                 {if $vo.status eq 1 and auth("$classuri/forbid")}

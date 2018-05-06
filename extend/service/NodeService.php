@@ -1,7 +1,7 @@
 <?php
 
 // +----------------------------------------------------------------------
-// | ThinkService
+// | ThinkAdmin
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2017 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/ThinkService
+// | github开源项目：https://github.com/zoujingli/ThinkAdmin
 // +----------------------------------------------------------------------
 
 namespace service;
@@ -73,7 +73,7 @@ class NodeService
     public static function checkAuthNode($node)
     {
         list($module, $controller, $action) = explode('/', str_replace(['?', '=', '&'], '/', $node . '///'));
-        $currentNode = strtolower(trim("{$module}/{$controller}/{$action}", '/'));
+        $currentNode = self::parseNodeStr("{$module}/{$controller}") . strtolower("/{$action}");
         if (session('user.username') === 'admin' || stripos($node, 'admin/index') === 0) {
             return true;
         }
@@ -129,11 +129,25 @@ class NodeService
             }
             foreach (get_class_methods($className) as $funcName) {
                 if (strpos($funcName, '_') !== 0 && $funcName !== 'initialize') {
-                    $nodes[] = strtolower("{$matches[1]}/{$matches[2]}/{$funcName}");
+                    $nodes[] = self::parseNodeStr("{$matches[1]}/{$matches[2]}") . '/' . strtolower($funcName);
                 }
             }
         }
         return $nodes;
+    }
+
+    /**
+     * 驼峰转下划线规则
+     * @param string $node
+     * @return string
+     */
+    public static function parseNodeStr($node)
+    {
+        $tmp = [];
+        foreach (explode('/', $node) as $name) {
+            $tmp[] = strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
+        }
+        return trim(join('/', $tmp), '/');
     }
 
     /**
