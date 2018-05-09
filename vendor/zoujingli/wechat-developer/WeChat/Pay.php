@@ -75,7 +75,44 @@ class Pay
     public function createOrder(array $options)
     {
         $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-        return $this->callPostApi($url, $options);
+        return $this->callPostApi($url, $options, false, 'MD5');
+    }
+
+
+    /**
+     * 创建JsApi及H5支付参数
+     * @param string $prepay_id 统一下单预支付码
+     * @return array
+     */
+    public function createParamsForJsApi($prepay_id)
+    {
+        $option = [];
+        $option["appId"] = $this->config->get('appid');
+        $option["timeStamp"] = (string)time();
+        $option["nonceStr"] = Tools::createNoncestr();
+        $option["package"] = "prepay_id={$prepay_id}";
+        $option["signType"] = "MD5";
+        $option["paySign"] = $this->getPaySign($option, 'MD5');
+        $option['timestamp'] = $option['timeStamp'];
+        return $option;
+    }
+
+    /**
+     * 获取支付规则二维码
+     * @param string $product_id 商户定义的商品id 或者订单号
+     * @return string
+     */
+    public function createParamsForRuleQrc($product_id)
+    {
+        $data = [
+            'appid'      => $this->config->get('appid'),
+            'mch_id'     => $this->config->get('mch_id'),
+            'time_stamp' => (string)time(),
+            'nonce_str'  => Tools::createNoncestr(),
+            'product_id' => (string)$product_id,
+        ];
+        $data['sign'] = $this->getPaySign($data, 'MD5');
+        return "weixin://wxpay/bizpayurl?" . http_build_query($data);
     }
 
     /**
@@ -229,22 +266,23 @@ class Pay
 
     /**
      * 生成支付签名
-     * @param array $data
-     * @param string $signType
+     * @param array $data 参与签名的数据
+     * @param string $signType 参与签名的类型
+     * @param string $buff 参与签名字符串前缀
      * @return string
      */
-    public function getPaySign(array $data, $signType = 'MD5')
+    public function getPaySign(array $data, $signType = 'MD5', $buff = '')
     {
         unset($data['sign']);
         ksort($data);
-        list($key, $str) = [$this->config->get('mch_key'), ''];
         foreach ($data as $k => $v) {
-            $str .= "{$k}={$v}&";
+            $buff .= "{$k}={$v}&";
         }
-        if ($signType === 'MD5') {
-            return strtoupper(md5("{$str}key={$key}"));
+        $buff .= ("key=" . $this->config->get('mch_key'));
+        if (strtoupper($signType) === 'MD5') {
+            return strtoupper(md5($buff));
         }
-        return strtoupper(hash_hmac('SHA256', "{$str}key={$key}", $key));
+        return strtoupper(hash_hmac('SHA256', $buff, $this->config->get('mch_key')));
     }
 
     /**
@@ -261,18 +299,16 @@ class Pay
     {
         $option = [];
         if ($isCert) {
+            $option['ssl_cer'] = $this->config->get('ssl_cer');
+            $option['ssl_key'] = $this->config->get('ssl_key');
             foreach (['ssl_cer', 'ssl_key'] as $key) {
-                if (empty($options[$key])) {
+                if (empty($option[$key]) || !file_exists($option[$key])) {
                     throw new InvalidArgumentException("Missing Config -- [{$key}]", '0');
                 }
             }
-            $option['ssl_cer'] = $this->config->get('ssl_cer');
-            $option['ssl_key'] = $this->config->get('ssl_key');
         }
         $params = $this->params->merge($data);
-        if ($needSignType) {
-            $params['sign_type'] = strtoupper($signType);
-        }
+        $needSignType && ($params['sign_type'] = strtoupper($signType));
         $params['sign'] = $this->getPaySign($params, $signType);
         $result = Tools::xml2arr(Tools::post($url, Tools::arr2xml($params), $option));
         if ($result['return_code'] !== 'SUCCESS') {
