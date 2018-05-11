@@ -134,6 +134,7 @@ return array(
     'WeMini\\Tester' => $vendorDir . '/zoujingli/weopen-developer/WeMini/Tester.php',
     'WeMini\\Total' => $vendorDir . '/zoujingli/wechat-developer/WeMini/Total.php',
     'WeMini\\User' => $vendorDir . '/zoujingli/weopen-developer/WeMini/User.php',
+    'WeOpen\\Login' => $vendorDir . '/zoujingli/weopen-developer/WeOpen/Login.php',
     'WeOpen\\MiniApp' => $vendorDir . '/zoujingli/weopen-developer/WeOpen/MiniApp.php',
     'WeOpen\\Service' => $vendorDir . '/zoujingli/weopen-developer/WeOpen/Service.php',
     'app\\admin\\controller\\Auth' => $baseDir . '/application/admin/controller/Auth.php',

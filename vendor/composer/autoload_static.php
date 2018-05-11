@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit6768be671f66ac1f30751d17c51a01c8
+class ComposerStaticInit03658bef3c1ce27f361b6dab2f3b4b7e
 {
     public static $files = array (
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
@@ -209,6 +209,7 @@ class ComposerStaticInit6768be671f66ac1f30751d17c51a01c8
         'WeMini\\Tester' => __DIR__ . '/..' . '/zoujingli/weopen-developer/WeMini/Tester.php',
         'WeMini\\Total' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeMini/Total.php',
         'WeMini\\User' => __DIR__ . '/..' . '/zoujingli/weopen-developer/WeMini/User.php',
+        'WeOpen\\Login' => __DIR__ . '/..' . '/zoujingli/weopen-developer/WeOpen/Login.php',
         'WeOpen\\MiniApp' => __DIR__ . '/..' . '/zoujingli/weopen-developer/WeOpen/MiniApp.php',
         'WeOpen\\Service' => __DIR__ . '/..' . '/zoujingli/weopen-developer/WeOpen/Service.php',
         'app\\admin\\controller\\Auth' => __DIR__ . '/../..' . '/application/admin/controller/Auth.php',
@@ -242,9 +243,9 @@ class ComposerStaticInit6768be671f66ac1f30751d17c51a01c8
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit6768be671f66ac1f30751d17c51a01c8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit6768be671f66ac1f30751d17c51a01c8::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit6768be671f66ac1f30751d17c51a01c8::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit03658bef3c1ce27f361b6dab2f3b4b7e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit03658bef3c1ce27f361b6dab2f3b4b7e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit03658bef3c1ce27f361b6dab2f3b4b7e::$classMap;
 
         }, null, ClassLoader::class);
     }
