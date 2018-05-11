@@ -278,7 +278,9 @@ CREATE TABLE `wechat_config` (
   `qrcode_url` varchar(200) DEFAULT NULL COMMENT '公众号二维码地址',
   `business_info` varchar(255) DEFAULT NULL,
   `principal_name` varchar(255) DEFAULT NULL COMMENT '公司名称',
+  `miniprograminfo` text COMMENT '小程序信息JSON',
   `idc` tinyint(1) unsigned DEFAULT NULL,
+  `signature` text COMMENT '小程序的描述',
   `total` bigint(20) unsigned DEFAULT '0' COMMENT '统计调用次数',
   `appkey` char(32) DEFAULT NULL COMMENT '接口KEY',
   `appuri` varchar(255) DEFAULT NULL COMMENT '响应接口APP',
@@ -287,7 +289,7 @@ CREATE TABLE `wechat_config` (
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_wechat_config_authorizer_appid` (`authorizer_appid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='公众号授权参数';
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COMMENT='公众号授权参数';
 
 -- ----------------------------
 -- Table structure for wechat_config_pay
