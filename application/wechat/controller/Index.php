@@ -50,6 +50,9 @@ class Index extends BasicAdmin
         foreach (['authorizer_appid', 'nick_name', 'principal_name'] as $key) {
             (isset($get[$key]) && $get[$key] !== '') && $db->whereLike($key, "%{$get[$key]}%");
         }
+        if (isset($get['service_type']) && $get['service_type'] !== '') {
+            $db->where('service_type', $get['service_type']);
+        }
         if (isset($get['create_at']) && $get['create_at'] !== '') {
             list($start, $end) = explode(' - ', $get['create_at']);
             $db->whereBetween('create_at', ["{$start} 00:00:00", "{$end} 23:59:59"]);

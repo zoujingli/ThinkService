@@ -20,6 +20,26 @@
     </div>
 
     <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">类型过滤</label>
+        <div class="layui-input-inline">
+            <select name="service_type" class="layui-select">
+                <option value="">- 显示所有 -</option>
+                <!--{foreach ['0'=>'订阅号','2'=>'服务号','3'=>'小程序'] as $k=>$v}-->
+                <!--{if $k.'' eq $Think.get.service_type}-->
+                <option selected value="{$k}">{$v}</option>
+                <!--{else}-->
+                <option value="{$k}">{$v}</option>
+                <!--{/if}-->
+                <!--{/foreach}-->
+            </select>
+        </div>
+        <select></select>
+        <div class="layui-input-inline">
+            <input name="principal_name" value="{$Think.get.principal_name|default=''}" placeholder="请输入注册公司" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
         <label class="layui-form-label">注册公司</label>
         <div class="layui-input-inline">
             <input name="principal_name" value="{$Think.get.principal_name|default=''}" placeholder="请输入注册公司" class="layui-input">
@@ -40,6 +60,7 @@
 </form>
 
 <script>
+    window.form.render();
     window.laydate.render({range: true, elem: '#create_at'});
 </script>
 <!-- 表单搜索 结束 -->
