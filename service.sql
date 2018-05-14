@@ -269,10 +269,10 @@ CREATE TABLE `wechat_config` (
   `nick_name` varchar(50) DEFAULT NULL COMMENT '公众号昵称',
   `head_img` varchar(200) DEFAULT NULL COMMENT '公众号头像',
   `expires_in` bigint(20) DEFAULT NULL COMMENT 'Token有效时间',
-  `service_type` tinyint(2) DEFAULT NULL COMMENT '公众号实际类型',
-  `service_type_info` tinyint(2) DEFAULT NULL COMMENT '服务类型信息',
-  `verify_type` tinyint(2) DEFAULT NULL COMMENT '公众号实际认证类型(0订阅号,2服务号,3小程序)',
-  `verify_type_info` tinyint(2) DEFAULT NULL COMMENT '公众号认证类型(-1未认证,0已认证)',
+  `service_type` tinyint(2) DEFAULT NULL COMMENT '微信类型(0代表订阅号, 2代表服务号, 3代表小程序)',
+  `service_type_info` tinyint(2) DEFAULT NULL COMMENT '公众号实际类型',
+  `verify_type` tinyint(2) DEFAULT NULL COMMENT '公众号认证类型(-1代表未认证, 0代表微信认证)',
+  `verify_type_info` tinyint(2) DEFAULT NULL COMMENT '公众号实际认证类型',
   `user_name` varchar(100) DEFAULT NULL COMMENT '众众号原始账号',
   `alias` varchar(100) DEFAULT NULL COMMENT '公众号别名',
   `qrcode_url` varchar(200) DEFAULT NULL COMMENT '公众号二维码地址',
@@ -289,7 +289,7 @@ CREATE TABLE `wechat_config` (
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_wechat_config_authorizer_appid` (`authorizer_appid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COMMENT='公众号授权参数';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COMMENT='公众号授权参数';
 
 -- ----------------------------
 -- Table structure for wechat_config_pay
