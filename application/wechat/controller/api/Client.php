@@ -47,6 +47,12 @@ class Client extends Controller
     protected $name = '';
 
     /**
+     * 接口类型
+     * @var string
+     */
+    protected $type = '';
+
+    /**
      * 错误消息
      * @var string
      */
@@ -104,11 +110,13 @@ class Client extends Controller
     private function create($token)
     {
         if ($this->auth($token)) {
-            $extendClassName = 'Wechat,Config';
+            $weminiClassName = 'Account,Basic,Code,Domain,Tester,User,Crypt,Plugs,Poi,Qrcode,Template,Total';
             $wechatClassName = 'Card,Custom,Limit,Media,Menu,Oauth,Pay,Product,Qrcode,Receive,Scan,Script,Shake,Tags,Template,User,Wifi';
-            if (stripos($wechatClassName, $this->name) !== false) {
-                $instance = WechatService::instance($this->name, $this->appid);
-            } elseif (stripos($extendClassName, $this->name) !== false) {
+            if ($this->type === 'wechat' && stripos($wechatClassName, $this->name) !== false) {
+                $instance = WechatService::instance($this->name, $this->appid, 'WeChat');
+            } elseif ($this->type === 'wemini' && stripos($weminiClassName, $this->name) !== false) {
+                $instance = WechatService::instance($this->name, $this->appid, 'WeMini');
+            } elseif (stripos('Wechat,Config', $this->name) !== false) {
                 $className = "\\app\\wechat\\handler\\{$this->name}Handler";
                 $instance = new $className($this->config);
             }
@@ -130,24 +138,25 @@ class Client extends Controller
      */
     private function auth($token = '')
     {
-        list($this->name, $this->appid, $appkey) = explode('-', $token . '--');
+        list($this->name, $this->appid, $appkey, $this->type) = explode('-', $token . '---');
         if (empty($this->name) || empty($this->appid) || empty($appkey)) {
             $this->message = '缺少必要的参数AppId或AppKey';
             return false;
         }
-        $map = ['authorizer_appid' => $this->appid, 'status' => '1', 'is_deleted' => '0'];
-        $this->config = Db::name('WechatConfig')->where($map)->find();
+        $where = ['authorizer_appid' => $this->appid, 'status' => '1', 'is_deleted' => '0'];
+        $this->config = Db::name('WechatConfig')->where($where)->find();
         if (empty($this->config)) {
             $this->message = '无效的微信绑定对象';
             return false;
         }
         if (strtolower($this->config['appkey']) !== strtolower($appkey)) {
-            $this->message = '微信AppId与接口AppKey不匹配';
+            $this->message = '授权AppId与AppKey不匹配';
             return false;
         }
         $this->message = '';
         $this->name = ucfirst(strtolower($this->name));
-        Db::name('WechatConfig')->where($map)->setInc('total', 1);
+        $this->type = strtolower(empty($this->type) ? 'WeChat' : $this->type);
+        Db::name('WechatConfig')->where($where)->setInc('total', 1);
         return true;
     }
 

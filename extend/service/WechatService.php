@@ -16,7 +16,7 @@ namespace service;
 
 use think\Db;
 use think\Exception;
-use WeOpen\Service;
+use WeOpen\MiniApp;
 
 /**
  * 微信数据服务
@@ -42,7 +42,16 @@ use WeOpen\Service;
  * @method \WeChat\Template template($appid) static 模板消息
  * @method \WeChat\User user($appid) static 微信粉丝管理
  * @method \WeChat\Wifi wifi($appid) static 门店WIFI管理
+ * -- 开发平台小程序支持
+ * @method \WeMini\Account ccount() stataic 第三方小程序管理
+ * @method \WeMini\Basic basic() stataic 第三方小程序基础接口
+ * @method \WeMini\Code code() stataic 第三方小程序代码管理
+ * @method \WeMini\Domain domain() stataic 第三方小程序域名管理
+ * @method \WeMini\Tester tester() stataic 第三方小程序域名管理
+ * -- 开放平台接口
  * @method \WeOpen\Service service() static 第三方服务
+ * @method MiniApp miniapp() static 第三方小程序支持
+ * @method \WeOpen\Login login static 第三方登录
  * @method void wechat() static 第三方微信工具
  * @method void config() static 第三方配置工具
  */
@@ -51,13 +60,14 @@ class WechatService
 
     /**
      * 实例微信对象
-     * @param string $type
+     * @param string $name
      * @param string $appid 授权公众号APPID
-     * @return \WeChat\Card|\WeChat\Custom|\WeChat\Media|\WeChat\Menu|\WeChat\Oauth|\WeChat\Pay|\WeChat\Product|\WeChat\Qrcode|\WeChat\Receive|\WeChat\Scan|\WeChat\Script|\WeChat\Shake|\WeChat\Tags|\WeChat\Template|\WeChat\User|\WeChat\Wifi|Service
+     * @param string $type 将要获取SDK类型
+     * @return \WeChat\Card|\WeChat\Custom|\WeChat\Media|\WeChat\Menu|\WeChat\Oauth|\WeChat\Pay|\WeChat\Product|\WeChat\Qrcode|\WeChat\Receive|\WeChat\Scan|\WeChat\Script|\WeChat\Shake|\WeChat\Tags|\WeChat\Template|\WeChat\User|\WeChat\Wifi|MiniApp
      * @throws Exception
      * @throws \think\exception\PDOException
      */
-    public static function instance($type, $appid = '')
+    public static function instance($name, $appid = '', $type = 'WeChat')
     {
         $config = [
             'cache_path'               => env('runtime_path') . 'wechat',
@@ -72,7 +82,7 @@ class WechatService
             if (!($refresh_token = Db::name('WechatConfig')->where($where)->value('authorizer_refresh_token'))) {
                 throw new Exception('The WeChat information is not configured.', '404');
             }
-            $open = new Service($config);
+            $open = new MiniApp($config);
             $result = $open->refreshAccessToken($authorizer_appid, $refresh_token);
             if (empty($result['authorizer_access_token']) || empty($result['authorizer_refresh_token'])) {
                 throw new Exception($result['errmsg'], '0');
@@ -83,18 +93,18 @@ class WechatService
             ]);
             return $result['authorizer_access_token'];
         };
-        $open = new Service($config);
-        if (strtolower($type) === 'service') {
-            return $open;
+        $app = new MiniApp($config);
+        if (in_array(strtolower($name), ['service', 'miniapp'])) {
+            return $app;
         }
-        return $open->instance($type, $appid);
+        return $app->instance($name, $appid, $type);
     }
 
     /**
      * 静态初始化对象
      * @param string $name
      * @param array $arguments
-     * @return \WeChat\Oauth|\WeChat\Pay|\WeChat\Receive|\WeChat\Script|\WeChat\User|Service
+     * @return \WeChat\Oauth|\WeChat\Pay|\WeChat\Receive|\WeChat\Script|\WeChat\User|\WeChat\Service
      * @throws Exception
      * @throws \think\exception\PDOException
      */
