@@ -25,38 +25,66 @@ use WeOpen\MiniApp;
  * @author Anyon <zoujingli@qq.com>
  * @date 2017/03/22 15:32
  *
- * @method \WeChat\Card card($appid) static 卡券管理
- * @method \WeChat\Custom custom($appid) static 客服消息处理
- * @method \WeChat\Limit limit($appid) static 接口调用频次限制
- * @method \WeChat\Media media($appid) static 微信素材管理
- * @method \WeChat\Menu menu($appid) static 微信素材管理
- * @method \WeChat\Oauth oauth($appid) static 微信网页授权
- * @method \WeChat\Pay pay($appid) static 微信支付商户
- * @method \WeChat\Product product($appid) static 商店管理
- * @method \WeChat\Qrcode qrcode($appid) static 二维码管理
- * @method \WeChat\Receive receive($appid) static 公众号推送管理
- * @method \WeChat\Scan scan($appid) static 扫一扫接入管理
- * @method \WeChat\Script script($appid) static 微信前端支持
- * @method \WeChat\Shake shake($appid) static 揺一揺周边
- * @method \WeChat\Tags tags($appid) static 用户标签管理
- * @method \WeChat\Template template($appid) static 模板消息
- * @method \WeChat\User user($appid) static 微信粉丝管理
- * @method \WeChat\Wifi wifi($appid) static 门店WIFI管理
- * -- 开发平台小程序支持
- * @method \WeMini\Account ccount() stataic 第三方小程序管理
- * @method \WeMini\Basic basic() stataic 第三方小程序基础接口
- * @method \WeMini\Code code() stataic 第三方小程序代码管理
- * @method \WeMini\Domain domain() stataic 第三方小程序域名管理
- * @method \WeMini\Tester tester() stataic 第三方小程序域名管理
- * -- 开放平台接口
- * @method \WeOpen\Service service() static 第三方服务
- * @method MiniApp miniapp() static 第三方小程序支持
- * @method \WeOpen\Login login static 第三方登录
+ * @method \WeChat\Card card() static 卡券管理
+ * @method \WeChat\Custom custom() static 客服消息处理
+ * @method \WeChat\Limit limit() static 接口调用频次限制
+ * @method \WeChat\Media media() static 微信素材管理
+ * @method \WeChat\Menu menu() static 微信素材管理
+ * @method \WeChat\Oauth oauth() static 微信网页授权
+ * @method \WeChat\Pay pay() static 微信支付商户
+ * @method \WeChat\Product product() static 商店管理
+ * @method \WeChat\Qrcode qrcode() static 二维码管理
+ * @method \WeChat\Receive receive() static 公众号推送管理
+ * @method \WeChat\Scan scan() static 扫一扫接入管理
+ * @method \WeChat\Script script() static 微信前端支持
+ * @method \WeChat\Shake shake() static 揺一揺周边
+ * @method \WeChat\Tags tags() static 用户标签管理
+ * @method \WeChat\Template template() static 模板消息
+ * @method \WeChat\User user() static 微信粉丝管理
+ * @method \WeChat\Wifi wifi() static 门店WIFI管理
+ * --- 小程序SDK加载 开始 ---
+ * @method \WeMini\Account miniAccount() static 小程序账号管理
+ * @method \WeMini\Basic miniBasic() static 小程序基础信息设置
+ * @method \WeMini\Code miniCode() static 小程序代码管理
+ * @method \WeMini\Domain miniDomain() static 小程序域名管理
+ * @method \WeMini\Tester minitester() static 小程序成员管理
+ * @method \WeMini\User miniUser() static 小程序帐号管理
+ * @method \WeMini\Crypt miniCrypt() static 小程序数据加密处理管理
+ * @method \WeMini\Plugs miniPlugs() static 小程序插件管理
+ * @method \WeMini\Poi miniPoi() static 小程地址管理
+ * @method \WeMini\Qrcode miniQrcode() static 小程二维码管理
+ * @method \WeMini\Template miniTemplate() static 小程序模板消息
+ * @method \WeMini\Total miniTotal() static 小程序数据接口
+ * --- 小程序SDK加载 结束 ---
  * @method void wechat() static 第三方微信工具
  * @method void config() static 第三方配置工具
+ * @method \WeOpen\Login login() static 第三方微信登录
+ * @method \WeOpen\Service service() static 第三方服务
  */
 class WechatService
 {
+
+    /**
+     * 接口类型模式
+     * @var string
+     */
+    private static $type = 'WeChat';
+
+    /**
+     * 切换接口为服务号模式
+     */
+    public static function setWeChatState()
+    {
+        self::$type = 'WeChat';
+    }
+
+    /**
+     * 切换接口为小程序模式
+     */
+    public static function setWeMiniState()
+    {
+        self::$type = 'WeMini';
+    }
 
     /**
      * 实例微信对象
@@ -67,7 +95,7 @@ class WechatService
      * @throws Exception
      * @throws \think\exception\PDOException
      */
-    public static function instance($name, $appid = '', $type = 'WeChat')
+    public static function instance($name, $appid = '', $type = null)
     {
         $config = [
             'cache_path'               => env('runtime_path') . 'wechat',
@@ -97,6 +125,9 @@ class WechatService
         if (in_array(strtolower($name), ['service', 'miniapp'])) {
             return $app;
         }
+        if (!in_array($type, ['WeChat', 'WeMini'])) {
+            $type = self::$type;
+        }
         return $app->instance($name, $appid, $type);
     }
 
@@ -110,7 +141,13 @@ class WechatService
      */
     public static function __callStatic($name, $arguments)
     {
-        return self::instance($name, isset($arguments[0]) ? $arguments[0] : '');
+        if (substr($name, 0, 4) === 'mini') {
+            self::setWeMiniState();
+            $name = substr($name, 4);
+        } else {
+            self::setWeChatState();
+        }
+        return self::instance($name, isset($arguments[0]) ? $arguments[0] : '', self::$type);
     }
 
 }
