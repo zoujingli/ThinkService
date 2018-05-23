@@ -116,6 +116,8 @@ class Client extends Controller
                 $instance = WechatService::instance($this->name, $this->appid, 'WeChat');
             } elseif ($this->type === 'wemini' && stripos($weminiClassName, $this->name) !== false) {
                 $instance = WechatService::instance($this->name, $this->appid, 'WeMini');
+            } elseif (stripos('Service,MiniApp', $this->name) !== false) {
+                $instance = WechatService::instance($this->name, $this->appid, 'WeOpen');
             } elseif (stripos('Wechat,Config', $this->name) !== false) {
                 $className = "\\app\\wechat\\handler\\{$this->name}Handler";
                 $instance = new $className($this->config);
