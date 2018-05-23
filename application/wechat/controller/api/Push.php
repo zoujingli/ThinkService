@@ -194,8 +194,7 @@ class Push extends Controller
         $config = Db::name('WechatConfig')->where('authorizer_appid', $result['authorizer_appid'])->find();
         $info['appkey'] = empty($config['appkey']) ? md5(uniqid('', true)) : $config['appkey'];
         DataService::save('WechatConfig', $info, 'authorizer_appid');
-        if (!empty($redirect)) {
-            // 带上appid与appkey跳转到应用
+        if (!empty($redirect)) { // 带上appid与appkey跳转到应用
             $split = stripos($redirect, '?') > 0 ? '&' : '?';
             $realurl = preg_replace(['/appid=\w+/i', '/appkey=\w+/i', '/(\?\&)$/i'], ['', '', ''], $redirect);
             return redirect("{$realurl}{$split}appid={$info['authorizer_appid']}&appkey={$info['appkey']}");
