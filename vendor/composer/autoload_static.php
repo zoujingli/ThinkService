@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit81676c1427448ca24eab2ed35dd62512
+class ComposerStaticInit006b55399d3e248a67a0ea2681b03b08
 {
     public static $files = array (
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
@@ -228,8 +228,8 @@ class ComposerStaticInit81676c1427448ca24eab2ed35dd62512
         'WePay\\Order' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WePay/Order.php',
         'WePay\\Redpack' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WePay/Redpack.php',
         'WePay\\Refund' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WePay/Refund.php',
-        'WePay\\TransFresBank' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WePay/TransFresBank.php',
         'WePay\\Transfers' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WePay/Transfers.php',
+        'WePay\\TransfersBank' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WePay/TransfersBank.php',
         'app\\admin\\controller\\Auth' => __DIR__ . '/../..' . '/application/admin/controller/Auth.php',
         'app\\admin\\controller\\Config' => __DIR__ . '/../..' . '/application/admin/controller/Config.php',
         'app\\admin\\controller\\Index' => __DIR__ . '/../..' . '/application/admin/controller/Index.php',
@@ -261,9 +261,9 @@ class ComposerStaticInit81676c1427448ca24eab2ed35dd62512
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit81676c1427448ca24eab2ed35dd62512::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit81676c1427448ca24eab2ed35dd62512::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit81676c1427448ca24eab2ed35dd62512::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit006b55399d3e248a67a0ea2681b03b08::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit006b55399d3e248a67a0ea2681b03b08::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit006b55399d3e248a67a0ea2681b03b08::$classMap;
 
         }, null, ClassLoader::class);
     }
