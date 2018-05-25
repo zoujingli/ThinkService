@@ -28,7 +28,7 @@ class ConfigHandler extends BasicHandler
     /**
      * 获取当前公众号配置
      * @return array|bool
-     * @throws Exception
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -36,8 +36,7 @@ class ConfigHandler extends BasicHandler
     public function getConfig()
     {
         $this->checkInit();
-        $where = ['authorizer_appid' => $this->appid];
-        $info = Db::name('WechatConfig')->where($where)->find();
+        $info = Db::name('WechatConfig')->where(['authorizer_appid' => $this->appid])->find();
         if (empty($info)) {
             return false;
         }

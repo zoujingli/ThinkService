@@ -36,14 +36,13 @@ class PublishService
      * @param string $appid
      * @return string
      * @throws \WeChat\Exceptions\InvalidDecryptException
-     * @throws \WeChat\Exceptions\InvalidResponseException
-     * @throws \WeChat\Exceptions\LocalCacheException
      * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public static function handler($appid)
     {
         /* 创建接口操作对象 */
-        $wechat = WechatService::receive($appid);
+        $wechat = WechatService::WeChatReceive($appid);
         /* 分别执行对应类型的操作 */
         switch (strtolower($wechat->getMsgType())) {
             case 'text':
