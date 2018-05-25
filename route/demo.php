@@ -14,14 +14,8 @@
 
 use think\facade\Route;
 
-// 不执行下面的路由
-return [];
-
 /*  测试环境禁止操作路由绑定 */
 Route::post('admin/user/pass', function () {
-    return json(['code' => 0, 'msg' => '测试环境禁修改用户密码！']);
-});
-Route::post('admin/index/pass', function () {
     return json(['code' => 0, 'msg' => '测试环境禁修改用户密码！']);
 });
 Route::post('admin/config/index', function () {
@@ -45,15 +39,12 @@ Route::post('admin/menu/forbid', function () {
 Route::post('admin/menu/del', function () {
     return json(['code' => 0, 'msg' => '测试环境禁止删除菜单操作！']);
 });
-Route::post('wechat/config/index', function () {
-    return json(['code' => 0, 'msg' => '测试环境禁止修改微信配置操作！']);
-});
 Route::post('admin/node/save', function () {
     return json(['code' => 0, 'msg' => '测试环境禁止修改节点数据操作！']);
 });
-Route::post('wechat/menu/edit', function () {
-    return json(['code' => 0, 'msg' => '测试环境禁止修改微信菜单操作！']);
+Route::post('wechat/config/index', function () {
+    return json(['code' => 0, 'msg' => '测试环境禁止修改微信配置操作！']);
 });
-Route::get('wechat/menu/cancel', function () {
-    return json(['code' => 0, 'msg' => '测试环境禁止删除微信菜单操作！']);
+Route::post('wechat/index/del', function () {
+    return json(['code' => 0, 'msg' => '测试环境禁止修改微信菜单操作！']);
 });
