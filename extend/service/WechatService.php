@@ -66,7 +66,7 @@ use WeOpen\MiniApp;
  * @method \WePay\Coupon WePayCoupon($appid) static 微信商户代金券
  * @method \WePay\Redpack WePayRedpack($appid) static 微信红包支持
  * @method \WePay\Transfers WePayTransfers($appid) static 微信商户打款到零钱
- * @method \WePay\TransfersBank WePayTransFresBank($appid) static 微信商户打款到银行卡
+ * @method \WePay\TransfersBank WePayTransfersBank($appid) static 微信商户打款到银行卡
  *
  * ----- WeOpen -----
  * @method \WeOpen\Login login() static 第三方微信登录
