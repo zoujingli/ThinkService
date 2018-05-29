@@ -88,12 +88,23 @@ class Index extends BasicAdmin
      * 同步获取所有授权公众号记录
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function syncall()
     {
         $wechat = WechatService::service();
-        $list = $wechat->getAuthorizerList();
-        dump($list);
+        $result = $wechat->getAuthorizerList();
+        foreach ($result['list'] as $item) {
+            $data = BuildService::filter($wechat->getAuthorizerInfo($item['authorizer_appid']));
+            $data['authorizer_refresh_token'] = $item['refresh_token'];
+            $data['authorizer_appid'] = $item['authorizer_appid'];
+            if (!DataService::save('WechatConfig', $data, 'authorizer_appid')) {
+                $this->error('获取授权信息失败，请稍候再试！', '');
+            }
+            dump($data);
+        }
+        $this->success('同步获取所有授权信息成功！', '');
     }
 
     /**
