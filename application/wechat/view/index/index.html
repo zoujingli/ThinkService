@@ -80,7 +80,7 @@
         <tr>
             <td class='text-left nowrap'>
                 <div class="inline-block text-top margin-right-5">
-                    <img style="width:60px;height:60px" data-tips-text="微信头像" data-tips-image src="{$vo.head_img|default=''}">
+                    <img onerror="this.src='__STATIC__/theme/img/404_icon.png'" style="width:60px;height:60px" data-tips-text="微信头像" data-tips-image src="{$vo.head_img|default=''}">
                 </div>
                 <div class="inline-block">
                     公众号AppID：{$vo.authorizer_appid}&nbsp;&nbsp;&nbsp;&nbsp;接口次数：{$vo.total}<br>
