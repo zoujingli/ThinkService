@@ -114,6 +114,11 @@
                 <a data-update="{$vo.id}" data-field='status' data-value='1' data-action='{:url("$classuri/resume")}' href="javascript:void(0)">启用</a>
                 {/if}
 
+                {if auth("$classuri/sync")}
+                <span class="text-explode">|</span>
+                <a data-load='{:url("$classuri/sync")}?appid={$vo.authorizer_appid}' href="javascript:void(0)">同步</a>
+                {/if}
+
                 {if auth("$classuri/del")}
                 <span class="text-explode">|</span>
                 <a data-update="{$vo.id}" data-field='delete' data-action='{:url("$classuri/del")}' href="javascript:void(0)">删除</a>

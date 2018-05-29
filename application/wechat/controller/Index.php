@@ -16,6 +16,7 @@ namespace app\wechat\controller;
 
 use controller\BasicAdmin;
 use service\DataService;
+use service\WechatService;
 use think\Db;
 
 /**
@@ -58,6 +59,19 @@ class Index extends BasicAdmin
             $db->whereBetween('create_at', ["{$start} 00:00:00", "{$end} 23:59:59"]);
         }
         return $this->_list($db->order('id desc'));
+    }
+
+    /**
+     * 同步获取权限
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
+     */
+    public function sync()
+    {
+        $appid = $this->request->get('appid');
+        $wechat = WechatService::service();
+        $author = $wechat->getAuthorizerInfo($appid);
+        dump($author);
     }
 
     /**
