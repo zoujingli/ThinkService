@@ -16,11 +16,20 @@
 
 namespace app\wechat\service;
 
-
+/**
+ * 公众号授权数据处理
+ * Class BuildService
+ * @package app\wechat\service
+ */
 class BuildService
 {
 
-    public static function filter($info)
+    /**
+     * 授权数据过滤转换处理
+     * @param array $info
+     * @return mixed
+     */
+    public static function filter(array $info)
     {
         if (isset($info['func_info'])) {
             $info['func_info'] = join(',', array_map(function ($tmp) {

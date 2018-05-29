@@ -85,6 +85,18 @@ class Index extends BasicAdmin
     }
 
     /**
+     * 同步获取所有授权公众号记录
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
+     */
+    public function syncall()
+    {
+        $wechat = WechatService::service();
+        $list = $wechat->getAuthorizerList();
+        dump($list);
+    }
+
+    /**
      * 删除微信
      * @throws \think\Exception
      * @throws \think\exception\PDOException
