@@ -38,6 +38,7 @@ class BuildService
             // 小程序信息
             $info['miniprograminfo'] = json_encode($info['MiniProgramInfo'], JSON_UNESCAPED_UNICODE);
         }
+        unset($info['MiniProgramInfo']);
         // 微信认证: -1 代表未认证, 0 代表微信认证
         $info['verify_type'] = intval($info['verify_type_info']) !== 0 ? -1 : 0;
         return $info;
