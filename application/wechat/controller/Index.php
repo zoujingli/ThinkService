@@ -73,7 +73,7 @@ class Index extends BasicAdmin
         $wechat = WechatService::service();
         $author = $wechat->getAuthorizerInfo($appid);
         $info = BuildService::filter($author);
-
+        dump($info);
     }
 
     /**
