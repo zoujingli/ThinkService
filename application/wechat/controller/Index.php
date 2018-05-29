@@ -96,10 +96,11 @@ class Index extends BasicAdmin
         $wechat = WechatService::service();
         $result = $wechat->getAuthorizerList();
         foreach ($result['list'] as $item) {
-            if (!empty($item['refresh_token'])) {
+            if (!empty($item['refresh_token']) && !empty($item['auth_time'])) {
                 $data = BuildService::filter($wechat->getAuthorizerInfo($item['authorizer_appid']));
-                $data['authorizer_refresh_token'] = $item['refresh_token'];
                 $data['authorizer_appid'] = $item['authorizer_appid'];
+                $data['authorizer_refresh_token'] = $item['refresh_token'];
+                $data['create_at'] = date('Y-m-d H:i:s', $item['auth_time']);
                 if (!DataService::save('WechatConfig', $data, 'authorizer_appid')) {
                     $this->error('获取授权信息失败，请稍候再试！', '');
                 }
@@ -115,6 +116,7 @@ class Index extends BasicAdmin
      */
     public function del()
     {
+        $wechat = WechatService::service();
         if (DataService::update($this->table)) {
             $this->success("微信删除成功！", '');
         }
