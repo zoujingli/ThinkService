@@ -168,7 +168,8 @@ class Push extends Controller
             return "接收微信第三方平台授权失败! ";
         }
         // 重新通过接口查询公众号参数
-        if (!($info = array_merge($result, $service->getAuthorizerInfo($result['authorizer_appid'])))) {
+        $author = $service->getAuthorizerInfo($result['authorizer_appid']);
+        if (!($info = array_merge($result, $author))) {
             return '获取授权数据失败, 请稍候再试!';
         }
         $info = BuildService::filter($info);

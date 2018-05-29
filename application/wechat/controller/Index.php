@@ -72,7 +72,8 @@ class Index extends BasicAdmin
     public function sync()
     {
         $appid = $this->request->get('appid');
-        $author = Db::name('WechatConfig')->where('authorizer_appid', $appid)->find();
+        $where = ['authorizer_appid' => $appid, 'is_deleted' => '0', 'status' => '1'];
+        $author = Db::name('WechatConfig')->where($where)->find();
         empty($author) && $this->error('无效的授权信息，请同步其它公众号！');
         $wechat = WechatService::service();
         $info = BuildService::filter($wechat->getAuthorizerInfo($appid));
