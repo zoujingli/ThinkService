@@ -59,7 +59,7 @@ class Index extends BasicAdmin
             list($start, $end) = explode(' - ', $get['create_at']);
             $db->whereBetween('create_at', ["{$start} 00:00:00", "{$end} 23:59:59"]);
         }
-        return $this->_list($db->order('id desc'));
+        return $this->_list($db->order('create_at desc'));
     }
 
     /**
