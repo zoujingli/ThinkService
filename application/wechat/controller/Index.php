@@ -106,7 +106,7 @@ class Index extends BasicAdmin
                 }
             }
         }
-        $this->success('同步获取所有授权信息成功！', '');
+        $this->success('同步所有授权信息成功！', '');
     }
 
     /**
