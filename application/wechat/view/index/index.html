@@ -90,7 +90,7 @@
                 </div>
                 <div class="inline-block">
                     公众号AppID：{$vo.authorizer_appid}&nbsp;&nbsp;&nbsp;&nbsp;接口次数：{$vo.total}<br>
-                    接口服务密钥：{$vo.appkey|default='<span class="color-desc">未生成接口服务密码, 请稍候授权绑定</span>'}<br>
+                    接口服务密钥：{$vo.appkey|default='<span class="color-desc">未生成接口服务密码, 请稍候授权绑定</span>'|raw}<br>
                     消息推送接口：{$vo.appuri|default='<span class="color-desc">未配置消息推送接口</span>'|raw}
                 </div>
             </td>
