@@ -14,6 +14,7 @@
 
 namespace app\wechat\controller;
 
+use app\wechat\service\BuildService;
 use controller\BasicAdmin;
 use service\DataService;
 use service\WechatService;
@@ -71,7 +72,8 @@ class Index extends BasicAdmin
         $appid = $this->request->get('appid');
         $wechat = WechatService::service();
         $author = $wechat->getAuthorizerInfo($appid);
-        dump($author);
+        $info = BuildService::filter($author);
+        dump($info);
     }
 
     /**
