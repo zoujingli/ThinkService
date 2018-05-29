@@ -66,14 +66,21 @@ class Index extends BasicAdmin
      * 同步获取权限
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function sync()
     {
         $appid = $this->request->get('appid');
+        $author = Db::name('WechatConfig')->where('authorizer_appid', $appid)->find();
+        empty($author) && $this->error('无效的授权信息，请同步其它公众号！');
         $wechat = WechatService::service();
-        $author = $wechat->getAuthorizerInfo($appid);
-        $info = BuildService::filter($author);
-        dump($info);
+        $info = BuildService::filter($wechat->getAuthorizerInfo($appid));
+        $info['authorizer_appid'] = $appid;
+        if (DataService::save('WechatConfig', $info, 'authorizer_appid')) {
+            $this->success('更新授权信息成功！', '');
+        }
+        $this->error('获取授权信息失败，请稍候再试！');
     }
 
     /**
