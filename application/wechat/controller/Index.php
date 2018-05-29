@@ -96,11 +96,13 @@ class Index extends BasicAdmin
         $wechat = WechatService::service();
         $result = $wechat->getAuthorizerList();
         foreach ($result['list'] as $item) {
-            $data = BuildService::filter($wechat->getAuthorizerInfo($item['authorizer_appid']));
-            $data['authorizer_refresh_token'] = $item['refresh_token'];
-            $data['authorizer_appid'] = $item['authorizer_appid'];
-            if (!DataService::save('WechatConfig', $data, 'authorizer_appid')) {
-                $this->error('获取授权信息失败，请稍候再试！', '');
+            if (!empty($item['refresh_token'])) {
+                $data = BuildService::filter($wechat->getAuthorizerInfo($item['authorizer_appid']));
+                $data['authorizer_refresh_token'] = $item['refresh_token'];
+                $data['authorizer_appid'] = $item['authorizer_appid'];
+                if (!DataService::save('WechatConfig', $data, 'authorizer_appid')) {
+                    $this->error('获取授权信息失败，请稍候再试！', '');
+                }
             }
         }
         $this->success('同步获取所有授权信息成功！', '');
