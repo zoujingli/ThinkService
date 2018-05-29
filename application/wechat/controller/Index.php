@@ -102,7 +102,6 @@ class Index extends BasicAdmin
             if (!DataService::save('WechatConfig', $data, 'authorizer_appid')) {
                 $this->error('获取授权信息失败，请稍候再试！', '');
             }
-            dump($data);
         }
         $this->success('同步获取所有授权信息成功！', '');
     }
