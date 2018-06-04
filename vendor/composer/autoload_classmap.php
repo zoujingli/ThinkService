@@ -167,6 +167,7 @@ return array(
     'app\\wechat\\handler\\BasicHandler' => $baseDir . '/application/wechat/handler/BasicHandler.php',
     'app\\wechat\\handler\\ConfigHandler' => $baseDir . '/application/wechat/handler/ConfigHandler.php',
     'app\\wechat\\handler\\WechatHandler' => $baseDir . '/application/wechat/handler/WechatHandler.php',
+    'app\\wechat\\service\\BuildService' => $baseDir . '/application/wechat/service/BuildService.php',
     'app\\wechat\\service\\PublishService' => $baseDir . '/application/wechat/service/PublishService.php',
     'app\\wechat\\service\\ReceiveService' => $baseDir . '/application/wechat/service/ReceiveService.php',
     'think\\captcha\\Captcha' => $vendorDir . '/topthink/think-captcha/src/Captcha.php',
