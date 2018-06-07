@@ -14,6 +14,10 @@
 
 namespace service;
 
+use think\exception\HttpResponseException;
+use think\facade\Response;
+use think\facade\Session;
+
 /**
  * 系统工具服务
  * Class ToolsService
@@ -29,11 +33,19 @@ class ToolsService
      */
     public static function corsOptionsHandler()
     {
+        Session::init(config('session.'));
+        $token = request()->header('token', '');
+        empty($token) && $token = request()->post('token', '');
+        empty($token) && $token = request()->get('token', '');
+        list($name, $value) = explode('=', decode($token) . '=');
+        if (!empty($value) && session_name() === $name) {
+            session_id($value);
+        }
         if (request()->isOptions()) {
             header('Access-Control-Allow-Origin:*');
             header('Access-Control-Allow-Credentials:true');
             header('Access-Control-Allow-Methods:GET,POST,OPTIONS');
-            header('Access-Control-Allow-Headers:Accept,Referer,Host,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Cookie');
+            header("Access-Control-Allow-Headers:Accept,Referer,Host,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Cookie,token");
             header('Content-Type:text/plain charset=UTF-8');
             header('Access-Control-Max-Age:1728000');
             header('HTTP/1.0 204 No Content');
@@ -54,6 +66,28 @@ class ToolsService
             'Access-Control-Allow-Methods'     => 'GET,POST,OPTIONS',
             'Access-Control-Allow-Credentials' => "true",
         ];
+    }
+
+    /**
+     * 返回成功的操作
+     * @param string $msg 消息内容
+     * @param array $data 返回数据
+     */
+    public static function success($msg, $data = [])
+    {
+        $result = ['code' => 1, 'msg' => $msg, 'data' => $data, 'token' => encode(session_name() . '=' . session_id())];
+        throw new HttpResponseException(Response::create($result, 'json', 200, self::corsRequestHander()));
+    }
+
+    /**
+     * 返回失败的请求
+     * @param string $msg 消息内容
+     * @param array $data 返回数据
+     */
+    public static function error($msg, $data = [])
+    {
+        $result = ['code' => 0, 'msg' => $msg, 'data' => $data, 'token' => encode(session_name() . '=' . session_id())];
+        throw new HttpResponseException(Response::create($result, 'json', 200, self::corsRequestHander()));
     }
 
     /**
@@ -121,7 +155,7 @@ class ToolsService
             $attr[$path] = "{$ppath}-{$attr[$id]}";
             $attr['sub'] = isset($attr['sub']) ? $attr['sub'] : [];
             $attr['spt'] = substr_count($ppath, '-');
-            $attr['spl'] = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;├&nbsp;", $attr['spt']);
+            $attr['spl'] = str_repeat("&nbsp;&nbsp;&nbsp;├&nbsp;&nbsp;", $attr['spt']);
             $sub = $attr['sub'];
             unset($attr['sub']);
             $tree[] = $attr;
@@ -149,6 +183,51 @@ class ToolsService
             }
         }
         return $ids;
+    }
+
+    /**
+     * 写入CSV文件头部
+     * @param string $filename 导出文件
+     * @param array $headers CSV 头部(一级数组)
+     */
+    public static function setCsvHeader($filename, array $headers)
+    {
+        header('Content-Type: application/octet-stream');
+        header("Content-Disposition: attachment; filename=" . iconv('utf-8', 'gbk//TRANSLIT', $filename));
+        echo @iconv('utf-8', 'gbk//TRANSLIT', "\"" . implode('","', $headers) . "\"\n");
+    }
+
+    /**
+     * 写入CSV文件内容
+     * @param array $list 数据列表(二维数组或多维数组)
+     * @param array $rules 数据规则(一维数组)
+     */
+    public static function setCsvBody(array $list, array $rules)
+    {
+        foreach ($list as $data) {
+            $rows = [];
+            foreach ($rules as $rule) {
+                $item = self::parseKeyDot($data, $rule);
+                $rows[] = $item === $data ? '' : $item;
+            }
+            echo @iconv('utf-8', 'gbk//TRANSLIT', "\"" . implode('","', $rows) . "\"\n");
+            flush();
+        }
+    }
+
+    /**
+     * 根据数组key查询(可带点规则)
+     * @param array $data 数据
+     * @param string $rule 规则，如: order.order_no
+     * @return mixed
+     */
+    private static function parseKeyDot(array $data, $rule)
+    {
+        list($temp, $attr) = [$data, explode('.', trim($rule, '.'))];
+        while ($key = array_shift($attr)) {
+            $temp = isset($temp[$key]) ? $temp[$key] : $temp;
+        }
+        return (is_string($temp) || is_numeric($temp)) ? str_replace('"', '""', "\t{$temp}") : '';
     }
 
 }

@@ -15,10 +15,9 @@
 namespace controller;
 
 use service\ToolsService;
-use think\exception\HttpResponseException;
 
 /**
- * ApiCros认证基础类
+ * 基础接口类
  * Class BasicApi
  * @package controller
  */
@@ -26,12 +25,13 @@ class BasicApi
 {
 
     /**
-     * 当前请求参数
+     * 当前请求对象
      * @var \think\Request
      */
     protected $request;
 
     /**
+     * 构造方法
      * BasicApi constructor.
      */
     public function __construct()
@@ -47,8 +47,7 @@ class BasicApi
      */
     protected function success($msg, $data = [])
     {
-        $result = ['code' => 1, 'msg' => $msg, 'data' => $data];
-        throw new HttpResponseException(json($result, '200', ToolsService::corsRequestHander()));
+        ToolsService::success($msg, $data);
     }
 
     /**
@@ -58,8 +57,7 @@ class BasicApi
      */
     protected function error($msg, $data = [])
     {
-        $result = ['code' => 0, 'msg' => $msg, 'data' => $data];
-        throw new HttpResponseException(json($result, '200', ToolsService::corsRequestHander()));
+        ToolsService::error($msg, $data);
     }
 
 }

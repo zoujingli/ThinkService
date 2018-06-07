@@ -39,7 +39,7 @@ class ReceiveService
      */
     public static function handler($appid)
     {
-        $service = WechatService::receive($appid);
+        $service = WechatService::WeChatReceive($appid);
         // 验证微信配置信息
         $config = Db::name('WechatConfig')->where(['authorizer_appid' => $appid])->find();
         if (empty($config) || empty($config['appuri'])) {

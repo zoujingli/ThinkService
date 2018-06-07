@@ -14,6 +14,7 @@
 
 namespace app\wechat\controller\api;
 
+use app\wechat\service\BuildService;
 use app\wechat\service\PublishService;
 use app\wechat\service\ReceiveService;
 use service\DataService;
@@ -69,10 +70,20 @@ class Push extends Controller
         if (!($data = $server->getComonentTicket())) {
             return "Ticket event handling failed.";
         }
+        # 授权成功通知
+        if (!empty($data['AuthorizerAppid']) && $data['InfoType'] === 'authorized') {
+            $where = ['authorizer_appid' => $data['AuthorizerAppid']];
+            Db::name('WechatConfig')->where($where)->update(['is_deleted' => '0']);
+        }
         # 接收取消授权服务事件
-        if ($data['InfoType'] === 'unauthorized' && !empty($data['AuthorizerAppid'])) {
+        if (!empty($data['AuthorizerAppid']) && $data['InfoType'] === 'unauthorized') {
             $where = ['authorizer_appid' => $data['AuthorizerAppid']];
             Db::name('WechatConfig')->where($where)->update(['is_deleted' => '1']);
+        }
+        # 授权更新通知
+        if (!empty($data['AuthorizerAppid']) && $data['InfoType'] === 'updateauthorized') {
+            $_GET['auth_code'] = $data['PreAuthCode'];
+            $this->applyAuth($server);
         }
         return 'success';
     }
@@ -142,14 +153,14 @@ class Push extends Controller
     /**
      * 公众号授权绑定数据处理
      * @param \WeOpen\Service $service
-     * @param string $redirect 授权成功回跳地址
+     * @param string|null $redirect 授权成功回跳地址
      * @return string
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
-    private function applyAuth($service, $redirect)
+    private function applyAuth($service, $redirect = null)
     {
         // 通过授权code换取公众号信息
         $result = $service->getQueryAuthorizerInfo();
@@ -157,37 +168,24 @@ class Push extends Controller
             return "接收微信第三方平台授权失败! ";
         }
         // 重新通过接口查询公众号参数
-        if (!($info = array_merge($result, $service->getAuthorizerInfo($result['authorizer_appid'])))) {
+        $author = $service->getAuthorizerInfo($result['authorizer_appid']);
+        if (!($info = array_merge($result, $author))) {
             return '获取授权数据失败, 请稍候再试!';
         }
-        $info['func_info'] = join(',', array_map(function ($tmp) {
-            return $tmp['funcscope_category']['id'];
-        }, $info['func_info']));
-        $info['verify_type_info'] = join(',', $info['verify_type_info']);
-        $info['service_type_info'] = join(',', $info['service_type_info']);
-        $info['business_info'] = json_encode($info['business_info'], JSON_UNESCAPED_UNICODE);
+        $info = BuildService::filter($info);
         $info['status'] = '1';
         $info['is_deleted'] = '0';
         $info['expires_in'] = time() + 7000;
         $info['create_at'] = date('Y-m-d H:i:s');
-        // 微信类型:  0 代表订阅号, 2 代表服务号, 3 代表小程序
-        $info['service_type'] = intval($info['service_type_info']) === 2 ? 2 : 0;
-        if (!empty($info['MiniProgramInfo'])) {
-            // 微信类型:  0 代表订阅号, 2 代表服务号, 3 代表小程序
-            $info['service_type'] = 3;
-            // 小程序信息
-            $info['miniprograminfo'] = json_encode($info['MiniProgramInfo'], JSON_UNESCAPED_UNICODE);
-        }
-        // 微信认证: -1 代表未认证, 0 代表微信认证
-        $info['verify_type'] = intval($info['verify_type_info']) !== 0 ? -1 : 0;
         // 微信接口APPKEY处理与更新
-        $conf = Db::name('WechatConfig')->where('authorizer_appid', $result['authorizer_appid'])->find();
-        $info['appkey'] = empty($conf['appkey']) ? md5(uniqid('', true)) : $conf['appkey'];
+        $config = Db::name('WechatConfig')->where('authorizer_appid', $result['authorizer_appid'])->find();
+        $info['appkey'] = empty($config['appkey']) ? md5(uniqid('', true)) : $config['appkey'];
         DataService::save('WechatConfig', $info, 'authorizer_appid');
-        // 带上appid与appkey跳转到应用
-        $split = stripos($redirect, '?') > 0 ? '&' : '?';
-        $realurl = preg_replace(['/appid=\w+/i', '/appkey=\w+/i', '/(\?\&)$/i'], ['', '', ''], $redirect);
-        return redirect("{$realurl}{$split}appid={$info['authorizer_appid']}&appkey={$info['appkey']}");
+        if (!empty($redirect)) { // 带上appid与appkey跳转到应用
+            $split = stripos($redirect, '?') > 0 ? '&' : '?';
+            $realurl = preg_replace(['/appid=\w+/i', '/appkey=\w+/i', '/(\?\&)$/i'], ['', '', ''], $redirect);
+            return redirect("{$realurl}{$split}appid={$info['authorizer_appid']}&appkey={$info['appkey']}");
+        }
     }
 
 }

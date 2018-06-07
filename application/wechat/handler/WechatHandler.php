@@ -42,7 +42,7 @@ class WechatHandler extends BasicHandler
         if (!empty($openid) && (empty($fullMode) || !empty($fans))) {
             return ['openid' => $openid, 'fans' => $fans, 'url' => ''];
         }
-        $service = WechatService::instance('service');
+        $service = WechatService::service();
         $mode = empty($fullMode) ? 'snsapi_base' : 'snsapi_userinfo';
         $url = url('@wechat/api.push/oauth', '', true, true);
         $params = ['mode' => $fullMode, 'sessid' => $sessid, 'enurl' => encode($self_url)];
@@ -78,7 +78,7 @@ class WechatHandler extends BasicHandler
      */
     public function config($name = null)
     {
-        return WechatService::script($this->appid)->config->get($name);
+        return WechatService::WeChatScript($this->appid)->config->get($name);
     }
 
     /**
@@ -92,7 +92,7 @@ class WechatHandler extends BasicHandler
     public function jsSign($url)
     {
         $this->checkInit();
-        $script = WechatService::script($this->appid);
+        $script = WechatService::WeChatScript($this->appid);
         $result = $script->getJsSign($url);
         return $result;
     }

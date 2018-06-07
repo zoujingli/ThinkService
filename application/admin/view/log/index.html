@@ -9,7 +9,7 @@
 {block name="content"}
 
 <!-- 表单搜索 开始 -->
-<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+<form autocomplete="off" class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
 
     <div class="layui-form-item layui-inline">
         <label class="layui-form-label">操作账号</label>
@@ -67,7 +67,7 @@
     <table class="layui-table" lay-skin="line">
         <thead>
         <tr>
-            <th class='list-table-check-td'>
+            <th class='list-table-check-td think-checkbox'>
                 <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
             </th>
             <th class='text-left nowrap'>操作账号</th>
@@ -81,7 +81,7 @@
         <tbody>
         <!--{foreach $list as $key=>$vo}-->
         <tr>
-            <td class='list-table-check-td'>
+            <td class='list-table-check-td think-checkbox'>
                 <input class="list-check-box" value='{$vo.id}' type='checkbox'>
             </td>
             <td class='text-left nowrap'>{$vo.username}</td>
