@@ -99,6 +99,11 @@ function decode($string)
     return iconv('gbk', 'utf-8', $chars);
 }
 
+/**
+ * 下载网络文件到本地服务器
+ * @param string $url
+ * @return string
+ */
 function local_image($url)
 {
     return \service\FileService::download($url)['url'];
