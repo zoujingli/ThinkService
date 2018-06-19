@@ -158,6 +158,7 @@ return array(
     'app\\admin\\controller\\Node' => $baseDir . '/application/admin/controller/Node.php',
     'app\\admin\\controller\\Plugs' => $baseDir . '/application/admin/controller/Plugs.php',
     'app\\admin\\controller\\User' => $baseDir . '/application/admin/controller/User.php',
+    'app\\admin\\middleware\\Auth' => $baseDir . '/application/admin/middleware/Auth.php',
     'app\\index\\controller\\Demo' => $baseDir . '/application/index/controller/Demo.php',
     'app\\index\\controller\\Index' => $baseDir . '/application/index/controller/Index.php',
     'app\\wechat\\controller\\Config' => $baseDir . '/application/wechat/controller/Config.php',

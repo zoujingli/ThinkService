@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita072b86e71d4772b648cc312ec090d02
+class ComposerStaticInit02a52adef9c1cb660840a89928cd0b73
 {
     public static $files = array (
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
@@ -239,6 +239,7 @@ class ComposerStaticInita072b86e71d4772b648cc312ec090d02
         'app\\admin\\controller\\Node' => __DIR__ . '/../..' . '/application/admin/controller/Node.php',
         'app\\admin\\controller\\Plugs' => __DIR__ . '/../..' . '/application/admin/controller/Plugs.php',
         'app\\admin\\controller\\User' => __DIR__ . '/../..' . '/application/admin/controller/User.php',
+        'app\\admin\\middleware\\Auth' => __DIR__ . '/../..' . '/application/admin/middleware/Auth.php',
         'app\\index\\controller\\Demo' => __DIR__ . '/../..' . '/application/index/controller/Demo.php',
         'app\\index\\controller\\Index' => __DIR__ . '/../..' . '/application/index/controller/Index.php',
         'app\\wechat\\controller\\Config' => __DIR__ . '/../..' . '/application/wechat/controller/Config.php',
@@ -262,9 +263,9 @@ class ComposerStaticInita072b86e71d4772b648cc312ec090d02
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita072b86e71d4772b648cc312ec090d02::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita072b86e71d4772b648cc312ec090d02::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita072b86e71d4772b648cc312ec090d02::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit02a52adef9c1cb660840a89928cd0b73::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit02a52adef9c1cb660840a89928cd0b73::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit02a52adef9c1cb660840a89928cd0b73::$classMap;
 
         }, null, ClassLoader::class);
     }
