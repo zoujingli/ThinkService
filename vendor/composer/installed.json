@@ -196,12 +196,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "b851761979a219c92285fee691030aca50bcb5bc"
+            "reference": "61a66e8eeecf1584e0dc150a530f0d116e6ccd01"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/top-think/framework/b851761979a219c92285fee691030aca50bcb5bc.zip",
-            "reference": "b851761979a219c92285fee691030aca50bcb5bc",
+            "url": "https://files.phpcomposer.com/files/top-think/framework/61a66e8eeecf1584e0dc150a530f0d116e6ccd01.zip",
+            "reference": "61a66e8eeecf1584e0dc150a530f0d116e6ccd01",
             "shasum": ""
         },
         "require": {
@@ -217,7 +217,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2018-06-17T14:11:40+00:00",
+        "time": "2018-06-19T03:11:41+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -285,23 +285,23 @@
     },
     {
         "name": "symfony/options-resolver",
-        "version": "v3.4.11",
-        "version_normalized": "3.4.11.0",
+        "version": "v3.4.12",
+        "version_normalized": "3.4.12.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/options-resolver.git",
-            "reference": "f3109a6aedd20e35c3a33190e932c2b063b7b50e"
+            "reference": "cc5e98ed91688a22a7162a8800096356f9076b1d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/symfony/options-resolver/f3109a6aedd20e35c3a33190e932c2b063b7b50e.zip",
-            "reference": "f3109a6aedd20e35c3a33190e932c2b063b7b50e",
+            "url": "https://files.phpcomposer.com/files/symfony/options-resolver/cc5e98ed91688a22a7162a8800096356f9076b1d.zip",
+            "reference": "cc5e98ed91688a22a7162a8800096356f9076b1d",
             "shasum": ""
         },
         "require": {
             "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2018-01-11T07:56:07+00:00",
+        "time": "2018-05-30T04:26:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
