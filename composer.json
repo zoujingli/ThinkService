@@ -1,28 +1,30 @@
 {
-  "name": "topthink/think",
-  "description": "the new thinkphp framework",
   "type": "project",
+  "name": "zoujingli/thinkservice",
+  "description": "WeChat Open Service",
   "keywords": [
-    "framework",
     "thinkphp",
-    "ORM"
+    "service",
+    "wechat",
+    "open"
   ],
-  "homepage": "http://thinkphp.cn/",
-  "license": "Apache-2.0",
+  "license": "MIT",
+  "homepage": "http://service.thinkadmin.top",
   "authors": [
     {
-      "name": "liu21st",
-      "email": "liu21st@gmail.com"
+      "name": "Anyon",
+      "email": "zoujingli@qq.com"
     }
   ],
   "require": {
     "php": ">=5.6.0",
+    "qiniu/php-sdk": "^7.2",
     "endroid/qr-code": "^1.9",
     "topthink/framework": "5.1.*",
-    "zoujingli/ip2region": "dev-master",
     "aliyuncs/oss-sdk-php": "^2.2",
-    "zoujingli/weopen-developer": "dev-master",
-    "topthink/think-captcha": "^2.0"
+    "topthink/think-captcha": "^2.0",
+    "zoujingli/ip2region": "dev-master",
+    "zoujingli/weopen-developer": "dev-master"
   },
   "autoload": {
     "psr-4": {
