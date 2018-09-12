@@ -23,6 +23,7 @@ use think\exception\DbException;
 use think\exception\PDOException;
 use think\Loader;
 use think\Model;
+use think\model\Collection as ModelCollection;
 use think\model\Relation;
 use think\model\relation\OneToOne;
 use think\Paginator;
@@ -150,7 +151,8 @@ class Query
             // 调用扩展查询方法
             array_unshift($args, $this);
 
-            return Container::getInstance()->invoke(self::$extend[strtolower($method)], $args);
+            return Container::getInstance()
+                ->invoke(self::$extend[strtolower($method)], $args);
         } elseif (strtolower(substr($method, 0, 5)) == 'getby') {
             // 根据某个字段获取记录
             $field = Loader::parseName(substr($method, 5));
@@ -303,14 +305,14 @@ class Query
      * @param  string      $sql    sql指令
      * @param  array       $bind   参数绑定
      * @param  boolean     $master 是否在主服务器读操作
-     * @param  bool|string $class  指定返回的数据集对象
+     * @param  bool        $pdo    是否返回PDO对象
      * @return mixed
      * @throws BindParamException
      * @throws PDOException
      */
-    public function query($sql, $bind = [], $master = false, $class = false)
+    public function query($sql, $bind = [], $master = false, $pdo = false)
     {
-        return $this->connection->query($sql, $bind, $master, $class);
+        return $this->connection->query($sql, $bind, $master, $pdo);
     }
 
     /**
@@ -640,7 +642,10 @@ class Query
         if (!empty($this->options['group'])) {
             // 支持GROUP
             $options = $this->getOptions();
-            $subSql  = $this->options($options)->field('count(' . $field . ') AS think_count')->bind($this->bind)->buildSql();
+            $subSql  = $this->options($options)
+                ->field('count(' . $field . ') AS think_count')
+                ->bind($this->bind)
+                ->buildSql();
 
             $query = $this->newQuery()->table([$subSql => '_group_count_']);
 
@@ -1749,6 +1754,9 @@ class Query
             $results = $this->page($page, $listRows)->select();
         }
 
+        $this->removeOption('limit');
+        $this->removeOption('page');
+
         return $class::make($results, $listRows, $page, $total, $simple, $config);
     }
 
@@ -2066,6 +2074,19 @@ class Query
     }
 
     /**
+     * 设置是否返回数据集对象（支持设置数据集对象类名）
+     * @access public
+     * @param  bool|string  $collection  是否返回数据集对象
+     * @return $this
+     */
+    public function fetchCollection($collection = true)
+    {
+        $this->options['collection'] = $collection;
+
+        return $this;
+    }
+
+    /**
      * 设置从主服务器读取数据
      * @access public
      * @return $this
@@ -2208,6 +2229,18 @@ class Query
     }
 
     /**
+     * 是否允许返回空数据（或空模型）
+     * @access public
+     * @param  bool $allowEmpty 是否允许为空
+     * @return $this
+     */
+    public function allowEmpty($allowEmpty = true)
+    {
+        $this->options['allow_empty'] = $allowEmpty;
+        return $this;
+    }
+
+    /**
      * 添加查询范围
      * @access public
      * @param  array|string|\Closure   $scope 查询范围定义
@@ -2245,21 +2278,23 @@ class Query
     /**
      * 使用搜索器条件搜索字段
      * @access public
-     * @param  array $fields 搜索字段
-     * @param  array $data   搜索数据
+     * @param  array    $fields     搜索字段
+     * @param  array    $data       搜索数据
+     * @param  string   $prefix     字段前缀标识
      * @return $this
      */
-    public function withSearch(array $fields, array $data = [])
+    public function withSearch(array $fields, array $data = [], $prefix = '')
     {
         foreach ($fields as $key => $field) {
             if ($field instanceof \Closure) {
-                $field($this, isset($data[$key]) ? $data[$key] : null, $data);
+                $field($this, isset($data[$key]) ? $data[$key] : null, $data, $prefix);
             } elseif ($this->model) {
                 // 检测搜索器
-                $method = 'search' . Loader::parseName($field, 1) . 'Attr';
+                $fieldName = is_numeric($key) ? $field : $key;
+                $method    = 'search' . Loader::parseName($fieldName, 1) . 'Attr';
 
                 if (method_exists($this->model, $method)) {
-                    $this->model->$method($this, isset($data[$field]) ? $data[$field] : null, $data);
+                    $this->model->$method($this, isset($data[$field]) ? $data[$field] : null, $data, $prefix);
                 }
             }
         }
@@ -2935,59 +2970,69 @@ class Query
             return $resultSet;
         }
 
-        // 数据列表读取后的处理
-        if (!empty($this->model)) {
-            // 生成模型对象
-            if (count($resultSet) > 0) {
-                // 检查动态获取器
-                if (!empty($this->options['with_attr'])) {
-                    foreach ($this->options['with_attr'] as $name => $val) {
-                        if (strpos($name, '.')) {
-                            list($relation, $field) = explode('.', $name);
-
-                            $withRelationAttr[$relation][$field] = $val;
-                            unset($this->options['with_attr'][$name]);
-                        }
-                    }
-                }
-
-                $withRelationAttr = isset($withRelationAttr) ? $withRelationAttr : [];
-
-                foreach ($resultSet as $key => &$result) {
-                    // 数据转换为模型对象
-                    $this->resultToModel($result, $this->options, true, $withRelationAttr);
-                }
-
-                if (!empty($this->options['with'])) {
-                    // 预载入
-                    $result->eagerlyResultSet($resultSet, $this->options['with'], $withRelationAttr);
-                }
-
-                if (!empty($this->options['with_join'])) {
-                    // JOIN预载入
-                    $result->eagerlyResultSet($resultSet, $this->options['with_join'], $withRelationAttr, true);
-                }
-
-                // 模型数据集转换
-                $resultSet = $result->toCollection($resultSet);
-            } else {
-                $resultSet = $this->model->toCollection($resultSet);
-            }
-        } else {
-            $this->resultSet($resultSet);
-
-            if ('collection' == $this->connection->getConfig('resultset_type')) {
-                // 返回Collection对象
-                $resultSet = new Collection($resultSet);
-            }
-        }
-
         // 返回结果处理
         if (!empty($this->options['fail']) && count($resultSet) == 0) {
             $this->throwNotFound($this->options);
         }
 
+        // 数据列表读取后的处理
+        if (!empty($this->model)) {
+            // 生成模型对象
+            $resultSet = $this->resultSetToModelCollection($resultSet);
+        } else {
+            $this->resultSet($resultSet);
+        }
+
         return $resultSet;
+    }
+
+    /**
+     * 查询数据转换为模型数据集对象
+     * @access protected
+     * @param  array  $resultSet         数据集
+     * @return ModelCollection
+     */
+    protected function resultSetToModelCollection(array $resultSet)
+    {
+        if (!empty($this->options['collection']) && is_string($this->options['collection'])) {
+            $collection = $this->options['collection'];
+        }
+
+        if (empty($resultSet)) {
+            return $this->model->toCollection([], isset($collection) ? $collection : null);
+        }
+
+        // 检查动态获取器
+        if (!empty($this->options['with_attr'])) {
+            foreach ($this->options['with_attr'] as $name => $val) {
+                if (strpos($name, '.')) {
+                    list($relation, $field) = explode('.', $name);
+
+                    $withRelationAttr[$relation][$field] = $val;
+                    unset($this->options['with_attr'][$name]);
+                }
+            }
+        }
+
+        $withRelationAttr = isset($withRelationAttr) ? $withRelationAttr : [];
+
+        foreach ($resultSet as $key => &$result) {
+            // 数据转换为模型对象
+            $this->resultToModel($result, $this->options, true, $withRelationAttr);
+        }
+
+        if (!empty($this->options['with'])) {
+            // 预载入
+            $result->eagerlyResultSet($resultSet, $this->options['with'], $withRelationAttr);
+        }
+
+        if (!empty($this->options['with_join'])) {
+            // JOIN预载入
+            $result->eagerlyResultSet($resultSet, $this->options['with_join'], $withRelationAttr, true);
+        }
+
+        // 模型数据集转换
+        return $result->toCollection($resultSet, isset($collection) ? $collection : null);
     }
 
     /**
@@ -3008,6 +3053,11 @@ class Query
             foreach ($resultSet as &$result) {
                 $this->getResultAttr($result, $this->options['with_attr']);
             }
+        }
+
+        if (!empty($this->options['collection']) || 'collection' == $this->connection->getConfig('resultset_type')) {
+            // 返回Collection对象
+            $resultSet = new Collection($resultSet);
         }
     }
 
@@ -3045,18 +3095,35 @@ class Query
         }
 
         // 数据处理
-        if (!empty($result)) {
-            if (!empty($this->model)) {
-                // 返回模型对象
-                $this->resultToModel($result, $this->options);
-            } else {
-                $this->result($result);
-            }
-        } elseif (!empty($this->options['fail'])) {
-            $this->throwNotFound($this->options);
+        if (empty($result)) {
+            return $this->resultToEmpty();
+        }
+
+        if (!empty($this->model)) {
+            // 返回模型对象
+            $this->resultToModel($result, $this->options);
+        } else {
+            $this->result($result);
         }
 
         return $result;
+    }
+
+    /**
+     * 处理空数据
+     * @access protected
+     * @return array|Model|null
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
+     */
+    protected function resultToEmpty()
+    {
+        if (!empty($this->options['allow_empty'])) {
+            return !empty($this->model) ? $this->model->newInstance([], $this->getModelUpdateCondition($this->options)) : [];
+        } elseif (!empty($this->options['fail'])) {
+            $this->throwNotFound($this->options);
+        }
     }
 
     /**
@@ -3333,6 +3400,20 @@ class Query
     public function findOrFail($data = null)
     {
         return $this->failException(true)->find($data);
+    }
+
+    /**
+     * 查找单条记录 如果不存在则抛出异常
+     * @access public
+     * @param  array|string|Query|\Closure $data
+     * @return array|\PDOStatement|string|Model
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
+     */
+    public function findOrEmpty($data = null)
+    {
+        return $this->allowEmpty(true)->find($data);
     }
 
     /**
