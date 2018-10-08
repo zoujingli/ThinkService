@@ -191,17 +191,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.1.24",
-        "version_normalized": "5.1.24.0",
+        "version": "v5.1.25",
+        "version_normalized": "5.1.25.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "03ee17d1ea9c432a698fa1d2411df53974420187"
+            "reference": "2e684d5fa38bd2d8ee864982f3114a28992da895"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/03ee17d1ea9c432a698fa1d2411df53974420187",
-            "reference": "03ee17d1ea9c432a698fa1d2411df53974420187",
+            "url": "https://api.github.com/repos/top-think/framework/zipball/2e684d5fa38bd2d8ee864982f3114a28992da895",
+            "reference": "2e684d5fa38bd2d8ee864982f3114a28992da895",
             "shasum": ""
         },
         "require": {
@@ -217,7 +217,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2018-09-05T03:37:46+00:00",
+        "time": "2018-10-04T05:04:50+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -338,23 +338,23 @@
     },
     {
         "name": "symfony/options-resolver",
-        "version": "v3.4.15",
-        "version_normalized": "3.4.15.0",
+        "version": "v3.4.17",
+        "version_normalized": "3.4.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/options-resolver.git",
-            "reference": "6debc476953a45969ab39afe8dee0b825f356dc7"
+            "reference": "1cf7d8e704a9cc4164c92e430f2dfa3e6983661d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/options-resolver/zipball/6debc476953a45969ab39afe8dee0b825f356dc7",
-            "reference": "6debc476953a45969ab39afe8dee0b825f356dc7",
+            "url": "https://api.github.com/repos/symfony/options-resolver/zipball/1cf7d8e704a9cc4164c92e430f2dfa3e6983661d",
+            "reference": "1cf7d8e704a9cc4164c92e430f2dfa3e6983661d",
             "shasum": ""
         },
         "require": {
             "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2018-07-26T08:45:46+00:00",
+        "time": "2018-09-17T17:29:18+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
