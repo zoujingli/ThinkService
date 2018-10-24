@@ -1,21 +1,13 @@
 {
   "type": "project",
-  "name": "zoujingli/thinkservice",
-  "description": "WeChat Open Service",
-  "keywords": [
-    "thinkphp",
-    "service",
-    "wechat",
-    "open"
-  ],
   "license": "MIT",
+  "keywords": ["thinkservice"],
+  "name": "zoujingli/think-service",
+  "description": "WeChat Open Service",
   "homepage": "http://service.thinkadmin.top",
-  "authors": [
-    {
-      "name": "Anyon",
-      "email": "zoujingli@qq.com"
-    }
-  ],
+  "autoload": {"psr-4": {"app\\": "application"}},
+  "authors": [{"name": "Anyon", "email": "zoujingli@qq.com"}],
+  "repositories": {"packagist": {"type": "composer", "url": "https://packagist.laravel-china.org"}},
   "require": {
     "php": ">=5.6.0",
     "qiniu/php-sdk": "^7.2",
@@ -25,16 +17,5 @@
     "topthink/think-captcha": "^2.0",
     "zoujingli/ip2region": "dev-master",
     "zoujingli/weopen-developer": "dev-master"
-  },
-  "autoload": {
-    "psr-4": {
-      "app\\": "application"
-    }
-  },
-  "extra": {
-    "think-path": "thinkphp"
-  },
-  "config": {
-    "preferred-install": "dist"
   }
 }
