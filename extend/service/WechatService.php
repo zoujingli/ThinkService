@@ -121,12 +121,8 @@ class WechatService
             return $result['authorizer_access_token'];
         };
         $app = new MiniApp($config);
-        if (in_array(strtolower($name), ['service', 'miniapp'])) {
-            return $app;
-        }
-        if (!in_array($type, ['WeChat', 'WeMini'])) {
-            $type = self::$type;
-        }
+        if (in_array(strtolower($name), ['service', 'miniapp'])) return $app;
+        if (!in_array($type, ['WeChat', 'WeMini'])) $type = self::$type;
         return $app->instance($name, $appid, $type);
     }
 
