@@ -21,18 +21,17 @@ try {
     $config = include "./config.php";
 
     // 3. 创建接口实例
-    $wechat = new \WeChat\User($config);
+    $wechat = new \WeChat\Pay($config);
 
-    // 4. 获取用户列表
-    $result = $wechat->getUserList();
+    // 4. 获取通知参数
+    $data = $wechat->getNotify();
+    if ($data['result_code'] === 'SUCCESS' && $data['result_code'] === 'SUCCESS') {
+        // @todo 去更新下原订单的支付状态
+        $order_no = $data['out_trade_no'];
 
-    echo '<pre>';
-    var_export($result);
-
-    // 5. 批量获取用户资料
-    foreach (array_chunk($result['data']['openid'], 100) as $item) {
-        $userList = $wechat->getBatchUserInfo($item);
-        var_export($userList);
+        // 返回接收成功的回复
+        ob_clean();
+        echo $wechat->getNotifySuccessReply();
     }
 
 } catch (Exception $e) {

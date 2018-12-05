@@ -57,8 +57,6 @@ class Index extends BasicAdmin
 
     /**
      * 微信网页授权
-     * @throws \think\Exception
-     * @throws \think\exception\PDOException
      */
     public function oauth()
     {

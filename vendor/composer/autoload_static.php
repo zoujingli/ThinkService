@@ -4,11 +4,11 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit19791a238d5d667fd980d091a879d29a
+class ComposerStaticInit5f453e6179e8f029b294230607d1cac1
 {
     public static $files = array (
-        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
+        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -228,6 +228,7 @@ class ComposerStaticInit19791a238d5d667fd980d091a879d29a
         'WeChat\\Contracts\\BasicWePay' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Contracts/BasicWePay.php',
         'WeChat\\Contracts\\DataArray' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Contracts/DataArray.php',
         'WeChat\\Contracts\\DataError' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Contracts/DataError.php',
+        'WeChat\\Contracts\\MyCurlFile' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Contracts/MyCurlFile.php',
         'WeChat\\Contracts\\Tools' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Contracts/Tools.php',
         'WeChat\\Custom' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Custom.php',
         'WeChat\\Exceptions\\InvalidArgumentException' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Exceptions/InvalidArgumentException.php',
@@ -306,9 +307,9 @@ class ComposerStaticInit19791a238d5d667fd980d091a879d29a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit19791a238d5d667fd980d091a879d29a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit19791a238d5d667fd980d091a879d29a::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit19791a238d5d667fd980d091a879d29a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5f453e6179e8f029b294230607d1cac1::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5f453e6179e8f029b294230607d1cac1::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit5f453e6179e8f029b294230607d1cac1::$classMap;
 
         }, null, ClassLoader::class);
     }
