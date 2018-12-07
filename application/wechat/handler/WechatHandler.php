@@ -56,8 +56,13 @@ class WechatHandler extends BasicHandler
      * @param string $filename 文件名称
      * @return array|null
      */
-    public function upFile($base64, $filename)
+    public function upFile( $filename)
     {
+        //解决文章里的图片地址带?aaa=123/ac等导致上传图文报错
+        if(strstr($filename,'?')){
+            $filename = substr($filename,0,strpos($filename, "?"));
+        }
+        $base64 = base64_encode(file_get_contents($filename));
         return FileService::local(basename($filename), base64_decode($base64));
     }
 
