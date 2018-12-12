@@ -44,9 +44,7 @@ class Config extends BasicAdmin
         if (!$this->request->isPost()) {
             return $this->fetch('', ['title' => '微信接口服务']);
         }
-        foreach ($this->request->post() as $key => $vo) {
-            sysconf($key, $vo);
-        }
+        foreach ($this->request->post() as $k => $v) sysconf($k, $v);
         LogService::write('微信管理', '修改微信接口服务参数成功');
         $this->success('数据修改成功！', '');
     }
