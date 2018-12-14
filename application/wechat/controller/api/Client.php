@@ -80,9 +80,6 @@ class Client extends Controller
      * 启动SOAP接口服务
      * @param string $param AppName-AppId-AppKey
      * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\Exception
      */
     public function soap($param)
     {
@@ -91,7 +88,7 @@ class Client extends Controller
             $service = new \SoapServer(null, ['uri' => strtolower($this->name)]);
             $service->setObject(empty($instance) ? $this : $instance);
             $service->handle();
-        } catch (\SoapFault $e) {
+        } catch (\Exception $e) {
             Log::error($errmsg = 'SoapServieError: ' . __METHOD__ . '  ###' . $e->getMessage());
             return $errmsg;
         }

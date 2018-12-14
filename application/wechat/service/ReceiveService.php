@@ -49,11 +49,7 @@ class ReceiveService
             list($data, $openid) = [$service->getReceive(), $service->getOpenid()];
             if (isset($data['EventKey']) && is_object($data['EventKey'])) $data['EventKey'] = (array)$data['EventKey'];
             $input = ['openid' => $openid, 'appid' => $appid, 'receive' => serialize($data), 'encrypt' => intval($service->isEncrypt())];
-            p('返回的内容');
-            if (is_string($result = HttpService::post($config['appuri'], $input, ['timeout' => 30]))) {
-                p($result);
-                return $result;
-            }
+            if (is_string($result = HttpService::post($config['appuri'], $input, ['timeout' => 30]))) return $result;
         } catch (\Exception $e) {
             \think\facade\Log::error("微信{$appid}接口调用异常，{$e->getMessage()}");
         }

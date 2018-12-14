@@ -10,6 +10,8 @@
   "repositories": {"packagist": {"type": "composer", "url": "https://packagist.laravel-china.org"}},
   "require": {
     "php": ">=5.6.0",
+    "ext-soap": "*",
+    "ext-json": "*",
     "qiniu/php-sdk": "^7.2",
     "endroid/qr-code": "^1.9",
     "topthink/framework": "5.1.*",

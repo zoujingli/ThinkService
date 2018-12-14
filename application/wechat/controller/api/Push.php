@@ -21,7 +21,6 @@ use service\DataService;
 use service\WechatService;
 use think\Controller;
 use think\Db;
-use think\Exception;
 use WeChat\Oauth;
 
 /**
@@ -37,7 +36,7 @@ class Push extends Controller
      * 微信API推送事件处理
      * @param string $appid
      * @return string
-     * @throws Exception
+     * @throws \think\Exception
      * @throws \WeChat\Exceptions\InvalidDecryptException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -96,22 +95,20 @@ class Push extends Controller
     public function oauth()
     {
         list($mode, $appid, $enurl, $sessid) = [
-            $this->request->get('mode'),
-            $this->request->get('state'),
-            $this->request->get('enurl'),
-            $this->request->get('sessid'),
+            $this->request->get('mode'), $this->request->get('state'),
+            $this->request->get('enurl'), $this->request->get('sessid'),
         ];
         $service = WechatService::service();
         $result = $service->getOauthAccessToken($appid);
         if (empty($result['openid'])) {
-            throw new Exception('网页授权失败, 无法进一步操作！');
+            throw new \think\Exception('网页授权失败, 无法进一步操作！');
         }
         cache("{$appid}_{$sessid}_openid", $result['openid']);
         if (!empty($mode)) {
             $wechat = new Oauth($service->getConfig($appid));
             $fans = $wechat->getUserInfo($result['access_token'], $result['openid']);
             if (empty($fans)) {
-                throw new Exception('网页授权信息获取失败, 无法进一步操作！');
+                throw new \think\Exception('网页授权信息获取失败, 无法进一步操作！');
             }
             cache("{$appid}_{$sessid}_fans", $fans);
         }
