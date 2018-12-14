@@ -17,7 +17,6 @@ namespace app\wechat\service;
 use service\HttpService;
 use service\WechatService;
 use think\Db;
-use think\facade\Log;
 
 /**
  * 微信推送消息处理
@@ -43,15 +42,15 @@ class ReceiveService
         // 验证微信配置信息
         $config = Db::name('WechatConfig')->where(['authorizer_appid' => $appid])->find();
         if (empty($config) || empty($config['appuri'])) {
-            Log::error(($message = "微信{$appid}授权配置验证无效"));
+            \think\facade\Log::error(($message = "微信{$appid}授权配置验证无效"));
             return $message;
         }
         try {
             list($data, $openid) = [$service->getReceive(), $service->getOpenid()];
-            (isset($data['EventKey']) && is_object($data['EventKey'])) && $data['EventKey'] = (array)$data['EventKey'];
+            if (isset($data['EventKey']) && is_object($data['EventKey'])) $data['EventKey'] = (array)$data['EventKey'];
             HttpService::post($config['appuri'], ['appid' => $appid, 'receive' => serialize($data), 'openid' => $openid], ['timeout' => 1]);
         } catch (\Exception $e) {
-            Log::error("微信{$appid}接口调用异常，" . $e->getMessage());
+            \think\facade\Log::error("微信{$appid}接口调用异常，{$e->getMessage()}");
         }
         return 'success';
     }
