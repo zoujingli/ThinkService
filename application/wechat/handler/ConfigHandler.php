@@ -25,54 +25,5 @@ use think\Exception;
  */
 class ConfigHandler extends BasicHandler
 {
-    /**
-     * 获取当前公众号配置
-     * @return array|bool
-     * @throws \think\Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
-    public function getConfig()
-    {
-        $this->checkInit();
-        $info = Db::name('WechatConfig')->where(['authorizer_appid' => $this->appid])->find();
-        if (empty($info)) {
-            return false;
-        }
-        unset($info['id']);
-        return $info;
-    }
-
-    /**
-     * 设置微信接口通知URL地址
-     * @param string $notifyUri 接口通知URL地址
-     * @return bool
-     * @throws \think\Exception
-     * @throws \think\exception\PDOException
-     */
-    public function setApiNotifyUri($notifyUri)
-    {
-        $this->checkInit();
-        if (empty($notifyUri)) {
-            throw new Exception('请传入微信通知URL', '401');
-        }
-        list($where, $data) = [['authorizer_appid' => $this->appid], ['appuri' => $notifyUri]];
-        return Db::name('WechatConfig')->where($where)->update($data) !== false;
-    }
-
-    /**
-     * 更新接口Appkey(成功返回新的Appkey)
-     * @return bool|string
-     * @throws \think\Exception
-     * @throws \think\exception\PDOException
-     */
-    public function updateApiAppkey()
-    {
-        $this->checkInit();
-        list($where, $data) = [['authorizer_appid' => $this->appid], ['appkey' => md5(uniqid())]];
-        Db::name('WechatConfig')->where($where)->update($data);
-        return $data['appkey'];
-    }
-
+    
 }

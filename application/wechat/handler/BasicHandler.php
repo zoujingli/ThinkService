@@ -14,10 +14,10 @@
 
 namespace app\wechat\handler;
 
-use think\Exception;
+use think\Db;
 
 /**
- * 客户端SOAP基础接口
+ * 客户端 SOAP 基础接口
  * Class BasicHandler
  * @package app\wechat\handler
  * @author Anyon <zoujingli@qq.com>
@@ -50,20 +50,66 @@ class BasicHandler
     public function __construct($config)
     {
         $this->config = $config;
-        $this->appid = empty($config['authorizer_appid']) ? '' : $config['authorizer_appid'];
+        $this->appid = isset($config['authorizer_appid']) ? $config['authorizer_appid'] : '';
     }
 
     /**
      * 检查微信配置服务初始化状态
-     * @return bool
+     * @return boolean
      * @throws \think\Exception
      */
     public function checkInit()
     {
         if (empty($this->config)) {
-            throw new Exception('Wechat Please bind Wechat first', '304');
+            throw new \think\Exception('Wechat Please bind Wechat first', '304');
         }
         return true;
+    }
+
+    /**
+     * 获取当前公众号配置
+     * @return array|boolean
+     * @throws \think\Exception
+     */
+    public function getConfig()
+    {
+        $this->checkInit();
+        $info = Db::name('WechatConfig')->where(['authorizer_appid' => $this->appid])->find();
+        if (empty($info)) return false;
+        if (isset($info['id'])) unset($info['id']);
+        return $info;
+    }
+
+    /**
+     * 设置微信接口通知URL地址
+     * @param string $notifyUri 接口通知URL地址
+     * @return boolean
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
+    public function setApiNotifyUri($notifyUri)
+    {
+        $this->checkInit();
+        if (empty($notifyUri)) {
+            throw new \think\Exception('请传入微信通知URL', '401');
+        }
+        list($where, $data) = [['authorizer_appid' => $this->appid], ['appuri' => $notifyUri]];
+        return Db::name('WechatConfig')->where($where)->update($data) !== false;
+    }
+
+    /**
+     * 更新接口Appkey(成功返回新的Appkey)
+     * @return bool|string
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
+    public function updateApiAppkey()
+    {
+        $this->checkInit();
+        $data = ['appkey' => md5(uniqid())];
+        $where = ['authorizer_appid' => $this->appid];
+        Db::name('WechatConfig')->where($where)->update($data);
+        return $data['appkey'];
     }
 
 }
