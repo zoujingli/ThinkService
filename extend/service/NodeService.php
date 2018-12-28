@@ -128,7 +128,7 @@ class NodeService
                 continue;
             }
             foreach (get_class_methods($className) as $funcName) {
-                if (strpos($funcName, '_') !== 0 && $funcName !== 'initialize') {
+                if (strpos($funcName, '_') !== 0 && $funcName !== 'initialize' && $funcName !== 'registerMiddleware') {
                     $nodes[] = self::parseNodeStr("{$matches[1]}/{$matches[2]}") . '/' . strtolower($funcName);
                 }
             }

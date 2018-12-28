@@ -14,9 +14,6 @@
 
 namespace app\wechat\handler;
 
-use think\Db;
-use think\Exception;
-
 /**
  * 微信配置服务
  * Class ConfigHandler
@@ -25,5 +22,5 @@ use think\Exception;
  */
 class ConfigHandler extends BasicHandler
 {
-    
+
 }
