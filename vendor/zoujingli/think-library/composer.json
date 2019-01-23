@@ -1,0 +1,36 @@
+{
+  "type": "library",
+  "license": "MIT",
+  "name": "zoujingli/think-library",
+  "keywords": [
+    "framework",
+    "ThinkAdmin",
+    "ThinkLibrary"
+  ],
+  "homepage": "https://library.thinkadmin.top",
+  "description": "ThinkPHP development of Library",
+  "authors": [
+    {
+      "name": "Anyon",
+      "email": "zoujingli@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "ext-iconv": "*",
+    "ext-openssl": "*",
+    "qiniu/php-sdk": "^7.2",
+    "topthink/framework": "5.1.*",
+    "aliyuncs/oss-sdk-php": "^2.2"
+  },
+  "autoload": {
+    "files": [
+      "common.php"
+    ],
+    "psr-4": {
+      "library\\": "library"
+    }
+  }
+}

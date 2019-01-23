@@ -18,6 +18,7 @@
     "aliyuncs/oss-sdk-php": "^2.2",
     "topthink/think-captcha": "^2.0",
     "zoujingli/ip2region": "dev-master",
-    "zoujingli/weopen-developer": "dev-master"
+    "zoujingli/weopen-developer": "dev-master",
+    "zoujingli/think-library": "5.1.x-dev"
   }
 }

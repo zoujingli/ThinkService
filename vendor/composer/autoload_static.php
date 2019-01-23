@@ -4,11 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853
+class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
 {
     public static $files = array (
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
+        '6bfa2db14bcd36db12d0b2121e50b8f2' => __DIR__ . '/..' . '/zoujingli/think-library/common.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -16,6 +17,10 @@ class ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853
         array (
             'think\\composer\\' => 15,
             'think\\captcha\\' => 14,
+        ),
+        'l' => 
+        array (
+            'library\\' => 8,
         ),
         'a' => 
         array (
@@ -58,6 +63,10 @@ class ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853
         'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
+        ),
+        'library\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zoujingli/think-library/library',
         ),
         'app\\' => 
         array (
@@ -286,6 +295,13 @@ class ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853
         'app\\admin\\middleware\\Auth' => __DIR__ . '/../..' . '/application/admin/middleware/Auth.php',
         'app\\index\\controller\\Demo' => __DIR__ . '/../..' . '/application/index/controller/Demo.php',
         'app\\index\\controller\\Index' => __DIR__ . '/../..' . '/application/index/controller/Index.php',
+        'app\\service\\controller\\api\\Client' => __DIR__ . '/../..' . '/application/service/controller/api/Client.php',
+        'app\\service\\controller\\api\\Push' => __DIR__ . '/../..' . '/application/service/controller/api/Push.php',
+        'app\\service\\handler\\Publish' => __DIR__ . '/../..' . '/application/service/handler/Publish.php',
+        'app\\service\\handler\\Receive' => __DIR__ . '/../..' . '/application/service/handler/Receive.php',
+        'app\\service\\handler\\Wechat' => __DIR__ . '/../..' . '/application/service/handler/Wechat.php',
+        'app\\service\\logic\\Build' => __DIR__ . '/../..' . '/application/service/logic/Build.php',
+        'app\\service\\logic\\Wechat' => __DIR__ . '/../..' . '/application/service/logic/Wechat.php',
         'app\\wechat\\controller\\Config' => __DIR__ . '/../..' . '/application/wechat/controller/Config.php',
         'app\\wechat\\controller\\Index' => __DIR__ . '/../..' . '/application/wechat/controller/Index.php',
         'app\\wechat\\controller\\api\\Client' => __DIR__ . '/../..' . '/application/wechat/controller/api/Client.php',
@@ -296,6 +312,26 @@ class ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853
         'app\\wechat\\service\\BuildService' => __DIR__ . '/../..' . '/application/wechat/service/BuildService.php',
         'app\\wechat\\service\\PublishService' => __DIR__ . '/../..' . '/application/wechat/service/PublishService.php',
         'app\\wechat\\service\\ReceiveService' => __DIR__ . '/../..' . '/application/wechat/service/ReceiveService.php',
+        'library\\Controller' => __DIR__ . '/..' . '/zoujingli/think-library/library/Controller.php',
+        'library\\File' => __DIR__ . '/..' . '/zoujingli/think-library/library/File.php',
+        'library\\driver\\Local' => __DIR__ . '/..' . '/zoujingli/think-library/library/driver/Local.php',
+        'library\\driver\\Oss' => __DIR__ . '/..' . '/zoujingli/think-library/library/driver/Oss.php',
+        'library\\driver\\Qiniu' => __DIR__ . '/..' . '/zoujingli/think-library/library/driver/Qiniu.php',
+        'library\\logic\\Delete' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Delete.php',
+        'library\\logic\\Form' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Form.php',
+        'library\\logic\\Input' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Input.php',
+        'library\\logic\\Logic' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Logic.php',
+        'library\\logic\\Page' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Page.php',
+        'library\\logic\\Query' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Query.php',
+        'library\\logic\\Save' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Save.php',
+        'library\\tools\\Cors' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Cors.php',
+        'library\\tools\\Crypt' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Crypt.php',
+        'library\\tools\\Csv' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Csv.php',
+        'library\\tools\\Data' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Data.php',
+        'library\\tools\\Express' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Express.php',
+        'library\\tools\\Http' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Http.php',
+        'library\\tools\\Node' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Node.php',
+        'library\\tools\\Options' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Options.php',
         'think\\captcha\\Captcha' => __DIR__ . '/..' . '/topthink/think-captcha/src/Captcha.php',
         'think\\captcha\\CaptchaController' => __DIR__ . '/..' . '/topthink/think-captcha/src/CaptchaController.php',
         'think\\composer\\Plugin' => __DIR__ . '/..' . '/topthink/think-installer/src/Plugin.php',
@@ -307,9 +343,9 @@ class ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0a99805d533d28bb3f4fb67a5fe8d853::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c::$classMap;
 
         }, null, ClassLoader::class);
     }
