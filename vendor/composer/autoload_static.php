@@ -4,12 +4,11 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
+class ComposerStaticInita4d91c134b8047fdcfe9f53a87094a85
 {
     public static $files = array (
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
-        '6bfa2db14bcd36db12d0b2121e50b8f2' => __DIR__ . '/..' . '/zoujingli/think-library/common.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -17,10 +16,6 @@ class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
         array (
             'think\\composer\\' => 15,
             'think\\captcha\\' => 14,
-        ),
-        'l' => 
-        array (
-            'library\\' => 8,
         ),
         'a' => 
         array (
@@ -63,10 +58,6 @@ class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
         'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
-        ),
-        'library\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zoujingli/think-library/library',
         ),
         'app\\' => 
         array (
@@ -210,7 +201,9 @@ class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
         'Qiniu\\Processing\\ImageUrlBuilder' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Processing/ImageUrlBuilder.php',
         'Qiniu\\Processing\\Operation' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Processing/Operation.php',
         'Qiniu\\Processing\\PersistentFop' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Processing/PersistentFop.php',
+        'Qiniu\\Region' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Region.php',
         'Qiniu\\Rtc\\AppClient' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Rtc/AppClient.php',
+        'Qiniu\\Sms\\Sms' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Sms/Sms.php',
         'Qiniu\\Storage\\ArgusManager' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Storage/ArgusManager.php',
         'Qiniu\\Storage\\BucketManager' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Storage/BucketManager.php',
         'Qiniu\\Storage\\FormUploader' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Storage/FormUploader.php',
@@ -230,6 +223,7 @@ class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
         'Symfony\\Component\\OptionsResolver\\Options' => __DIR__ . '/..' . '/symfony/options-resolver/Options.php',
         'Symfony\\Component\\OptionsResolver\\OptionsResolver' => __DIR__ . '/..' . '/symfony/options-resolver/OptionsResolver.php',
         'We' => __DIR__ . '/..' . '/zoujingli/wechat-developer/We.php',
+        'WeChat\\Bind' => __DIR__ . '/..' . '/zoujingli/weopen-developer/WeChat/Bind.php',
         'WeChat\\Card' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Card.php',
         'WeChat\\Contracts\\BasicAliPay' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Contracts/BasicAliPay.php',
         'WeChat\\Contracts\\BasicPushEvent' => __DIR__ . '/..' . '/zoujingli/wechat-developer/WeChat/Contracts/BasicPushEvent.php',
@@ -312,26 +306,6 @@ class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
         'app\\wechat\\service\\BuildService' => __DIR__ . '/../..' . '/application/wechat/service/BuildService.php',
         'app\\wechat\\service\\PublishService' => __DIR__ . '/../..' . '/application/wechat/service/PublishService.php',
         'app\\wechat\\service\\ReceiveService' => __DIR__ . '/../..' . '/application/wechat/service/ReceiveService.php',
-        'library\\Controller' => __DIR__ . '/..' . '/zoujingli/think-library/library/Controller.php',
-        'library\\File' => __DIR__ . '/..' . '/zoujingli/think-library/library/File.php',
-        'library\\driver\\Local' => __DIR__ . '/..' . '/zoujingli/think-library/library/driver/Local.php',
-        'library\\driver\\Oss' => __DIR__ . '/..' . '/zoujingli/think-library/library/driver/Oss.php',
-        'library\\driver\\Qiniu' => __DIR__ . '/..' . '/zoujingli/think-library/library/driver/Qiniu.php',
-        'library\\logic\\Delete' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Delete.php',
-        'library\\logic\\Form' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Form.php',
-        'library\\logic\\Input' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Input.php',
-        'library\\logic\\Logic' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Logic.php',
-        'library\\logic\\Page' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Page.php',
-        'library\\logic\\Query' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Query.php',
-        'library\\logic\\Save' => __DIR__ . '/..' . '/zoujingli/think-library/library/logic/Save.php',
-        'library\\tools\\Cors' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Cors.php',
-        'library\\tools\\Crypt' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Crypt.php',
-        'library\\tools\\Csv' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Csv.php',
-        'library\\tools\\Data' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Data.php',
-        'library\\tools\\Express' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Express.php',
-        'library\\tools\\Http' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Http.php',
-        'library\\tools\\Node' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Node.php',
-        'library\\tools\\Options' => __DIR__ . '/..' . '/zoujingli/think-library/library/tools/Options.php',
         'think\\captcha\\Captcha' => __DIR__ . '/..' . '/topthink/think-captcha/src/Captcha.php',
         'think\\captcha\\CaptchaController' => __DIR__ . '/..' . '/topthink/think-captcha/src/CaptchaController.php',
         'think\\composer\\Plugin' => __DIR__ . '/..' . '/topthink/think-installer/src/Plugin.php',
@@ -343,9 +317,9 @@ class ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit37b2b7766470ab4e55b634a8cca40e3c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita4d91c134b8047fdcfe9f53a87094a85::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita4d91c134b8047fdcfe9f53a87094a85::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita4d91c134b8047fdcfe9f53a87094a85::$classMap;
 
         }, null, ClassLoader::class);
     }

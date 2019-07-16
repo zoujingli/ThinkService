@@ -611,9 +611,9 @@ class Query
     /**
      * 聚合查询
      * @access public
-     * @param  string $aggregate    聚合方法
-     * @param  string $field        字段名
-     * @param  bool   $force        强制转为数字类型
+     * @param  string               $aggregate    聚合方法
+     * @param  string|Expression    $field        字段名
+     * @param  bool                 $force        强制转为数字类型
      * @return mixed
      */
     public function aggregate($aggregate, $field, $force = false)
@@ -634,7 +634,7 @@ class Query
     /**
      * COUNT查询
      * @access public
-     * @param  string $field 字段名
+     * @param  string|Expression $field 字段名
      * @return float|string
      */
     public function count($field = '*')
@@ -664,7 +664,7 @@ class Query
     /**
      * SUM查询
      * @access public
-     * @param  string $field 字段名
+     * @param  string|Expression $field 字段名
      * @return float
      */
     public function sum($field)
@@ -675,8 +675,8 @@ class Query
     /**
      * MIN查询
      * @access public
-     * @param  string $field    字段名
-     * @param  bool   $force    强制转为数字类型
+     * @param  string|Expression $field    字段名
+     * @param  bool              $force    强制转为数字类型
      * @return mixed
      */
     public function min($field, $force = true)
@@ -687,8 +687,8 @@ class Query
     /**
      * MAX查询
      * @access public
-     * @param  string $field    字段名
-     * @param  bool   $force    强制转为数字类型
+     * @param  string|Expression $field    字段名
+     * @param  bool              $force    强制转为数字类型
      * @return mixed
      */
     public function max($field, $force = true)
@@ -699,7 +699,7 @@ class Query
     /**
      * AVG查询
      * @access public
-     * @param  string $field 字段名
+     * @param  string|Expression $field 字段名
      * @return float
      */
     public function avg($field)
@@ -1512,6 +1512,7 @@ class Query
     {
         if ($field instanceof $this) {
             $this->options['where'] = $field->getOptions('where');
+            $this->bind($field->getBind(false));
             return $this;
         }
 
@@ -1527,7 +1528,7 @@ class Query
         }
 
         if ($field instanceof Expression) {
-            return $this->whereRaw($field, is_array($op) ? $op : []);
+            return $this->whereRaw($field, is_array($op) ? $op : [], $logic);
         } elseif ($strict) {
             // 使用严格模式查询
             $where = [$field, $op, $condition, $logic];
@@ -1538,7 +1539,7 @@ class Query
             $where = $field;
         } elseif (is_string($field)) {
             if (preg_match('/[,=\<\'\"\(\s]/', $field)) {
-                return $this->whereRaw($field, $op);
+                return $this->whereRaw($field, $op, $logic);
             } elseif (is_string($op) && strtolower($op) == 'exp') {
                 $bind = isset($param[2]) && is_array($param[2]) ? $param[2] : null;
                 return $this->whereExp($field, $condition, $bind, $logic);
@@ -1582,7 +1583,7 @@ class Query
                 // 字段相等查询
                 $where = [$field, '=', $op];
             }
-        } elseif (in_array(strtoupper($op), ['REGEXP', 'NOT REGEXP', 'EXISTS', 'NOT EXISTS', 'NOTEXISTS'], true)) {
+        } elseif (in_array(strtoupper($op), ['EXISTS', 'NOT EXISTS', 'NOTEXISTS'], true)) {
             $where = [$field, $op, is_string($condition) ? $this->raw($condition) : $condition];
         } else {
             $where = $field ? [$field, $op, $condition, isset($param[2]) ? $param[2] : null] : null;
@@ -1655,6 +1656,7 @@ class Query
     {
         if (true === $option) {
             $this->options = [];
+            $this->bind    = [];
         } elseif (is_string($option) && isset($this->options[$option])) {
             unset($this->options[$option]);
         }
@@ -2196,12 +2198,12 @@ class Query
     }
 
     /**
-     * 设置需要追加输出的属性
+     * 设置需要附加的输出属性
      * @access public
-     * @param  array $append 需要追加的属性
+     * @param  array $append   属性列表
      * @return $this
      */
-    public function append(array $append)
+    public function append(array $append = [])
     {
         $this->options['append'] = $append;
         return $this;
@@ -3354,13 +3356,13 @@ class Query
 
         // 输出属性控制
         if (!empty($options['visible'])) {
-            $result->visible($options['visible']);
+            $result->visible($options['visible'], true);
         } elseif (!empty($options['hidden'])) {
-            $result->hidden($options['hidden']);
+            $result->hidden($options['hidden'], true);
         }
 
         if (!empty($options['append'])) {
-            $result->append($options['append']);
+            $result->append($options['append'], true);
         }
 
         // 关联查询

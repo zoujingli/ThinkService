@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | framework
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2019 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://framework.thinkadmin.top
 // +----------------------------------------------------------------------
@@ -37,7 +37,7 @@ class Receive
      */
     public static function handler($appid)
     {
-        $service = Wechat::WeChatReceive($appid);
+        $wechat = Wechat::WeChatReceive($appid);
         // 验证微信配置信息
         $config = Db::name('WechatConfig')->where(['authorizer_appid' => $appid])->find();
         if (empty($config) || empty($config['appuri'])) {
@@ -45,10 +45,16 @@ class Receive
             return $message;
         }
         try {
-            list($data, $openid) = [$service->getReceive(), $service->getOpenid()];
+            list($data, $openid) = [$wechat->getReceive(), $wechat->getOpenid()];
             if (isset($data['EventKey']) && is_object($data['EventKey'])) $data['EventKey'] = (array)$data['EventKey'];
-            $input = ['openid' => $openid, 'appid' => $appid, 'receive' => serialize($data), 'encrypt' => intval($service->isEncrypt())];
-            if (is_string($result = http_post($config['appuri'], $input, ['timeout' => 30]))) return $result;
+            $input = ['openid' => $openid, 'appid' => $appid, 'receive' => serialize($data), 'encrypt' => intval($wechat->isEncrypt())];
+            if (is_string($result = http_post($config['appuri'], $input, ['timeout' => 30]))) {
+                if (is_array($json = json_decode($result, true))) {
+                    return $wechat->reply($json, true, $wechat->isEncrypt());
+                } else {
+                    return $result;
+                }
+            }
         } catch (\Exception $e) {
             \think\facade\Log::error("微信{$appid}接口调用异常，{$e->getMessage()}");
         }

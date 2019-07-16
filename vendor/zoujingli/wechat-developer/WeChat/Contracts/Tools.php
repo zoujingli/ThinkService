@@ -32,6 +32,17 @@ class Tools
     public static $cache_path = null;
 
     /**
+     * 缓存写入操作
+     * @var array
+     */
+    public static $cache_callable = [
+        'set' => null, // 写入缓存
+        'get' => null, // 获取缓存
+        'del' => null, // 删除缓存
+        'put' => null, // 写入文件
+    ];
+
+    /**
      * 网络缓存
      * @var array
      */
@@ -150,7 +161,7 @@ class Tools
         $entity = libxml_disable_entity_loader(true);
         $data = (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         libxml_disable_entity_loader($entity);
-        return json_decode(self::arr2json($data), true);
+        return json_decode(json_encode($data), true);
     }
 
     /**
@@ -160,9 +171,70 @@ class Tools
      */
     public static function arr2json($data)
     {
-        return preg_replace_callback('/\\\\u([0-9a-f]{4})/i', function ($matches) {
-            return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");
-        }, ($jsonData = json_encode($data)) == '[]' ? '{}' : $jsonData);
+        $json = json_encode(self::buildEnEmojiData($data), JSON_UNESCAPED_UNICODE);
+        return $json === '[]' ? '{}' : $json;
+    }
+
+    /**
+     * 数组对象Emoji编译处理
+     * @param array $data
+     * @return array
+     */
+    public static function buildEnEmojiData(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = self::buildEnEmojiData($value);
+            } elseif (is_string($value)) {
+                $data[$key] = self::emojiEncode($value);
+            } else {
+                $data[$key] = $value;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 数组对象Emoji反解析处理
+     * @param array $data
+     * @return array
+     */
+    public static function buildDeEmojiData(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = self::buildDeEmojiData($value);
+            } elseif (is_string($value)) {
+                $data[$key] = self::emojiDecode($value);
+            } else {
+                $data[$key] = $value;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Emoji原形转换为String
+     * @param string $content
+     * @return string
+     */
+    public static function emojiEncode($content)
+    {
+        return json_decode(preg_replace_callback("/(\\\u[ed][0-9a-f]{3})/i", function ($string) {
+            return addslashes($string[0]);
+        }, json_encode($content)));
+    }
+
+    /**
+     * Emoji字符串转换为原形
+     * @param string $content
+     * @return string
+     */
+    public static function emojiDecode($content)
+    {
+        return json_decode(preg_replace_callback('/\\\\\\\\/i', function () {
+            return '\\';
+        }, json_encode($content)));
     }
 
     /**
@@ -295,6 +367,9 @@ class Tools
      */
     public static function pushFile($name, $content)
     {
+        if (is_callable(self::$cache_callable['put'])) {
+            return call_user_func_array(self::$cache_callable['put'], func_get_args());
+        }
         $file = self::_getCacheName($name);
         if (!file_put_contents($file, $content)) {
             throw new LocalCacheException('local file write error.', '0');
@@ -312,8 +387,12 @@ class Tools
      */
     public static function setCache($name, $value = '', $expired = 3600)
     {
+        if (is_callable(self::$cache_callable['set'])) {
+            return call_user_func_array(self::$cache_callable['set'], func_get_args());
+        }
         $file = self::_getCacheName($name);
-        if (!file_put_contents($file, serialize(['name' => $name, 'value' => $value, 'expired' => time() + intval($expired)]))) {
+        $data = ['name' => $name, 'value' => $value, 'expired' => time() + intval($expired)];
+        if (!file_put_contents($file, serialize($data))) {
             throw new LocalCacheException('local cache error.', '0');
         }
         return $file;
@@ -326,6 +405,9 @@ class Tools
      */
     public static function getCache($name)
     {
+        if (is_callable(self::$cache_callable['get'])) {
+            return call_user_func_array(self::$cache_callable['get'], func_get_args());
+        }
         $file = self::_getCacheName($name);
         if (file_exists($file) && ($content = file_get_contents($file))) {
             $data = unserialize($content);
@@ -344,6 +426,9 @@ class Tools
      */
     public static function delCache($name)
     {
+        if (is_callable(self::$cache_callable['del'])) {
+            return call_user_func_array(self::$cache_callable['del'], func_get_args());
+        }
         $file = self::_getCacheName($name);
         return file_exists($file) ? unlink($file) : true;
     }
