@@ -9,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
+// | gitee 仓库地址 ：https://gitee.com/zoujingli/ThinkLibrary
 // | github 仓库地址 ：https://github.com/zoujingli/ThinkLibrary
 // +----------------------------------------------------------------------
 
@@ -19,12 +20,23 @@ use think\console\Input;
 use think\console\Output;
 
 /**
- * 文件比对支持
+ * 文件比对同步支持
  * Class Sync
  * @package library\command
  */
 class Sync extends Command
 {
+    /**
+     * 基础URL地址
+     * @var string
+     */
+    protected $uri;
+
+    /**
+     * 当前Admin版本号
+     * @var string
+     */
+    protected $version;
 
     /**
      * 指定更新模块
@@ -33,90 +45,44 @@ class Sync extends Command
     protected $modules = [];
 
     /**
-     * 基础URL地址
-     * @var string
+     * Sync constructor.
+     * @param null $name
      */
-    protected static $baseUri = 'https://framework.thinkadmin.top';
+    public function __construct($name = null)
+    {
+        $this->version = config('app.thinkadmin_ver');
+        if (empty($this->version)) $this->version = 'v4';
+        $this->uri = "https://{$this->version}.thinkadmin.top";
+        parent::__construct($name);
+    }
 
     /**
-     * 执行指令
+     * 执行更新操作
      * @param Input $input
      * @param Output $output
      */
     protected function execute(Input $input, Output $output)
     {
-        $output->comment('start updating difference files');
-        foreach (self::diff() as $file) foreach ($this->modules as $module) {
-            if (stripos($file['name'], $module) === 0) {
-                $this->syncFile($file, $output);
-                break;
-            }
+        $files = [];
+        $output->comment("=== 准备从代码仓库下载更新{$this->version}版本文件 ===");
+        foreach ($this->getDiff() as $file) if (in_array($file['type'], ['add', 'del', 'mod'])) {
+            foreach ($this->modules as $module) if (stripos($file['name'], $module) === 0) $files[] = $file;
         }
-        $output->comment('update difference file completion');
-    }
-
-    /**
-     * 同步所有差异文件
-     */
-    public static function sync()
-    {
-        foreach (self::diff() as $file) {
-            self::syncFile($file, new Output());
-        }
-    }
-
-    /**
-     * 同步指定文件
-     * @param array $file
-     * @param Output $output
-     */
-    private static function syncFile($file, $output)
-    {
-        if (in_array($file['type'], ['add', 'mod'])) {
-            if (self::down(encode($file['name']))) {
-                $output->writeln("{$file['name']} updated successfully.");
-            } else {
-                $output->error("{$file['name']} update failed.");
-            }
-        } elseif (in_array($file['type'], ['del'])) {
-            $realfile = realpath(env('root_path') . $file['name']);
-            if (is_file($realfile) && unlink($realfile)) {
-                self::removeEmptyDir(dirname($realfile));
-                $output->writeln("{$file['name']} remove successfully.");
-            } else {
-                $output->error("{$file['name']} remove failed.");
-            }
-        }
-    }
-
-    /**
-     * 清理指定的空目录
-     * @param string $dir
-     */
-    private static function removeEmptyDir($dir)
-    {
-        if (is_dir($dir) && count(scandir($dir)) === 2) {
-            if (rmdir($dir)) self::removeEmptyDir(dirname($dir));
-        }
+        if (empty($files)) $output->info('--- 本地文件与线上文件一致，无需更新文件');
+        else foreach ($files as $file) $this->syncFile($file, $output);
+        $output->comment("=== 从代码仓库下载{$this->version}版本同步更新成功 ===");
     }
 
     /**
      * 获取当前系统文件列表
      * @return array
      */
-    public static function build()
+    public function build()
     {
-        return self::tree([
-            'think',
-            'config/log.php',
-            'config/cookie.php',
-            'config/template.php',
-            'application/admin',
-            'application/wechat',
-            'application/service',
-            'public/static/plugs',
-            'public/static/theme',
-            'public/static/admin.js',
+        return $this->tree([
+            'think', 'config/log.php', 'config/cookie.php', 'config/template.php',
+            'application/admin', 'application/wechat', 'application/service',
+            'public/static/plugs', 'public/static/theme', 'public/static/admin.js',
         ]);
     }
 
@@ -127,12 +93,12 @@ class Sync extends Command
      * @param array $maps 扫描结果列表
      * @return array
      */
-    public static function tree(array $paths, array $ignores = [], array $maps = [])
+    public function tree(array $paths, array $ignores = [], array $maps = [])
     {
         $root = str_replace('\\', '/', env('root_path'));
         foreach ($paths as $key => $dir) {
             $paths[$key] = str_replace('\\', '/', $dir);
-            $maps = array_merge($maps, self::scanDir("{$root}{$paths[$key]}", $root));
+            $maps = array_merge($maps, $this->scanDir("{$root}{$paths[$key]}", $root));
         }
         // 清除忽略文件
         foreach ($maps as $key => $map) foreach ($ignores as $ingore) {
@@ -142,12 +108,57 @@ class Sync extends Command
     }
 
     /**
+     * 同步所有差异文件
+     */
+    public function sync()
+    {
+        foreach ($this->getDiff() as $file) {
+            $this->syncFile($file, new Output());
+        }
+    }
+
+    /**
+     * 同步指定文件
+     * @param array $file
+     * @param Output $output
+     */
+    private function syncFile($file, $output)
+    {
+        if (in_array($file['type'], ['add', 'mod'])) {
+            if ($this->runDown(encode($file['name']))) {
+                $output->writeln("--- 下载 {$file['name']} 更新成功");
+            } else {
+                $output->error("--- 下载 {$file['name']} 更新失败");
+            }
+        } elseif (in_array($file['type'], ['del'])) {
+            $real = realpath(env('root_path') . $file['name']);
+            if (is_file($real) && unlink($real)) {
+                $this->delEmptyDir(dirname($real));
+                $output->writeln("--- 删除 {$file['name']} 文件成功");
+            } else {
+                $output->error("--- 删除 {$file['name']} 文件失败");
+            }
+        }
+    }
+
+    /**
+     * 清理指定的空目录
+     * @param string $dir
+     */
+    private function delEmptyDir($dir)
+    {
+        if (is_dir($dir) && count(scandir($dir)) === 2) {
+            if (rmdir($dir)) $this->delEmptyDir(dirname($dir));
+        }
+    }
+
+    /**
      * 两二维数组对比
      * @param array $serve 线上文件列表信息
      * @param array $local 本地文件列表信息
      * @return array
      */
-    public static function contrast(array $serve = [], array $local = [])
+    private function contrast(array $serve = [], array $local = [])
     {
         // 数据扁平化
         list($_serve, $_local, $_new) = [[], [], []];
@@ -173,9 +184,9 @@ class Sync extends Command
      * @param string $encode
      * @return boolean|integer
      */
-    public static function down($encode)
+    private function runDown($encode)
     {
-        $result = json_decode(http_get(self::$baseUri . "?s=admin/api.update/read/{$encode}"), true);
+        $result = json_decode(http_get("{$this->uri}?s=admin/api.update/read/{$encode}"), true);
         if (empty($result['code'])) return false;
         $pathname = env('root_path') . decode($encode);
         file_exists(dirname($pathname)) || mkdir(dirname($pathname), 0755, true);
@@ -186,12 +197,12 @@ class Sync extends Command
      * 获取文件差异数据
      * @return array
      */
-    public static function diff()
+    private function getDiff()
     {
-        $result = json_decode(http_get(self::$baseUri . "?s=/admin/api.update/tree"), true);
+        $result = json_decode(http_get("{$this->uri}?s=/admin/api.update/tree"), true);
         if (empty($result['code'])) return [];
-        $new = self::tree($result['data']['paths'], $result['data']['ignores']);
-        return self::contrast($result['data']['list'], $new['list']);
+        $new = $this->tree($result['data']['paths'], $result['data']['ignores']);
+        return $this->contrast($result['data']['list'], $new['list']);
     }
 
     /**
@@ -201,15 +212,15 @@ class Sync extends Command
      * @param array $data 扫描结果
      * @return array
      */
-    private static function scanDir($dir, $root = '', $data = [])
+    private function scanDir($dir, $root = '', $data = [])
     {
         if (file_exists($dir) && is_file($dir)) {
-            return [self::getFileInfo($dir, $root)];
+            return [$this->getFileInfo($dir, $root)];
         }
         if (file_exists($dir)) foreach (scandir($dir) as $sub) if (strpos($sub, '.') !== 0) {
             if (is_dir($temp = "{$dir}/{$sub}")) {
-                $data = array_merge($data, self::scanDir($temp, $root));
-            } else array_push($data, self::getFileInfo($temp, $root));
+                $data = array_merge($data, $this->scanDir($temp, $root));
+            } else array_push($data, $this->getFileInfo($temp, $root));
         }
         return $data;
     }
@@ -220,11 +231,12 @@ class Sync extends Command
      * @param string $root
      * @return array
      */
-    private static function getFileInfo($file, $root)
+    private function getFileInfo($file, $root)
     {
-        $hash = md5(preg_replace('/\s{1,}/', '', file_get_contents($file)));
-        $name = str_replace($root, '', str_replace('\\', '/', realpath($file)));
-        return ['name' => $name, 'hash' => $hash];
+        return [
+            'hash' => md5(preg_replace('/\s{1,}/', '', file_get_contents($file))),
+            'name' => str_replace($root, '', str_replace('\\', '/', realpath($file))),
+        ];
     }
 
 }

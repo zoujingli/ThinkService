@@ -9,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
+// | gitee 仓库地址 ：https://gitee.com/zoujingli/ThinkLibrary
 // | github 仓库地址 ：https://github.com/zoujingli/ThinkLibrary
 // +----------------------------------------------------------------------
 
@@ -24,17 +25,25 @@ use think\console\Output;
  */
 class Service extends Sync
 {
+    /**
+     * 指令属性配置
+     */
     protected function configure()
     {
         $this->modules = ['application/service/'];
-        $this->setName('xsync:service')->setDescription('synchronize update service module files');
+        $this->setName('xsync:service')->setDescription('从远程覆盖本地Service模块的所有代码');
     }
 
+    /**
+     * 执行更新操作
+     * @param Input $input
+     * @param Output $output
+     */
     protected function execute(Input $input, Output $output)
     {
         $root = str_replace('\\', '/', env('root_path'));
         if (file_exists("{$root}/application/service/sync.lock")) {
-            $this->output->error('service module has been locked');
+            $this->output->error("--- Service 模块已经被锁定，不能继续更新");
         } else {
             parent::execute($input, $output);
         }

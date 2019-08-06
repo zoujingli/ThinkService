@@ -9,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
+// | gitee 仓库地址 ：https://gitee.com/zoujingli/ThinkLibrary
 // | github 仓库地址 ：https://github.com/zoujingli/ThinkLibrary
 // +----------------------------------------------------------------------
 
@@ -24,17 +25,26 @@ use think\console\Output;
  */
 class Config extends Sync
 {
+
+    /**
+     * 指令属性配置
+     */
     protected function configure()
     {
         $this->modules = ['config/'];
-        $this->setName('xsync:config')->setDescription('synchronize update config php files');
+        $this->setName('xsync:config')->setDescription('从远程覆盖本地Config的部分配置文件');
     }
 
+    /**
+     * 执行更新操作
+     * @param Input $input
+     * @param Output $output
+     */
     protected function execute(Input $input, Output $output)
     {
         $root = str_replace('\\', '/', env('root_path'));
         if (file_exists("{$root}/config/sync.lock")) {
-            $this->output->error('config files has been locked');
+            $this->output->error("--- Config 配置已经被锁定，不能继续更新");
         } else {
             parent::execute($input, $output);
         }

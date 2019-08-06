@@ -9,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
+// | gitee 仓库地址 ：https://gitee.com/zoujingli/ThinkLibrary
 // | github 仓库地址 ：https://github.com/zoujingli/ThinkLibrary
 // +----------------------------------------------------------------------
 
@@ -164,15 +165,20 @@ class File
     /**
      * 下载文件到本地
      * @param string $url 文件URL地址
-     * @param boolean $force 是否强制重新下载文件
+     * @param boolean $force 是否强制下载
+     * @param integer $expire 文件保留时间
      * @return array
      */
-    public static function down($url, $force = false)
+    public static function down($url, $force = false, $expire = 0)
     {
         try {
             $file = self::instance('local');
             $name = self::name($url, '', 'down/');
-            if (empty($force) && $file->has($name)) return $file->info($name);
+            if (empty($force) && $file->has($name)) {
+                if ($expire < 1 || filemtime($file->path($name)) + $expire > time()) {
+                    return $file->info($name);
+                }
+            }
             return $file->save($name, file_get_contents($url));
         } catch (\Exception $e) {
             Log::error(__METHOD__ . " File download failed [ {$url} ] {$e->getMessage()}");
@@ -203,7 +209,7 @@ class File
 try {
     // 初始化存储
     File::init();
-    // \think\facade\Log::info(__METHOD__ . ' File storage initialization success');
+    // Log::info(__METHOD__ . ' File storage initialization success');
 } catch (\Exception $e) {
     Log::error(__METHOD__ . " File storage initialization exception. [{$e->getMessage()}]");
 }
